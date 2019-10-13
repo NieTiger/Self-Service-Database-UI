@@ -3,7 +3,7 @@ Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,Bli
 Chart.defaults.global.defaultFontColor = '#858796';
 
 var dataset = {
-    labels: ["Unknown次数", "肯定次数", "五选一次数", "闲聊次数"],
+    labels: ["Request Type 1", "Another Request type", "Some Request", "Another Request"],
     data: [11, 50, 25, 12],
     backgroundColor: ['#1cc88a', '#4e73df', '#36b9cc', '#f6c23e'],
     hoverBackgroundColor: ['#17a673', '#2e59d9', '#2c9faf', '#DBAD23'],
