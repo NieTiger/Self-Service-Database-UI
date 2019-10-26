@@ -34,7 +34,8 @@
         "gulp-cli": "^2.2.0",
         "jquery": "3.4.1",
         "jquery.easing": "^1.4.1",
-        "popper.js": "^1.15.0"
+        "popper.js": "^1.15.0",
+        "update": "^0.7.4"
     },
     "devDependencies": {
         "browser-sync": "^2.26.7",
