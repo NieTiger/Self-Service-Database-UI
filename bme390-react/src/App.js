@@ -1,14 +1,12 @@
 import React from 'react';
 import './App.css';
-import LoginPage from "./loginPage.js";
-
+import FilterPage from "./FilterPage.js";
 
 function App() {
+
   return (
-    <div>
-      <LoginPage/>
-    </div>
- );
+    <FilterPage></FilterPage>
+  )
 }
 
 export default App;
