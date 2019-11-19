@@ -1,5 +1,5 @@
 {
-  "name": "bme390-1",
+  "name": "bme390-1.2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,12 +27,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "html-loader": "^0.5.5",
-    "material-ui": "^0.20.2",
-    "react-helmet": "^5.2.1",
-    "react-native": "^0.61.2",
-    "react-router-dom": "^5.1.2"
   }
 }
