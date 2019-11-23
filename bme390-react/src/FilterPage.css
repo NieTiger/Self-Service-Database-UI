@@ -60,7 +60,7 @@
   border-width: 5px;
   border-style: solid;
   margin-left: 10%;
-  margin-top: 5%;
+  margin-top: 3%;
   padding-bottom: 1%;
 }
 
@@ -76,4 +76,24 @@
   height: 5vh;
   font-size: 20px;
   margin-left: 10%;
+}
+
+.back_button {
+  margin-left: 45vh;
+  margin-top: 1%;
+  width: 10vh;
+  height: 5vh;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+}
+
+.submit_button {
+  margin-left: 3%;
+  margin-top: 1%;
+  width: 10vh;
+  height: 5vh;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
 }

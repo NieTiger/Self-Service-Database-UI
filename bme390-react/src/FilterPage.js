@@ -19,8 +19,8 @@ class FilterPage extends Component {
         }
         this.category_pressed = this.category_pressed.bind(this);
         this.category_filter_pressed = this.category_filter_pressed.bind(this);
-        this.default_value_change = this.default_value_change.bind(this);
-        
+        this.default_value_change = this.default_value_change.bind(this); 
+        this.back_pressed = this.back_pressed.bind(this);
     }
 
     category_pressed(category,item) {
@@ -50,8 +50,23 @@ class FilterPage extends Component {
         this.setState({[category]:this.state[category]})
     }
 
+    back_pressed() {
+        let default_state = {
+            "eye_diagnosis" : false,
+            "systemic_diagnosis": false,
+            "age": false,
+            "ethnicity": false,
+            "image_procedure_type": false,
+            "labs": false,
+            "medication_generic_name": false,
+            "medication_therapuetic_name": false,
+            "vision": false,
+            "pressure": false
+        } 
+        this.setState(default_state)
+    }
+
     render() {
-        console.log(this.state)
         let div_eye_diagnosis = <div className = "hidden"></div>;
         if (this.state.eye_diagnosis !== false) {
             let category = "eye_diagnosis"
@@ -423,46 +438,48 @@ class FilterPage extends Component {
                 <div className="filter-table">
                     <div className="table-title">Filters</div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("eye_diagnosis",[])}></input>
+                        <input type="checkbox" checked={this.state.eye_diagnosis !== false} onChange={() => this.category_pressed("eye_diagnosis",[])}></input>
                         <label className="label-choice">Eye_Diagnosis</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("systemic_diagnosis",[])}></input>
+                        <input type="checkbox" checked={this.state.systemic_diagnosis !== false} onChange={() => this.category_pressed("systemic_diagnosis",[])}></input>
                         <label className="label-choice">Systemic_Diagnosis </label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("age",[{"less":"50","equal":"50","greater":"50","between_less": "45", "between_greater":"55"}])}></input>
+                        <input type="checkbox" checked={this.state.age !== false} onChange={() => this.category_pressed("age",[{"less":"50","equal":"50","greater":"50","between_less": "45", "between_greater":"55"}])}></input>
                         <label className="label-choice">Age</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("ethnicity",[])}></input>
+                        <input type="checkbox" checked={this.state.ethnicity !== false} onChange={() => this.category_pressed("ethnicity",[])}></input>
                         <label className="label-choice">Ethnicity</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("image_procedure_type",[])}></input>
+                        <input type="checkbox" checked={this.state.image_procedure_type !== false} onChange={() => this.category_pressed("image_procedure_type",[])}></input>
                         <label className="label-choice">Image_Procedure_Type</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("labs",[])}></input>
+                        <input type="checkbox" checked={this.state.labs !== false}  onChange={() => this.category_pressed("labs",[])}></input>
                         <label className="label-choice">Labs</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("medication_generic_name",[])}></input>
+                        <input type="checkbox" checked={this.state.medication_generic_name !== false} onChange={() => this.category_pressed("medication_generic_name",[])}></input>
                         <label className="label-choice">Medication_Generic_Name</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("medication_therapuetic_name",[])}></input>
+                        <input type="checkbox" checked={this.state.medication_therapuetic_name !== false} onChange={() => this.category_pressed("medication_therapuetic_name",[])}></input>
                         <label className="label-choice">Medication_Therapuetic_Name</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("vision",[{"left_less":"50","left_equal":"50","left_greater":"50","left_between_less": "45", "left_between_greater":"55", "right_less":"50","right_equal":"50","right_greater":"50","right_between_less": "45", "right_between_greater":"55"}])}></input>
+                        <input type="checkbox" checked={this.state.vision !== false} onChange={() => this.category_pressed("vision",[{"left_less":"50","left_equal":"50","left_greater":"50","left_between_less": "45", "left_between_greater":"55", "right_less":"50","right_equal":"50","right_greater":"50","right_between_less": "45", "right_between_greater":"55"}])}></input>
                         <label className="label-choice">Vision</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" onChange={() => this.category_pressed("pressure",[{"left_less":"50","left_equal":"50","left_greater":"50","left_between_less": "45", "left_between_greater":"55", "right_less":"50","right_equal":"50","right_greater":"50","right_between_less": "45", "right_between_greater":"55"}])}></input>
+                        <input type="checkbox" checked={this.state.pressure !== false} onChange={() => this.category_pressed("pressure",[{"left_less":"50","left_equal":"50","left_greater":"50","left_between_less": "45", "left_between_greater":"55", "right_less":"50","right_equal":"50","right_greater":"50","right_between_less": "45", "right_between_greater":"55"}])}></input>
                         <label className="label-choice">Pressure</label>
                     </div>
                 </div>
+                <button className="back_button" onClick={this.back_pressed}>Back</button>
+                <button className="submit_button" onClick={() => this.props.submit_function("patients",this.state)}>Submit</button>
                 {div_eye_diagnosis}
                 {div_systemic_diagnosis}
                 {div_age}
