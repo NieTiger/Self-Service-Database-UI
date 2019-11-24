@@ -13,7 +13,18 @@ class Table extends Component {
    renderTableData(patient,number) {
        var patient_info = []
         for (var key2 in this.props.filters) {
-            var filter_name = <td>{patient[this.props.filters[key2]]}</td>
+            let filter_name = null
+            filter_name = <td>{patient[this.props.filters[key2]]}</td>
+            if (this.props.submit_function) {
+                for (var key3 in this.props.submit_function) {
+                    let funct = this.props.submit_function[key3]
+                    if (funct.indexOf(this.props.filters[key2]) !== -1) {
+                        filter_name = <td>
+                        <button className = "button" onClick = {() => funct[1](funct[2],patient[key2])}> {patient[this.props.filters[key2]]} </button>
+                    </td> 
+                    }
+                }
+            }
             patient_info.push(filter_name)
         }
         var full_item = <tr key={number}>{patient_info}</tr>

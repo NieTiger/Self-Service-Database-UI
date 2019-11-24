@@ -16,9 +16,17 @@
   padding: 8px;
 }
 
-#patients tr:nth-child(even){background-color: #f2f2f2;}
+#patients tr:nth-child(even){
+  background-color: #f2f2f2;
+  text-align: left;
+  white-space: pre
+}
 
-#patients tr:hover {background-color: #ddd;}
+#patients tr:nth-child(odd){
+  background-color: white;
+  text-align: left;
+  white-space: pre
+}
 
 #patients th {
   padding-top: 12px;
@@ -26,4 +34,11 @@
   text-align: center;
   background-color: gray;
   color: white;
+}
+
+.button {
+    border-style: none;
+    background-color: transparent;
+    font-size: 20px;
+    width: 100%;
 }

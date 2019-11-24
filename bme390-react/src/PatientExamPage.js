@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import './PatientsPage.css';
+import "./PatientExamPage.css";
 import Table from './Table.js';
 
-class PatientsPage extends Component {
-
+class PatientExamPage extends Component {
     constructor(props) {
         super(props);
-        this.get_filters = this.get_filters.bind(this)
         this.get_data = this.get_data.bind(this)
+        this.get_filters = this.get_filters.bind(this)
         this.state = {
-            original_filters: ["PT_ID"].concat(this.get_filters()).concat(["images"]),
-            filters: ["PT_ID"].concat(this.get_filters()).concat(["images"]),
-            patient_data: this.get_data()
+            PT_ID: this.props.app_state.prev_state,
+            patient_history_data: this.get_data(),
+            original_filters: this.get_filters(),
+            filters: this.get_filters(),
+            export_dropdown: false,
         }
-        this.show_hide_category_changed = this.show_hide_category_changed.bind(this)
         this.get_data_categories = this.get_data_categories.bind(this)
         this.categories_selected = this.categories_selected.bind(this)
+        this.show_hide_category_changed = this.show_hide_category_changed.bind(this)
         this.export_button_pressed = this.export_button_pressed.bind(this)
         this.export_filter_pressed = this.export_filter_pressed.bind(this)
         this.begin_export = this.begin_export.bind(this)
@@ -52,6 +53,28 @@ class PatientsPage extends Component {
         console.log(this.state.export_dropdown)
     }
 
+    get_filters() {
+        let filters = ["PT_ID", "Image Procedure", "Exam ID", "Exam Date", "Exam Links"];
+        return filters
+    }
+
+    get_data() {
+        let patient_data = [
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            { "PT_ID": 35, "Image Procedure": "OCT", "Exam ID": 93, "Exam Date": "2014-10-10", "Exam Links": "link-to-image"},
+            
+        ]
+        return patient_data
+    }
+
     get_data_categories() {
         let result = []
         for (var i in this.state.original_filters) {
@@ -78,31 +101,6 @@ class PatientsPage extends Component {
             this.setState({filters:new_list})
         }
     } 
-    get_filters() {
-        let previous_state = this.props.app_state.prev_state
-        let show_hide_filters = []
-        for (var key in previous_state) {
-            if (previous_state[key] instanceof Array) {
-                let value = previous_state[key]
-                if (value instanceof Array && typeof value[0] === "string") {
-                    show_hide_filters.push(key)
-                }
-                else if (value instanceof Array && value[1] && value[1].length !== 0) {
-                    show_hide_filters.push(key)
-                }
-            }
-        }
-        return show_hide_filters
-    }
-    get_data() {
-        let patient_data = [
-            { PT_ID: 1, eye_diagnosis: "retenal edema", systemic_diagnosis: "gout", age: 50, ethnicity: "asian", image_procedure_type: "AF-image", labs: "calcium", medication_generic_name: "atorvastatin", medication_therapuetic_name: "vitamins", vision: {"left_vision": "20/20","right_vision": "20/200"}, pressure: {"left_pressure": "100","right_pressure": "50"}, images: "link-to-image"},
-            { PT_ID: 2, eye_diagnosis: "retenal edema", systemic_diagnosis: "gout", age: 50, ethnicity: "asian", image_procedure_type: "AF-image", labs: "calcium", medication_generic_name: "atorvastatin", medication_therapuetic_name: "vitamins", vision: {"left_vision": "20/20","right_vision": "20/200"}, pressure: {"left_pressure": "100","right_pressure": "50"}, images: "link-to-image"},
-            { PT_ID: 3, eye_diagnosis: "retenal edema", systemic_diagnosis: "gout", age: 50, ethnicity: "asian", image_procedure_type: "AF-image", labs: "calcium", medication_generic_name: "atorvastatin", medication_therapuetic_name: "vitamins", vision: {"left_vision": "20/20","right_vision": "20/200"}, pressure: {"left_pressure": "100","right_pressure": "50"}, images: "link-to-image"},
-            { PT_ID: 4, eye_diagnosis: "retenal edema", systemic_diagnosis: "gout", age: 50, ethnicity: "asian", image_procedure_type: "AF-image", labs: "calcium", medication_generic_name: "atorvastatin", medication_therapuetic_name: "vitamins", vision: {"left_vision": "20/20","right_vision": "20/200"}, pressure: {"left_pressure": "100","right_pressure": "50"}, images: "link-to-image"},
-        ]
-        return patient_data
-    }
 
     render() {
         let show_hide_filters = []
@@ -135,7 +133,7 @@ class PatientsPage extends Component {
         return (
             <div className = "whole_div">
                 <div className = "title_div">
-                    Your Patient Cohort
+                    Your Exams For Patients
                 </div>
                 <div className = "body_div">
                     <div className = "show_hide_panel">
@@ -147,12 +145,11 @@ class PatientsPage extends Component {
                         </div>
                     </div>
                     <div className="table_design">
-                        <Table patient_data = {this.state.patient_data} filters = {this.get_data_categories()} submit_function = {[["PT_ID",this.props.submit_function,"patient history"],["images",this.props.submit_function,"view image"]]} ></Table>
+                        <Table patient_data = {this.state.patient_history_data} filters = {this.get_data_categories()} submit_function = {["Link_To_Image",this.props.submit_function,"image view"]} ></Table>
                     </div>
                 </div>
                 <div className = "bottom_div">
-                    <button className = "button_concept" onClick={() => this.props.submit_function("filter")}> Back To Filters Page</button>
-                    <button className = "button_concept" onClick={() => this.props.submit_function("patient exams")}> Go To All Patient Exams Page</button>
+                    <button className = "button_concept" onClick={() => this.props.submit_function("patients",this.props.filters)}> Back To Patients Page</button>
                     <button className = "button_concept" onClick={() => this.export_button_pressed()}> Export All Images for Patient</button>
                     {export_dropdown}
                 </div>
@@ -161,4 +158,4 @@ class PatientsPage extends Component {
     }
 }
 
-export default PatientsPage;
+export default PatientExamPage;

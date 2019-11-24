@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import FilterPage from "./FilterPage.js";
 import PatientsPage from "./PatientsPage.js";
+import PatientHistoryPage from "./PatientHistoryPage.js";
+import PatientImagePage from "./PatientImagePage.js";
+import PatientExamPage from "./PatientExamPage.js";
 
 class PageSelector extends Component {
 
@@ -10,12 +13,12 @@ class PageSelector extends Component {
             "page": "filter",
             "prev_state": null
         }
-        this.filter_submit_pressed = this.filter_submit_pressed.bind(this);
+        this.to_page_submit = this.to_page_submit.bind(this)
     }
 
-    filter_submit_pressed(items) {
+    to_page_submit(page,items) {
         this.setState({
-            "page":"patients",
+            "page": page,
             "prev_state": items
         })
     }
@@ -23,10 +26,20 @@ class PageSelector extends Component {
     render() {
         let view = null
         if (this.state.page === "filter") {
-            view = <FilterPage app_state = {this.state} submit_function = {this.filter_submit_pressed}></FilterPage>
+            view = <FilterPage app_state = {this.state} submit_function = {this.to_page_submit}></FilterPage>
         }
         else if (this.state.page === "patients") {
-            view = <PatientsPage app_state = {this.state}></PatientsPage>
+            this.state.filters = this.state.prev_state
+            view = <PatientsPage app_state = {this.state} submit_function = {this.to_page_submit}></PatientsPage>
+        }
+        else if (this.state.page === "patient history") {
+            view = <PatientHistoryPage app_state = {this.state} submit_function = {this.to_page_submit} filters = {this.state.filters}></PatientHistoryPage>
+        }
+        else if (this.state.page === "patient images") {
+            view = <PatientImagePage app_state = {this.state} submit_function = {this.to_page_submit} filters = {this.state.filters}></PatientImagePage>
+        }
+        else if (this.state.page === "patient exams") {
+            view = <PatientExamPage app_state = {this.state} submit_function = {this.to_page_submit} filters = {this.state.filters}></PatientExamPage>
         }
         return (
             <div>{view}</div>

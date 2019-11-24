@@ -479,7 +479,7 @@ class FilterPage extends Component {
                     </div>
                 </div>
                 <button className="back_button" onClick={this.back_pressed}>Back</button>
-                <button className="submit_button" onClick={() => this.props.submit_function(this.state)}>Submit</button>
+                <button className="submit_button" onClick={() => this.props.submit_function("patients",this.state)}>Submit</button>
                 {div_eye_diagnosis}
                 {div_systemic_diagnosis}
                 {div_age}
