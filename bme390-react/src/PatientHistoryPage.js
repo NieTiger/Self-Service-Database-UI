@@ -49,14 +49,14 @@ class PatientHistoryPage extends Component {
     } 
 
     get_summary_data() {
-        let first_column = "Patient ID ".concat(this.props.app_state.prev_state)
+        let first_column = "Patient ID ".concat(this.props.app_state.prev_state.PT_ID)
         let patient_data = [
             {[first_column]: "Current Values", "Left Vision": "20/20", "Right Vision": "20/20", "Left Pressure": 13, "Right Pressure": 15, "Diagnoses": "Sarcoidosis\nRetinal Edema\nGout", "Medication": "Ketorolac\nFentanyl\nFolic acid"}
         ]
         return patient_data
     }
     get_summary_data_columns() {
-        let first_column = "Patient ID ".concat(this.props.app_state.prev_state)
+        let first_column = "Patient ID ".concat(this.props.app_state.prev_state.PT_ID)
         let columns = [first_column, "Left Vision", "Right Vision", "Left Pressure", "Right Pressure", "Diagnoses", "Medication"]
         return columns
     }
@@ -90,26 +90,26 @@ class PatientHistoryPage extends Component {
         }
         return (
             <div className = "whole_div">
-                <div className = "title_div">
-                    Individual Patient History- ID: {this.props.app_state.prev_state}
+                <div className = "title_div_history">
+                    Individual Patient History- ID: {this.props.app_state.prev_state.PT_ID}
                 </div>
-                <div className = "before_body_div">
+                <div className = "before_body_div_history">
                     <Table patient_data = {this.state.patient_summary_data} filters = {this.get_summary_data_columns()}></Table>
                 </div>
-                <div className = "body_div">
-                    <div className = "show_hide_panel">
-                        <div className = "show_hide_t">
+                <div className = "body_div_history">
+                    <div className = "show_hide_panel_history">
+                        <div className = "show_hide_t_history">
                             Show/Hide
                             <div className="show_hide_c">
                                 {show_hide_filters}
                             </div>
                         </div>
                     </div>
-                    <div className="table_design">
+                    <div className="table_design_history">
                         <Table patient_data = {this.state.patient_appointment_data} filters = {this.get_data_categories()}></Table>
                     </div>
                 </div>
-                <div className = "bottom_div">
+                <div className = "bottom_div_history">
                     <button className = "button_concept" onClick={() => this.props.submit_function("patients",this.props.filters)}> Back To Patients Page</button>
                     <button className = "button_concept" onClick={() => this.props.submit_function("patient images",this.props.app_state.prev_state)}> See All Patient's Images</button>
                 </div>

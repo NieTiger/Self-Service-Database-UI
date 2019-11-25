@@ -5,7 +5,7 @@
 }
 
 .title_div {
-  width: 50%;
+  width: 68%;
   height: 8vh;
   border-width: 5px;
   border-style: solid;
@@ -24,17 +24,17 @@
   flex-direction:row;
 }
 
-.show_hide_panel {
-  width: 15%;
+.show_hide_panel_images {
+  width: 20%;
   min-height: 20vh;
   max-height: 40vh; 
+}
+
+.show_hide_t_images {
+  font-size: 2.5vh;
   border-width: 5px;
   border-style: solid;
   border-color: black;
-}
-
-.show_hide_t {
-  font-size: 2.5vh;
 }
 
 .show_hide_c {
@@ -46,8 +46,9 @@
   margin-left: 5%;
 }
 
-.bottom_div {
-  margin-left: 80%;
+.bottom_div_images {
+  margin-left: 70%;
+  width: 23.5%;
 }
 
 .button_concept {

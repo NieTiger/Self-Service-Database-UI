@@ -21,6 +21,22 @@ class FilterPage extends Component {
         this.category_filter_pressed = this.category_filter_pressed.bind(this);
         this.default_value_change = this.default_value_change.bind(this); 
         this.back_pressed = this.back_pressed.bind(this);
+
+        const axios = require('axios');
+
+        // Make a request for a user with a given ID
+        axios.get('https://tigernie.com/ssd_api/get_table')
+            .then(function (response) {
+            // handle success
+            console.log(response);
+        })
+            .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+            .finally(function () {
+            // always executed
+        });
     }
 
     category_pressed(category,item) {
@@ -300,26 +316,26 @@ class FilterPage extends Component {
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "left_less")}></input>
-                        <label className="label-choice"> {"\"<\""}
+                        <label className="label-choice"> worse than
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_less",input.target.value)} defaultValue= {this.state.vision[0].left_less}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "left_greater")}></input>
-                        <label className="label-choice"> {"\">\""}
+                        <label className="label-choice"> better than
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_greater",input.target.value)} defaultValue= {this.state.vision[0].left_greater}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "left_equal")}></input>
-                        <label className="label-choice"> {"\"=\""}
+                        <label className="label-choice"> equal to
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_equal",input.target.value)} defaultValue= {this.state.vision[0].left_equal}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "left_between")}></input>
                         <label className="label-choice"> 
-                            Between
+                            between
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_between_less",input.target.value)} defaultValue= {this.state.vision[0].left_between_less}/>
                             {"&"}
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_between_greater",input.target.value)} defaultValue= {this.state.vision[0].left_between_greater}/>
@@ -332,26 +348,26 @@ class FilterPage extends Component {
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "right_less")}></input>
-                        <label className="label-choice"> {"\"<\""}
+                        <label className="label-choice"> worse than
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_less",input.target.value)} defaultValue= {this.state.vision[0].right_less}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "right_greater")}></input>
-                        <label className="label-choice"> {"\">\""}
+                        <label className="label-choice"> better than
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_greater",input.target.value)} defaultValue= {this.state.vision[0].right_greater}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "right_equal")}></input>
-                        <label className="label-choice"> {"\"=\""}
+                        <label className="label-choice"> equal to
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_equal",input.target.value)} defaultValue= {this.state.vision[0].right_equal}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "right_between")}></input>
                         <label className="label-choice"> 
-                            Between
+                            between
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_between_less",input.target.value)} defaultValue= {this.state.vision[0].right_between_less}/>
                             {"&"}
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_between_greater",input.target.value)} defaultValue= {this.state.vision[0].right_between_greater}/>
@@ -364,33 +380,33 @@ class FilterPage extends Component {
         let div_pressure = <div className = "hidden"></div>;
         if (this.state.pressure !== false) {
             let category = "pressure"
-            div_vision = <div>
+            div_pressure = <div>
                 <div className = "subfilter-choice">
                     <div className="table-title">
                         Left Pressure
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "left_less")}></input>
-                        <label className="label-choice"> {"\"<\""}
+                        <label className="label-choice"> less than
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_less",input.target.value)} defaultValue= {this.state.pressure[0].left_less}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "left_greater")}></input>
-                        <label className="label-choice"> {"\">\""}
+                        <label className="label-choice"> greater than
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_greater",input.target.value)} defaultValue= {this.state.pressure[0].left_greater}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "left_equal")}></input>
-                        <label className="label-choice"> {"\"=\""}
+                        <label className="label-choice"> equal to
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_equal",input.target.value)} defaultValue= {this.state.pressure[0].left_equal}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "left_between")}></input>
                         <label className="label-choice"> 
-                            Between
+                            between
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_between_less",input.target.value)} defaultValue= {this.state.pressure[0].left_between_less}/>
                             {"&"}
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"left_between_greater",input.target.value)} defaultValue= {this.state.pressure[0].left_between_greater}/>
@@ -403,26 +419,26 @@ class FilterPage extends Component {
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "right_less")}></input>
-                        <label className="label-choice"> {"\"<\""}
+                        <label className="label-choice"> less than
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_less",input.target.value)} defaultValue= {this.state.pressure[0].right_less}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "right_greater")}></input>
-                        <label className="label-choice"> {"\">\""}
+                        <label className="label-choice"> greater than
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_greater",input.target.value)} defaultValue= {this.state.pressure[0].right_greater}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "right_equal")}></input>
-                        <label className="label-choice"> {"\"=\""}
+                        <label className="label-choice"> equal to
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_equal",input.target.value)} defaultValue= {this.state.pressure[0].right_equal}/>
                         </label>
                     </div>
                     <div className="filter-choice">
                         <input type="checkbox" onChange = {() => this.category_filter_pressed(category, "right_between")}></input>
                         <label className="label-choice"> 
-                            Between
+                            between
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_between_less",input.target.value)} defaultValue= {this.state.pressure[0].right_between_less}/>
                             {"&"}
                             <input className="filter-textbox-2" type="text" onChange = {(input) => this.default_value_change(category,"right_between_greater",input.target.value)} defaultValue= {this.state.pressure[0].right_between_greater}/>
@@ -431,7 +447,7 @@ class FilterPage extends Component {
                 </div>
             </div>
         }
-
+        console.log(this.state)
         return (
             <div className="App-background">
                 <h1 className="upper-text">Please Select Your Filters to Create a Patient Cohort</h1>
@@ -470,7 +486,7 @@ class FilterPage extends Component {
                         <label className="label-choice">Medication_Therapuetic_Name</label>
                     </div>
                     <div className="filter-choice">
-                        <input type="checkbox" checked={this.state.vision !== false} onChange={() => this.category_pressed("vision",[{"left_less":"50","left_equal":"50","left_greater":"50","left_between_less": "45", "left_between_greater":"55", "right_less":"50","right_equal":"50","right_greater":"50","right_between_less": "45", "right_between_greater":"55"}])}></input>
+                        <input type="checkbox" checked={this.state.vision !== false} onChange={() => this.category_pressed("vision",[{"left_less":"20/100","left_equal":"20/100","left_greater":"20/100","left_between_less": "20/100", "left_between_greater":"20/20", "right_less":"20/100","right_equal":"20/100","right_greater":"20/100","right_between_less": "20/100", "right_between_greater":"20/20"}])}></input>
                         <label className="label-choice">Vision</label>
                     </div>
                     <div className="filter-choice">

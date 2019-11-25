@@ -60,10 +60,10 @@ class PatientImagePage extends Component {
 
     get_data() {
         let patient_data = [
-            { PT_ID: this.props.app_state.prev_state, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
-            { PT_ID: this.props.app_state.prev_state, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
-            { PT_ID: this.props.app_state.prev_state, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
-            { PT_ID: this.props.app_state.prev_state, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"}
+            { PT_ID: this.props.app_state.prev_state.PT_ID, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
+            { PT_ID: this.props.app_state.prev_state.PT_ID, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
+            { PT_ID: this.props.app_state.prev_state.PT_ID, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
+            { PT_ID: this.props.app_state.prev_state.PT_ID, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"}
         ]
         return patient_data
     }
@@ -122,11 +122,11 @@ class PatientImagePage extends Component {
         return (
             <div className = "whole_div">
                 <div className = "title_div">
-                    Individual Patient Images- ID: {this.props.app_state.prev_state}
+                    Individual Patient Images- ID: {this.props.app_state.prev_state.PT_ID}
                 </div>
                 <div className = "body_div">
-                    <div className = "show_hide_panel">
-                        <div className = "show_hide_t">
+                    <div className = "show_hide_panel_images">
+                        <div className = "show_hide_t_images">
                             Show/Hide
                             <div className="show_hide_c">
                                 {show_hide_filters}
@@ -134,10 +134,10 @@ class PatientImagePage extends Component {
                         </div>
                     </div>
                     <div className="table_design">
-                        <Table patient_data = {this.state.patient_history_data} filters = {this.get_data_categories()} submit_function = {["Link_To_Image",this.props.submit_function,"image view"]} ></Table>
+                        <Table patient_data = {this.state.patient_history_data} filters = {this.get_data_categories()} submit_function = {[["Link_To_Image",this.props.submit_function,"image view"]]} ></Table>
                     </div>
                 </div>
-                <div className = "bottom_div">
+                <div className = "bottom_div_images">
                     <button className = "button_concept" onClick={() => this.props.submit_function("patients",this.props.filters)}> Back To Patients Page</button>
                     <button className = "button_concept" onClick={() => this.export_button_pressed()}> Export All Images for Patient</button>
                     {export_dropdown}
