@@ -364,7 +364,7 @@ class FilterPage extends Component {
         let div_pressure = <div className = "hidden"></div>;
         if (this.state.pressure !== false) {
             let category = "pressure"
-            div_vision = <div>
+            div_pressure = <div>
                 <div className = "subfilter-choice">
                     <div className="table-title">
                         Left Pressure
@@ -431,7 +431,7 @@ class FilterPage extends Component {
                 </div>
             </div>
         }
-
+        console.log(this.state)
         return (
             <div className="App-background">
                 <h1 className="upper-text">Please Select Your Filters to Create a Patient Cohort</h1>

@@ -49,14 +49,14 @@ class PatientHistoryPage extends Component {
     } 
 
     get_summary_data() {
-        let first_column = "Patient ID ".concat(this.props.app_state.prev_state)
+        let first_column = "Patient ID ".concat(this.props.app_state.prev_state.PT_ID)
         let patient_data = [
             {[first_column]: "Current Values", "Left Vision": "20/20", "Right Vision": "20/20", "Left Pressure": 13, "Right Pressure": 15, "Diagnoses": "Sarcoidosis\nRetinal Edema\nGout", "Medication": "Ketorolac\nFentanyl\nFolic acid"}
         ]
         return patient_data
     }
     get_summary_data_columns() {
-        let first_column = "Patient ID ".concat(this.props.app_state.prev_state)
+        let first_column = "Patient ID ".concat(this.props.app_state.prev_state.PT_ID)
         let columns = [first_column, "Left Vision", "Right Vision", "Left Pressure", "Right Pressure", "Diagnoses", "Medication"]
         return columns
     }
@@ -91,7 +91,7 @@ class PatientHistoryPage extends Component {
         return (
             <div className = "whole_div">
                 <div className = "title_div">
-                    Individual Patient History- ID: {this.props.app_state.prev_state}
+                    Individual Patient History- ID: {this.props.app_state.prev_state.PT_ID}
                 </div>
                 <div className = "before_body_div">
                     <Table patient_data = {this.state.patient_summary_data} filters = {this.get_summary_data_columns()}></Table>

@@ -145,7 +145,7 @@ class PatientExamPage extends Component {
                         </div>
                     </div>
                     <div className="table_design">
-                        <Table patient_data = {this.state.patient_history_data} filters = {this.get_data_categories()} submit_function = {["Link_To_Image",this.props.submit_function,"image view"]} ></Table>
+                        <Table patient_data = {this.state.patient_history_data} filters = {this.get_data_categories()} submit_function = {[["Link_To_Image",this.props.submit_function,"image view"]]} ></Table>
                     </div>
                 </div>
                 <div className = "bottom_div">
