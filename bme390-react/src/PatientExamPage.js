@@ -132,11 +132,11 @@ class PatientExamPage extends Component {
         }
         return (
             <div className = "whole_div">
-                <div className = "title_div">
+                <div className = "title_div_exams">
                     Your Exams For Patients
                 </div>
                 <div className = "body_div">
-                    <div className = "show_hide_panel">
+                    <div className = "show_hide_panel_exams">
                         <div className = "show_hide_t">
                             Show/Hide
                             <div className="show_hide_c">
@@ -148,7 +148,7 @@ class PatientExamPage extends Component {
                         <Table patient_data = {this.state.patient_history_data} filters = {this.get_data_categories()} submit_function = {[["Link_To_Image",this.props.submit_function,"image view"]]} ></Table>
                     </div>
                 </div>
-                <div className = "bottom_div">
+                <div className = "bottom_div_exams">
                     <button className = "button_concept" onClick={() => this.props.submit_function("patients",this.props.filters)}> Back To Patients Page</button>
                     <button className = "button_concept" onClick={() => this.export_button_pressed()}> Export All Images for Patient</button>
                     {export_dropdown}

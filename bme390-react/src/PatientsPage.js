@@ -134,23 +134,23 @@ class PatientsPage extends Component {
         }
         return (
             <div className = "whole_div">
-                <div className = "title_div">
+                <div className = "title_div_patients">
                     Your Patient Cohort
                 </div>
-                <div className = "body_div">
-                    <div className = "show_hide_panel">
-                        <div className = "show_hide_t">
+                <div className = "body_div_patients">
+                    <div className = "show_hide_panel_patients">
+                        <div className = "show_hide_tt">
                             Show/Hide
-                            <div className="show_hide_c">
+                            <div>
                                 {show_hide_filters}
                             </div>
                         </div>
                     </div>
-                    <div className="table_design">
+                    <div className="table_design_patients">
                         <Table patient_data = {this.state.patient_data} filters = {this.get_data_categories()} submit_function = {[["PT_ID",this.props.submit_function,"patient history"],["images",this.props.submit_function,"view image"]]} ></Table>
                     </div>
                 </div>
-                <div className = "bottom_div">
+                <div className = "bottom_div_patients">
                     <button className = "button_concept" onClick={() => this.props.submit_function("filter")}> Back To Filters Page</button>
                     <button className = "button_concept" onClick={() => this.props.submit_function("patient exams")}> Go To All Patient Exams Page</button>
                     <button className = "button_concept" onClick={() => this.export_button_pressed()}> Export All Images for Patient</button>

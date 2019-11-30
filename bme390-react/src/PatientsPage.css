@@ -4,8 +4,8 @@
   height: 100%;
 }
 
-.title_div {
-  width: 50%;
+.title_div_patients {
+  width: 68%;
   height: 8vh;
   border-width: 5px;
   border-style: solid;
@@ -16,38 +16,41 @@
   text-align: center;
 }
 
-.body_div {
-  width: 85%;
+.body_div_patients {
+  width: 80%;
   margin-top: 5%;
-  margin-left: 8%;
+  margin-left: 5%;
   display:flex; 
   flex-direction:row;
 }
 
-.show_hide_panel {
-  width: 15%;
-  min-height: 20vh;
-  max-height: 40vh; 
+.show_hide_panel_patients {
+  margin-left: -2.7%;
+}
+
+.show_hide_tt {
+  font-size: 2.5vh;
   border-width: 5px;
   border-style: solid;
   border-color: black;
+  width: 40vh;
+  margin-left: -5%;
 }
 
-.show_hide_t {
+.show_hide_category {
   font-size: 2.5vh;
+  display:flex; 
+  flex-direction:row;
 }
 
-.show_hide_c {
-  font-size: 2.5vh;
+.table_design_patients {
+  min-width: 144vh;
+  margin-left: 3.5%;
 }
 
-.table_design {
-  min-width: 80%;
-  margin-left: 5%;
-}
-
-.bottom_div {
-  margin-left: 80%;
+.bottom_div_patients {
+  margin-left: 70%;
+  width: 23.5%;
 }
 
 .button_concept {
