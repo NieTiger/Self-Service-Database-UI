@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import "./PatientImagePage.css";
 import Table from './Table.js';
+import axios from 'axios';
 
 class PatientImagePage extends Component {
     constructor(props) {
@@ -8,8 +9,8 @@ class PatientImagePage extends Component {
         this.get_data = this.get_data.bind(this)
         this.get_filters = this.get_filters.bind(this)
         this.state = {
-            PT_ID: this.props.app_state.prev_state,
-            patient_history_data: this.get_data(),
+            PT_ID: this.props.app_state.prev_state.PT_ID,
+            patient_history_data: [],
             original_filters: this.get_filters(),
             filters: this.get_filters(),
             export_dropdown: false,
@@ -21,6 +22,11 @@ class PatientImagePage extends Component {
         this.export_filter_pressed = this.export_filter_pressed.bind(this)
         this.begin_export = this.begin_export.bind(this)
         this.export_category_selected = this.export_category_selected.bind(this)
+        this.edit_patient_data = this.edit_patient_data.bind(this)
+    }
+
+    componentDidMount() {
+        this.get_data()
     }
 
     export_button_pressed() {
@@ -54,18 +60,98 @@ class PatientImagePage extends Component {
     }
 
     get_filters() {
-        let filters = ["PT_ID","Exam_ID","Exam_Date","Image_ID","Image_Procedure", "Image_Laterality", "Link_To_Image"];
+        let filters = ["PT ID","Exam ID","Exam Date","Image ID","Image Procedure", "Image Laterality", "Link To Image"];
         return filters
     }
 
     get_data() {
-        let patient_data = [
-            { PT_ID: this.props.app_state.prev_state.PT_ID, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
-            { PT_ID: this.props.app_state.prev_state.PT_ID, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
-            { PT_ID: this.props.app_state.prev_state.PT_ID, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"},
-            { PT_ID: this.props.app_state.prev_state.PT_ID, Exam_ID: 23534235, Exam_Date: "2014-10-10", Image_ID: 12312412, Image_Procedure: "IR_OCT", Image_Laterality: "OS", Link_To_Image: "link-to-image"}
-        ]
-        return patient_data
+        let currentState = this
+        console.log(this.state)
+        console.log(this.props)
+        console.log(this.props.app_state.prev_state.PT_ID)
+        let patient_ids = this.state.PT_ID
+        let patient_ids_str = "pt_id=".concat(patient_ids)
+
+        if (!patient_ids) {
+            currentState.setState({"patient_history_data":[]})
+            return
+        } 
+
+        for (var i = 1; i < patient_ids.length; i++) {
+            let patient_id = patient_ids[i]
+            patient_ids_str = patient_ids_str.concat("&pt_id=").concat(patient_id)
+        }
+
+        let link = "https://tigernie.com/ssd_api/patient_images?".concat(patient_ids_str)
+            axios.get(link)
+            .then(function (response) {
+                let current_patient_data = currentState.state.patient_history_data
+                current_patient_data.push(response.data)
+                currentState.setState({"patient_history_data":current_patient_data}, () => {
+                    currentState.edit_patient_data()
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    edit_patient_data(){
+        let new_patient_history = []
+        let old_patient_history = this.state.patient_history_data[0]
+
+        console.log("editing")
+        console.log(old_patient_history)
+        
+        for (var key in old_patient_history) {
+            let first_row = {"PT ID": key, "Link To Image": "link-to-image"}
+            for (var i = 0; i < old_patient_history[key].length; i++) {
+                let row = JSON.parse(JSON.stringify(first_row))
+                let exam = old_patient_history[key][i]
+                if (exam["exam_date"]) {
+                    row["Exam Date"] = exam["exam_date"].substring(0,16)
+                }
+                else {
+                    row["Exam Date"] = "None"
+                }
+                if (exam["exam_id"]) {
+                    row["Exam ID"] = exam["exam_id"]
+                }
+                else {
+                    row["Exam ID"] = "None"
+                }
+                if (exam["images"]) {
+                    for (var j = 0; j < exam["images"].length; j++) {
+                        let temp_row = JSON.parse(JSON.stringify(row))
+                        let image = exam["images"][j]
+                        if (image["image_laterality"]){
+                            temp_row["Image Laterality"] = JSON.parse(JSON.stringify(image["image_laterality"]))
+                        }
+                        else {
+                            temp_row["Image Laterality"] = "None"
+                        }
+                        if (image["image_id"]) {
+                            temp_row["Image ID"] = JSON.parse(JSON.stringify(image["image_id"]))
+                        }
+                        else {
+                            temp_row["Image ID"] = "None"
+                        }
+                        if (image["image_procedure_id"]) {
+                            temp_row["Image Procedure"] = JSON.parse(JSON.stringify(image["image_procedure_id"]))
+                        }
+                        else {
+                            temp_row["Image Procedure"] = "None"
+                        }
+                        new_patient_history.push(temp_row)
+                    }
+                }
+                else {
+                    row["Image Procedure"] = "None"
+                    new_patient_history.push(row)
+                }
+            }
+        }
+        this.setState({patient_history_data:new_patient_history})
     }
 
     get_data_categories() {
@@ -124,7 +210,7 @@ class PatientImagePage extends Component {
                 <div className = "title_div">
                     Individual Patient Images- ID: {this.props.app_state.prev_state.PT_ID}
                 </div>
-                <div className = "body_div">
+                <div className = "body_div_patient_images">
                     <div className = "show_hide_panel_images">
                         <div className = "show_hide_t_images">
                             Show/Hide
@@ -133,8 +219,8 @@ class PatientImagePage extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="table_design">
-                        <Table patient_data = {this.state.patient_history_data} filters = {this.get_data_categories()} submit_function = {[["Link_To_Image",this.props.submit_function,"image view"]]} ></Table>
+                    <div className="table_design_patient_images">
+                        <Table patient_data = {this.state.patient_history_data} filters = {this.get_data_categories()} submit_function = {[["Link To Image",this.props.submit_function,"view image"]]} ></Table>
                     </div>
                 </div>
                 <div className = "bottom_div_images">
