@@ -17,7 +17,7 @@
 }
 
 .body_div_patients {
-  width: 80%;
+  width: 88.5%;
   margin-top: 5%;
   margin-left: 5%;
   display:flex; 
@@ -33,8 +33,9 @@
   border-width: 5px;
   border-style: solid;
   border-color: black;
-  width: 40vh;
+  width: 37vh;
   margin-left: -5%;
+  overflow: scroll;
 }
 
 .show_hide_category {
@@ -44,8 +45,13 @@
 }
 
 .table_design_patients {
-  min-width: 144vh;
   margin-left: 3.5%;
+  width: 250vh;
+  overflow: scroll;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  max-height: 50vh;
 }
 
 .bottom_div_patients {

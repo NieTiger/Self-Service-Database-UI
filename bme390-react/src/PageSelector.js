@@ -4,6 +4,7 @@ import PatientsPage from "./PatientsPage.js";
 import PatientHistoryPage from "./PatientHistoryPage.js";
 import PatientImagePage from "./PatientImagePage.js";
 import PatientExamPage from "./PatientExamPage.js";
+import ShowPatientImagePage from "./ShowPatientImagePage.js";
 
 class PageSelector extends Component {
 
@@ -40,6 +41,9 @@ class PageSelector extends Component {
         }
         else if (this.state.page === "patient exams") {
             view = <PatientExamPage app_state = {this.state} submit_function = {this.to_page_submit} filters = {this.state.filters}></PatientExamPage>
+        }
+        else if (this.state.page === "view image") {
+            view = <ShowPatientImagePage app_state = {this.state} submit_function = {this.to_page_submit} filters = {this.state.filters}></ShowPatientImagePage>
         }
         return (
             <div>{view}</div>
