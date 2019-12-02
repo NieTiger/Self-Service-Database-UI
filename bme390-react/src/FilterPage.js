@@ -3,6 +3,7 @@ import './FilterPage.css';
 
 class FilterPage extends Component {
 
+    //constructor for FilterPage
     constructor(props) {
         super(props);
         this.state = {
@@ -22,6 +23,7 @@ class FilterPage extends Component {
         this.default_value_change = this.default_value_change.bind(this); 
         this.back_pressed = this.back_pressed.bind(this);
 
+        //the axios module in the node_modules folder
         const axios = require('axios');
 
         // Make a request for a user with a given ID
@@ -49,7 +51,7 @@ class FilterPage extends Component {
     }
 
     category_filter_pressed(category,item) {
-        if (this.state[category].indexOf(item) === -1) {
+        if (this.state[category].indexOf(item) === -1) { // if the item clicked is a new item, then push it in the category array
             this.state[category].push(item)
             this.setState({[category]:this.state[category]})
         }
@@ -75,24 +77,24 @@ class FilterPage extends Component {
             "image_procedure_type": false,
             "labs": false,
             "medication_generic_name": false,
-            "medication_therapuetic_name": false,
+            "medication_therapuetic_class": false,
             "vision": false,
             "pressure": false
         } 
         this.setState(default_state)
     }
 
-    render() {
+    render() {      
         let div_eye_diagnosis = <div className = "hidden"></div>;
         if (this.state.eye_diagnosis !== false) {
             let category = "eye_diagnosis"
             div_eye_diagnosis = <div className = "subfilter-choice">
-                <div className="table-title">
+                <div id = "title-style-Arnold" className = "table-title" >
                     Eye Diagnosis
                 </div>
                 <div className="filter-choice">
-                    <input type="checkbox" onChange = {() => this.category_filter_pressed(category,"Retenal Edema")}></input>
-                    <label className="label-choice">Retenal Edema</label>
+                    <input type="checkbox" onChange = {() => this.category_filter_pressed(category,"Retinal Edema")}></input>
+                    <label className="label-choice">Retinal Edema</label>
                 </div>
                 <div className="filter-choice">
                     <input type="checkbox" onChange = {() => this.category_filter_pressed(category,"Acute Sinusitus")}></input>
@@ -106,10 +108,10 @@ class FilterPage extends Component {
         }
 
         let div_systemic_diagnosis = <div className = "hidden"></div>;
-        if (this.state.systemic_diagnosis !== false) {
+        if (this.state.systemic_diagnosis !== false) { // If the user wants to filter based on systemic diagnosis, and it is selected, then do if statement 
             let category = "systemic_diagnosis"
             div_systemic_diagnosis = <div className = "subfilter-choice">
-                <div className="table-title">
+                <div id = "title-style-Arnold" className="table-title">
                     Systemic Diagnosis
                 </div>
                 <div className="filter-choice">
@@ -127,7 +129,7 @@ class FilterPage extends Component {
         if (this.state.age !== false) {
             let category = "age"
             div_age = <div className = "subfilter-choice">
-                <div className="table-title">
+                <div id = "title-style-Arnold" className="table-title">
                     Age
                 </div>
                 <div className="filter-choice">
@@ -164,7 +166,7 @@ class FilterPage extends Component {
         if (this.state.ethnicity !== false) {
             let category = "ethnicity"
             div_ethnicity = <div className = "subfilter-choice">
-                <div className="table-title">
+                <div id = "title-style-Arnold"  className="table-title">
                     Ethnicity
                 </div>
                 <div className="filter-choice">
@@ -198,7 +200,7 @@ class FilterPage extends Component {
         if (this.state.image_procedure_type !== false) {
             let category = "image_procedure_type"
             div_image_procedure_type = <div className = "subfilter-choice">
-                <div className="table-title">
+                <div id = "title-style-Arnold"  className="table-title">
                     Image Procedure Type
                 </div>
                 <div className="filter-choice">
@@ -224,7 +226,7 @@ class FilterPage extends Component {
         if (this.state.labs !== false) {
             let category = "labs"
             div_labs = <div className = "subfilter-choice">
-                <div className="table-title">
+                <div id = "title-style-Arnold" className="table-title">
                     Labs
                 </div>
                 <div className="filter-choice">
@@ -250,7 +252,7 @@ class FilterPage extends Component {
         if (this.state.medication_generic_name !== false) {
             let category = "medication_generic_name"
             div_medication_generic_name = <div className = "subfilter-choice">
-                <div className="table-title">
+                <div id = "title-style-Arnold" className="table-title">
                     Medication Generic Name
                 </div>
                 <div className="filter-choice">
@@ -280,7 +282,7 @@ class FilterPage extends Component {
         if (this.state.medication_therapuetic_name !== false) {
             let category = "medication_therapuetic_name"
             div_medication_therapuetic_name = <div className = "subfilter-choice">
-                <div className="table-title">
+                <div id = "title-style-Arnold" className="table-title">
                     Medication Therapuetic Name
                 </div>
                 <div className="filter-choice">
@@ -311,7 +313,7 @@ class FilterPage extends Component {
             let category = "vision"
             div_vision = <div>
                 <div className = "subfilter-choice">
-                    <div className="table-title">
+                    <div id = "title-style-Arnold" className="table-title">
                         Left Vision
                     </div>
                     <div className="filter-choice">
@@ -343,7 +345,7 @@ class FilterPage extends Component {
                     </div>
                 </div>
                 <div className = "subfilter-choice">
-                    <div className="table-title">
+                    <div id = "title-style-Arnold" className="table-title">
                         Right Vision
                     </div>
                     <div className="filter-choice">
@@ -382,7 +384,7 @@ class FilterPage extends Component {
             let category = "pressure"
             div_pressure = <div>
                 <div className = "subfilter-choice">
-                    <div className="table-title">
+                    <div id = "title-style-Arnold"  className="table-title">
                         Left Pressure
                     </div>
                     <div className="filter-choice">
@@ -414,7 +416,7 @@ class FilterPage extends Component {
                     </div>
                 </div>
                 <div className = "subfilter-choice">
-                    <div className="table-title">
+                    <div id = "title-style-Arnold"  className="table-title">
                         Right Pressure
                     </div>
                     <div className="filter-choice">
@@ -449,10 +451,10 @@ class FilterPage extends Component {
         }
         console.log(this.state)
         return (
-            <div className="App-background">
-                <h1 className="upper-text">Please Select Your Filters to Create a Patient Cohort</h1>
+            <div id = "big-background" className="App-background">
+                <h1 id = "title-style-big" className="upper-text">Please Select Your Filters to Create a Patient Cohort</h1>
                 <div className="filter-table">
-                    <div className="table-title">Filters</div>
+                    <div id = "title-style-Arnold" className="table-title">Filters</div>
                     <div className="filter-choice">
                         <input type="checkbox" checked={this.state.eye_diagnosis !== false} onChange={() => this.category_pressed("eye_diagnosis",[])}></input>
                         <label className="label-choice">Eye_Diagnosis</label>
@@ -507,7 +509,9 @@ class FilterPage extends Component {
                 {div_vision}
                 {div_pressure}
             </div>
+        
     );
+
   }
 }
 
