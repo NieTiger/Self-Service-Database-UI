@@ -1,14 +1,17 @@
-language:      node_js
+language: node_js
 node_js:
    - "stable"
-   - 13
-before_script:
-   - cd bme390-react
-   - npm install
-script:
-   - npm test
 cache:
   directories:
-    - bme390-react/node_modules
-notifications:
-  email:       false
+    - node_modules
+script:
+  - npm test
+  - npm run build
+deploy:
+   provide: pages
+   skip_cleanup: true
+   github_token: $github_token
+   local_dir: build
+   on:
+      branch: master
+
