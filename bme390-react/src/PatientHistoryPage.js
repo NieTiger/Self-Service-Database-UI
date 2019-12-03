@@ -50,7 +50,6 @@ class PatientHistoryPage extends Component {
 
     fill_up_summary() {
         let last_appointment = this.state.patient_appointment_data[this.state.patient_appointment_data.length-1]
-        console.log(last_appointment)
 
         let first_column = "Patient ID ".concat(this.props.app_state.prev_state.PT_ID)
         let current_data = [{[first_column]: "Current Values"}]
