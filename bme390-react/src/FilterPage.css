@@ -164,13 +164,13 @@
 
   .column {
     float: left;
-    padding: 10px;
+    padding: 1%;
     height: 300px; /* Should be removed. Only for demonstration */
     }
 
 
 
-    
+
 .bluetext{
   color: blue;
 }

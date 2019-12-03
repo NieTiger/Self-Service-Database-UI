@@ -376,7 +376,7 @@ class FilterPage extends Component {
                     </div>
                 </div>
                 <div id = "garamond" className = "subfilter-choice">
-                    <div id = "garamond" className="title-style-Arnold">
+                    <div class="column" id = "garamond" className="title-style-Arnold">
                         Right Vision
                     </div>
                     <div className="filter-choice">
