@@ -1,13 +1,14 @@
 language:      node_js
 node_js:
-- 13
+   - "stable"
+   - 13
 before_script:
-- npm install
+   - cd bme390-react
+   - npm install
 script:
-- npm test
-- gulp
+   - npm test
 cache:
   directories:
-    - node_modules
+    - bme390-react/node_modules
 notifications:
   email:       false
