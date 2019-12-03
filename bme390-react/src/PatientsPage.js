@@ -7,16 +7,16 @@ class PatientsPage extends Component {
 
     constructor(props) {
         super(props);
-        console.log("patients")
+        /* console.log("patients")
         console.log(this.props)
-        console.log("done")
+        console.log("done") */
         this.get_filters = this.get_filters.bind(this)
         this.get_data = this.get_data.bind(this)
         this.get_patients = this.get_patients.bind(this)
         this.state = {
             original_filters: ["PT_ID"].concat(this.get_filters()).concat(["images"]),
             filters: ["PT_ID"].concat(this.get_filters()).concat(["images"]),
-            patient_data: []
+            patient_data: {}
         }
         this.show_hide_category_changed = this.show_hide_category_changed.bind(this)
         this.get_data_categories = this.get_data_categories.bind(this)
@@ -163,7 +163,7 @@ class PatientsPage extends Component {
                 input_values["image_procedure_type"] = values["image_procedure_type"]
             }
             else if (key === "labs") {
-                console.log(values["labs"])
+                //console.log(values["labs"])
             }
             else if (key === "medication_generic_name") {
                 input_values["medication_generic_name"] = values["medication_generic_name"]
@@ -240,8 +240,8 @@ class PatientsPage extends Component {
                 input_values["right_pressure"] = right_pressure
             }
         }
-        console.log("input values")
-        console.log(input_values)
+        //console.log("input values")
+        //console.log(input_values)
         axios.post(`https://tigernie.com/ssd_api/filter`, {
             filters: input_values,
         })
@@ -276,7 +276,7 @@ class PatientsPage extends Component {
             axios.get(link)
             .then(function (response) {
                 let current_patient_data = currentState.state.patient_data
-                current_patient_data.push(response.data)
+                current_patient_data["lab_values"] = response.data
                 currentState.setState({"patient_data":current_patient_data}, () => {
                     currentState.edit_patient_data()
                 })
@@ -288,7 +288,7 @@ class PatientsPage extends Component {
             axios.get(link)
             .then(function (response) {
                 let current_patient_data = currentState.state.patient_data
-                current_patient_data.push(response.data)
+                current_patient_data["personal_values"] = response.data 
                 currentState.setState({"patient_data":current_patient_data}, () => {
                     currentState.edit_patient_data()
                 })
@@ -299,8 +299,7 @@ class PatientsPage extends Component {
     }
 
     edit_patient_data() {
-        console.log(this.state.patient_data)
-        if (this.state.patient_data.length !== 2) {
+        if (!(this.state.patient_data["lab_values"] && this.state.patient_data["personal_values"])) {
             return
         }
         let current_data = []
@@ -309,98 +308,98 @@ class PatientsPage extends Component {
             let patient = {PT_ID: this.state.patients[i]}
 
             let eye_diagnosis_pt = ""
-            for (var j = 0; j < this.state.patient_data[1][patient_id].eye_diagnosis.length; j++) {
-                eye_diagnosis_pt = eye_diagnosis_pt.concat(this.state.patient_data[1][patient_id].eye_diagnosis[j][0])
-                if (this.state.patient_data[1][patient_id].eye_diagnosis[j][1] !== null) {
+            for (var j = 0; j < this.state.patient_data["lab_values"][patient_id].eye_diagnosis.length; j++) {
+                eye_diagnosis_pt = eye_diagnosis_pt.concat(this.state.patient_data["lab_values"][patient_id].eye_diagnosis[j][0])
+                if (this.state.patient_data["lab_values"][patient_id].eye_diagnosis[j][1] !== null) {
                     eye_diagnosis_pt = eye_diagnosis_pt.concat(" (")
-                    eye_diagnosis_pt = eye_diagnosis_pt.concat(this.state.patient_data[1][patient_id].eye_diagnosis[j][1].substring(0,16))
+                    eye_diagnosis_pt = eye_diagnosis_pt.concat(this.state.patient_data["lab_values"][patient_id].eye_diagnosis[j][1].substring(0,16))
                     eye_diagnosis_pt = eye_diagnosis_pt.concat(")")
                 }
-                if (j < this.state.patient_data[1][patient_id].eye_diagnosis.length-1) {
+                if (j < this.state.patient_data["lab_values"][patient_id].eye_diagnosis.length-1) {
                     eye_diagnosis_pt = eye_diagnosis_pt.concat("\n")
                 }
             }
             patient["eye_diagnosis"] = eye_diagnosis_pt
 
             let systemic_diagnosis_pt = ""
-            for (var j = 0; j < this.state.patient_data[1][patient_id].systemic_diagnosis.length; j++) {
-                systemic_diagnosis_pt = systemic_diagnosis_pt.concat(this.state.patient_data[1][patient_id].systemic_diagnosis[j][0])
-                if (this.state.patient_data[1][patient_id].systemic_diagnosis[j][1] !== null) {
+            for (var j = 0; j < this.state.patient_data["lab_values"][patient_id].systemic_diagnosis.length; j++) {
+                systemic_diagnosis_pt = systemic_diagnosis_pt.concat(this.state.patient_data["lab_values"][patient_id].systemic_diagnosis[j][0])
+                if (this.state.patient_data["lab_values"][patient_id].systemic_diagnosis[j][1] !== null) {
                     systemic_diagnosis_pt = systemic_diagnosis_pt.concat(" (")
-                    systemic_diagnosis_pt= systemic_diagnosis_pt.concat(this.state.patient_data[1][patient_id].systemic_diagnosis[j][1].substring(0,16))
+                    systemic_diagnosis_pt= systemic_diagnosis_pt.concat(this.state.patient_data["lab_values"][patient_id].systemic_diagnosis[j][1].substring(0,16))
                     systemic_diagnosis_pt = systemic_diagnosis_pt.concat(")")
                 }
-                if (j < this.state.patient_data[1][patient_id].systemic_diagnosis.length-1) {
+                if (j < this.state.patient_data["lab_values"][patient_id].systemic_diagnosis.length-1) {
                     systemic_diagnosis_pt = systemic_diagnosis_pt.concat("\n")
                 }
             }
             patient["systemic_diagnosis"] = systemic_diagnosis_pt
 
             let image_procedure_type_pt = ""
-            for (var j = 0; j < this.state.patient_data[1][patient_id].image_type.length; j++) {
-                image_procedure_type_pt = image_procedure_type_pt.concat(this.state.patient_data[1][patient_id].image_type[j])
-                if (j < this.state.patient_data[1][patient_id].image_type.length-1) {
+            for (var j = 0; j < this.state.patient_data["lab_values"][patient_id].image_type.length; j++) {
+                image_procedure_type_pt = image_procedure_type_pt.concat(this.state.patient_data["lab_values"][patient_id].image_type[j])
+                if (j < this.state.patient_data["lab_values"][patient_id].image_type.length-1) {
                     image_procedure_type_pt = image_procedure_type_pt.concat("\n")
                 }
             }
             patient["image_procedure_type"] = image_procedure_type_pt
 
             let lab_values_pt = ""
-            for (var j = 0; j < this.state.patient_data[1][patient_id].lab_values.length; j++) {
-                lab_values_pt = lab_values_pt.concat(this.state.patient_data[1][patient_id].lab_values[j].lab_name).concat(": ").concat(this.state.patient_data[1][patient_id].lab_values[j].lab_value)
-                if (j < this.state.patient_data[1][patient_id].lab_values.length-1) {
+            for (var j = 0; j < this.state.patient_data["lab_values"][patient_id].lab_values.length; j++) {
+                lab_values_pt = lab_values_pt.concat(this.state.patient_data["lab_values"][patient_id].lab_values[j].lab_name).concat(": ").concat(this.state.patient_data["lab_values"][patient_id].lab_values[j].lab_value)
+                if (j < this.state.patient_data["lab_values"][patient_id].lab_values.length-1) {
                     lab_values_pt = lab_values_pt.concat("\n")
                 }
             }
             patient["labs"] = lab_values_pt
 
             let medication_generic_name_pt = ""
-            for (var j = 0; j < this.state.patient_data[1][patient_id].medication.length; j++) {
-                medication_generic_name_pt = medication_generic_name_pt.concat(this.state.patient_data[1][patient_id].medication[j].generic_name)
-                if (j < this.state.patient_data[1][patient_id].medication.length-1) {
+            for (var j = 0; j < this.state.patient_data["lab_values"][patient_id].medication.length; j++) {
+                medication_generic_name_pt = medication_generic_name_pt.concat(this.state.patient_data["lab_values"][patient_id].medication[j].generic_name)
+                if (j < this.state.patient_data["lab_values"][patient_id].medication.length-1) {
                     medication_generic_name_pt = medication_generic_name_pt.concat("\n")
                 }
             }
             patient["medication_generic_name"] = medication_generic_name_pt
 
             let medication_therapuetic_name_pt = ""
-            for (var j = 0; j < this.state.patient_data[1][patient_id].medication.length; j++) {
-                if (this.state.patient_data[1][patient_id].medication[j].therapeutic_class === null) {
+            for (var j = 0; j < this.state.patient_data["lab_values"][patient_id].medication.length; j++) {
+                if (this.state.patient_data["lab_values"][patient_id].medication[j].therapeutic_class === null) {
                     medication_therapuetic_name_pt = medication_therapuetic_name_pt.concat("none")    
                 }
                 else {
-                    medication_therapuetic_name_pt = medication_therapuetic_name_pt.concat(this.state.patient_data[1][patient_id].medication[j].therapeutic_class)
+                    medication_therapuetic_name_pt = medication_therapuetic_name_pt.concat(this.state.patient_data["lab_values"][patient_id].medication[j].therapeutic_class)
                 }
-                if (j < this.state.patient_data[1][patient_id].medication.length-1) {
+                if (j < this.state.patient_data["lab_values"][patient_id].medication.length-1) {
                     medication_therapuetic_name_pt = medication_therapuetic_name_pt.concat("\n")
                 }
             }
             patient["medication_therapuetic_name"] = medication_therapuetic_name_pt
 
             let vision_pt = ""
-            for (var j = 0; j < this.state.patient_data[1][patient_id].vision.length; j++) {
-                vision_pt = vision_pt.concat(this.state.patient_data[1][patient_id].vision[j].value)
-                if (j < this.state.patient_data[1][patient_id].vision.length-1) {
+            for (var j = 0; j < this.state.patient_data["lab_values"][patient_id].vision.length; j++) {
+                vision_pt = vision_pt.concat(this.state.patient_data["lab_values"][patient_id].vision[j].value)
+                if (j < this.state.patient_data["lab_values"][patient_id].vision.length-1) {
                     vision_pt = vision_pt.concat("\n")
                 }
             }
             patient["vision"] = vision_pt
 
             let pressure_pt = ""
-            for (var j = 0; j < this.state.patient_data[1][patient_id].pressure.length; j++) {
-                pressure_pt = pressure_pt.concat(this.state.patient_data[1][patient_id].pressure[j].value)
-                if (j < this.state.patient_data[1][patient_id].pressure.length-1) {
+            for (var j = 0; j < this.state.patient_data["lab_values"][patient_id].pressure.length; j++) {
+                pressure_pt = pressure_pt.concat(this.state.patient_data["lab_values"][patient_id].pressure[j].value)
+                if (j < this.state.patient_data["lab_values"][patient_id].pressure.length-1) {
                     pressure_pt = pressure_pt.concat("\n")
                 }
             }
             patient["pressure"] = pressure_pt
 
-            let dob_index = this.state.patient_data[0].columns.indexOf("dob")
-            let ethnicity_index = this.state.patient_data[0].columns.indexOf("ethnicity")
-            for (var j = 0; j < this.state.patient_data[0].data.length; j++) {
-                if (this.state.patient_data[0].data[j][0] === this.state.patients[i]) {
-                    patient["age"] = 2019 - parseInt(this.state.patient_data[0].data[j][dob_index].substring(12,16))
-                    patient["ethnicity"] = this.state.patient_data[0].data[j][ethnicity_index]
+            let dob_index = this.state.patient_data["personal_values"].columns.indexOf("dob")
+            let ethnicity_index = this.state.patient_data["personal_values"].columns.indexOf("ethnicity")
+            for (var j = 0; j < this.state.patient_data["personal_values"].data.length; j++) {
+                if (this.state.patient_data["personal_values"].data[j][0] === this.state.patients[i]) {
+                    patient["age"] = 2019 - parseInt(this.state.patient_data["personal_values"].data[j][dob_index].substring(12,16))
+                    patient["ethnicity"] = this.state.patient_data["personal_values"].data[j][ethnicity_index]
                     break
                 }
             }
@@ -408,6 +407,8 @@ class PatientsPage extends Component {
             patient["images"] = "link-to-image"
             current_data.push(patient)
         }
+        console.log("done")
+        console.log(current_data)
         this.setState({patient_data: current_data})
     }
     
