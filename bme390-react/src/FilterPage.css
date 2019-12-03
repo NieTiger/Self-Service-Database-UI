@@ -18,6 +18,9 @@
   width: 50vh;
   border-width: 5px;
   border-style: solid;
+  margin-left: 10%;
+  margin-top: 5%;
+
 }
 
 .table-title {
@@ -51,16 +54,14 @@
 }
 
 .subfilter-choice {
-  font-family: "Garamond";
   background-color: white;
-  width: 60vh;
+  width: 50vh;
   max-height: 40vh;
   overflow: scroll;
   border-width: 5px;
   border-style: solid;
-  margin-right:1%;
-  margin-left:3.5%;
-  margin-top: 1%;
+  margin-left: 10%;
+  margin-top: 3%;
   padding-bottom: 1%;
 }
 
@@ -79,10 +80,9 @@
 }
 
 .back_button {
-  text-align: center;
-  margin-left: 43.5%;
+  margin-left: 46vh;
   margin-top: 1%;
-  width: 6%;
+  width: 10vh;
   height: 5vh;
   border-width: 5px;
   border-style: solid;
@@ -90,10 +90,9 @@
 }
 
 .submit_button {
-  text-align: center;
-  margin-left: 0.5%;
+  margin-left: 3%;
   margin-top: 1%;
-  width: 6%;
+  width: 10vh;
   height: 5vh;
   border-width: 5px;
   border-style: solid;
