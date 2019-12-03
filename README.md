@@ -1,43 +1,68 @@
-# [Self-Service Database User Interface]()
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[Self-Service Database UI](https://github.com/haolinnie/Self-Service-Database-UI) is an open source admin dashboard theme for clinicians and medical researchers to provide easy access to an enterprise data warehouse.
+## Available Scripts
 
-**[Launch Live Preview](https://haolinnie.github.io/Self-Service-Database-UI/)**
+In the project directory, you can run:
 
-## Status
+### `npm start`
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)]()
-[![Build Status](https://travis-ci.com/haolinnie/Self-Service-Database-UI.svg?branch=master)](https://travis-ci.com/haolinnie/Self-Service-Database-UI)
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Download and Installation
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-To begin using this template, choose one of the following options to get started:
+### `npm test`
 
--   Clone the repo: `git clone https://github.com/haolinnie/Self-Service-Database-UI.git`
--   [Fork, Clone, or Download on GitHub](https://github.com/haolinnie/Self-Service-Database-UI)
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## Usage
+### `npm run build`
 
-After installation, run `npm install` and then run `npm start` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `gulpfile.js` to see which tasks are included with the dev environment.
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### Gulp Tasks
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
--   `gulp` the default task that builds everything
--   `gulp watch` browserSync opens the project in your default browser and live reloads when changes are made
--   `gulp css` compiles SCSS files into CSS and minifies the compiled CSS
--   `gulp js` minifies the themes JS file
--   `gulp vendor` copies dependencies from node_modules to the vendor directory
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-You must have npm installed globally in order to use this build environment. This theme was built using node v11.6.0 and the Gulp CLI v2.0.1. If Gulp is not running properly after running `npm install`, you may need to update node and/or the Gulp CLI locally.
+### `npm run eject`
 
-## Bugs and Issues
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-Have a bug or an issue with this template? [Open a new issue](https://github.com/haolinnie/Self-Service-Database-UI/issues) here on GitHub.
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## About
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-This template is based on the [Bootstrap](http://getbootstrap.com/) framework created by [Mark Otto](https://twitter.com/mdo) and [Jacob Thorton](https://twitter.com/fat).
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Copyright and License
+## Learn More
 
-Copyright 2019 Tiger Nie. Code released under the MIT license.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
