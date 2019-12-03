@@ -369,7 +369,7 @@ class PatientHistoryPage extends Component {
             }
             else {
                 patient["Left Pressure"] = "None"
-                patient["Right Vision"] = "None"
+                patient["Right Pressure"] = "None"
             }
             patient["Exam ID"] = Math.floor(Math.random() * 10000) + 10000
             patient_data.push(patient)
