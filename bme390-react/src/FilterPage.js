@@ -160,7 +160,7 @@ class FilterPage extends Component {
                 this.get_eye_diagnosis_categories('https://tigernie.com/ssd_api/get_distinct?special=eye_diagnosis')
             }
             var category_options = this.state.eye_diagnosis_categories;
-            let temp_div_eye_diagnosis = [<div className="table-title">Eye Diagnosis</div>]
+            let temp_div_eye_diagnosis = [<div id = "garamond" className = "title-style-Arnold">Eye Diagnosis</div>]
             
             for (var i = 0; i < category_options.length; i++) {
                 var option = category_options[i]
@@ -171,7 +171,7 @@ class FilterPage extends Component {
                 </div>
                 temp_div_eye_diagnosis.push(temp_filter)
             }
-            div_eye_diagnosis = <div className = "subfilter-choice"> {temp_div_eye_diagnosis} </div>
+            div_eye_diagnosis = <div align = "center" id = "garamond"  className = "subfilter-choice"> {temp_div_eye_diagnosis} </div>
         }
 
         let div_systemic_diagnosis = <div className = "hidden"></div>;
@@ -182,7 +182,7 @@ class FilterPage extends Component {
                 this.get_systemic_diagnosis_categories('https://tigernie.com/ssd_api/get_distinct?special=systemic_diagnosis')
             }
             var category_options = this.state.systemic_diagnosis_categories;
-            let temp_div_systemic_diagnosis = [<div className="table-title">Systemic Diagnosis</div>]
+            let temp_div_systemic_diagnosis = [<div id = "garamond" className="title-style-Arnold">Systemic Diagnosis</div>]
             
             for (var i = 0; i < category_options.length; i++) {
                 var option = category_options[i]
@@ -193,14 +193,14 @@ class FilterPage extends Component {
                 </div>
                 temp_div_systemic_diagnosis.push(temp_filter)
             }
-            div_systemic_diagnosis = <div className = "subfilter-choice"> {temp_div_systemic_diagnosis} </div>
+            div_systemic_diagnosis = <div id = "garamond" align = "center" className = "subfilter-choice"> {temp_div_systemic_diagnosis} </div>
         }
 
         let div_age = <div className = "hidden"></div>;
         if (this.state.age !== false) {
             let category = "age"
-            div_age = <div className = "subfilter-choice">
-                <div className="table-title">
+            div_age = <div id = "garamond" align = "center" className = "subfilter-choice">
+                <div id = "garamond" className="title-style-Arnold">
                     Age
                 </div>
                 <div className="filter-choice">
@@ -236,8 +236,8 @@ class FilterPage extends Component {
         let div_ethnicity = <div className = "hidden"></div>;
         if (this.state.ethnicity !== false) {
             let category = "ethnicity"
-            div_ethnicity = <div className = "subfilter-choice">
-                <div className="table-title">
+            div_ethnicity = <div id = "garamond" align = "center" className = "subfilter-choice">
+                <div id = "garamond" className="title-style-Arnold">
                     Ethnicity
                 </div>
                 <div className="filter-choice">
@@ -262,7 +262,7 @@ class FilterPage extends Component {
                 this.get_image_procedure_type_categories('https://tigernie.com/ssd_api/get_distinct?table_name=image_procedure&col_name=image_procedure')
             }
             var category_options = this.state.image_procedure_type_categories;
-            let temp_div_image_procedure_type = [<div className="table-title">Image Procedure Type</div>]
+            let temp_div_image_procedure_type = [<div className="title-style-Arnold">Image Procedure Type</div>]
             
             for (var i = 0; i < category_options.length; i++) {
                 var option = category_options[i]
@@ -272,7 +272,7 @@ class FilterPage extends Component {
                 </div>
                 temp_div_image_procedure_type.push(temp_filter)
             }
-            div_image_procedure_type = <div className = "subfilter-choice"> {temp_div_image_procedure_type} </div>
+            div_image_procedure_type = <div id = "garamond" align = "center" className = "subfilter-choice"> {temp_div_image_procedure_type} </div>
         }
 
         let div_labs = <div className = "hidden"></div>;
@@ -283,7 +283,7 @@ class FilterPage extends Component {
             }
 
             var category_options = this.state.labs_categories;
-            let temp_div_labs = [<div className="table-title">Labs</div>]
+            let temp_div_labs = [<div id = "garamond" className="title-style-Arnold">Labs</div>]
             
             for (var i = 0; i < category_options.length; i++) {
                 var option = category_options[i]
@@ -294,7 +294,7 @@ class FilterPage extends Component {
                 </div>
                 temp_div_labs.push(temp_filter)
             }
-            div_labs = <div className = "subfilter-choice"> {temp_div_labs} </div>
+            div_labs = <div id = "garamond" align = "center" className = "subfilter-choice"> {temp_div_labs} </div>
         }
 
         let div_medication_generic_name = <div className = "hidden"></div>;
@@ -304,7 +304,7 @@ class FilterPage extends Component {
                 this.get_medication_generic_name_categories('https://tigernie.com/ssd_api/get_distinct?table_name=medication_deid&col_name=generic_name')
             }
             var category_options = this.state.medication_generic_name_categories;
-            let temp_div_medication_generic_name = [<div className="table-title">Medication Generic Name</div>]
+            let temp_div_medication_generic_name = [<div id = "garamond" className="title-style-Arnold">Medication Generic Name</div>]
             
             for (var i = 0; i < category_options.length; i++) {
                 var option = category_options[i]
@@ -315,7 +315,7 @@ class FilterPage extends Component {
                 </div>
                 temp_div_medication_generic_name.push(temp_filter)
             }
-            div_medication_generic_name = <div className = "subfilter-choice"> {temp_div_medication_generic_name} </div>
+            div_medication_generic_name = <div id = "garamond" align = "center" className = "subfilter-choice"> {temp_div_medication_generic_name} </div>
         }
 
         let div_medication_therapuetic_name = <div className = "hidden"></div>;
@@ -325,7 +325,7 @@ class FilterPage extends Component {
                 this.get_medication_therapuetic_name_categories('https://tigernie.com/ssd_api/get_distinct?table_name=medication_deid&col_name=therapeutic_class')
             }
             var category_options = this.state.medication_therapuetic_name_categories;
-            let temp_div_medication_therapuetic_name = [<div className="table-title">Medication Therapuetic Name</div>]
+            let temp_div_medication_therapuetic_name = [<div id = "garamond" className="title-style-Arnold">Medication Therapuetic Name</div>]
             
             for (var i = 0; i < category_options.length; i++) {
                 var option = category_options[i]
@@ -336,15 +336,15 @@ class FilterPage extends Component {
                 </div>
                 temp_div_medication_therapuetic_name.push(temp_filter)
             }
-            div_medication_therapuetic_name = <div className = "subfilter-choice"> {temp_div_medication_therapuetic_name} </div>
+            div_medication_therapuetic_name = <div id = "garamond" align = "center" className = "subfilter-choice"> {temp_div_medication_therapuetic_name} </div>
         }
 
         let div_vision = <div className = "hidden"></div>;
         if (this.state.vision !== false) {
             let category = "vision"
             div_vision = <div>
-                <div className = "subfilter-choice">
-                    <div className="table-title">
+                <div id = "garamond" className = "subfilter-choice">
+                    <div id = "garamond" className="title-style-Arnold">
                         Left Vision
                     </div>
                     <div className="filter-choice">
@@ -375,8 +375,8 @@ class FilterPage extends Component {
                         </label>
                     </div>
                 </div>
-                <div className = "subfilter-choice">
-                    <div className="table-title">
+                <div id = "garamond" className = "subfilter-choice">
+                    <div id = "garamond" className="title-style-Arnold">
                         Right Vision
                     </div>
                     <div className="filter-choice">
@@ -414,8 +414,8 @@ class FilterPage extends Component {
         if (this.state.pressure !== false) {
             let category = "pressure"
             div_pressure = <div>
-                <div className = "subfilter-choice">
-                    <div className="table-title">
+                <div id = "garamond"  className = "subfilter-choice">
+                    <div id = "garamond" className="title-style-Arnold">
                         Left Pressure
                     </div>
                     <div className="filter-choice">
@@ -446,8 +446,8 @@ class FilterPage extends Component {
                         </label>
                     </div>
                 </div>
-                <div className = "subfilter-choice">
-                    <div className="table-title">
+                <div id = "garamond" className = "subfilter-choice">
+                    <div id = "garamond" className="title-style-Arnold">
                         Right Pressure
                     </div>
                     <div className="filter-choice">
@@ -482,10 +482,10 @@ class FilterPage extends Component {
         }
         console.log(this.state)
         return (
-            <div className="App-background">
-                <h1 className="upper-text">Please Select Your Filters to Create a Patient Cohort</h1>
-                <div className="filter-table">
-                    <div className="table-title">Filters</div>
+            <div id = "big-background" className="App-background">
+                <h1 id = "title-style-big" className="upper-text">Please Select Your Filters to Create a Patient Cohort</h1>
+                <table id = "garamond-no-float" align = "center" className="filter-table">
+                    <div id = "garamond" className="title-style-Arnold">Filters</div>
                     <div className="filter-choice">
                         <input type="checkbox" checked={this.state.eye_diagnosis !== false} onChange={() => this.category_pressed("eye_diagnosis",[])}></input>
                         <label className="label-choice">Eye_Diagnosis</label>
@@ -526,19 +526,31 @@ class FilterPage extends Component {
                         <input type="checkbox" checked={this.state.pressure !== false} onChange={() => this.category_pressed("pressure",[{"left_less":"50","left_equal":"50","left_greater":"50","left_between_less": "45", "left_between_greater":"55", "right_less":"50","right_equal":"50","right_greater":"50","right_between_less": "45", "right_between_greater":"55"}])}></input>
                         <label className="label-choice">Pressure</label>
                     </div>
-                </div>
+                </table>
                 <button className="back_button" onClick={this.back_pressed}>Back</button>
                 <button className="submit_button" onClick={() => this.props.submit_function("patients",this.state)}>Submit</button>
-                {div_eye_diagnosis}
-                {div_systemic_diagnosis}
-                {div_age}
-                {div_ethnicity}
-                {div_image_procedure_type}
-                {div_labs}
-                {div_medication_generic_name}
-                {div_medication_therapuetic_name}
-                {div_vision}
-                {div_pressure}
+            <div id = "big-background" class ="row">
+                <div class="column">
+                {div_eye_diagnosis} </div>
+                <div class="column">
+                {div_systemic_diagnosis} </div>
+                <div class="column">
+                {div_age} </div>
+                <div class="column">
+                {div_ethnicity} </div>
+                <div class="column">
+                {div_image_procedure_type} </div>
+                <div class="column">
+                {div_labs} </div>
+                <div class="column">
+                {div_medication_generic_name} </div>
+                <div class="column">
+                {div_medication_therapuetic_name} </div>
+                <div class="column">
+                {div_vision}</div>
+                <div class="column">
+                {div_pressure}</div>
+                </div>
             </div>
     );
   }
