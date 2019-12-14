@@ -30,7 +30,17 @@ class PageSelector extends Component {
             view = <FilterPage app_state = {this.state} submit_function = {this.to_page_submit}></FilterPage>
         }
         else if (this.state.page === "patients") {
+            // 
+            // React doesnt like it when you modify states directly
+            // potential solution: make a copy to the state and pass that into the app_state 
+            // of PatientsPage
+            // 
             this.state.filters = this.state.prev_state
+            // this.setState({
+            //     filters: this.state.prev_state,
+            // })
+            console.log("patients if block, this.state: ")
+            console.log(this.state)
             view = <PatientsPage app_state = {this.state} submit_function = {this.to_page_submit}></PatientsPage>
         }
         else if (this.state.page === "patient history") {
