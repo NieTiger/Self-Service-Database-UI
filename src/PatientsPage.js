@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./PatientsPage.css";
 import Table from "./Table.js";
 import axios from "axios";
+import { apiBaseURL } from "./config";
 
 class PatientsPage extends Component {
   constructor(props) {
@@ -117,7 +118,7 @@ class PatientsPage extends Component {
 
     if (this.state.original_filters.length === 2) {
       axios
-        .post(`https://tigernie.com/ssd_api/filter`, {
+        .post(apiBaseURL + "/ssd_api/filter", {
           filters: {}
         })
         .then(function(response) {
@@ -236,7 +237,7 @@ class PatientsPage extends Component {
     //console.log("input values")
     //console.log(input_values)
     axios
-      .post(`https://tigernie.com/ssd_api/filter`, {
+      .post(apiBaseURL + "/ssd_api/filter", {
         filters: input_values
       })
       .then(function(response) {
@@ -266,7 +267,7 @@ class PatientsPage extends Component {
       let patient_id = patient_ids[i];
       patient_ids_str = patient_ids_str.concat("&pt_id=").concat(patient_id);
     }
-    let link = "https://tigernie.com/ssd_api/patients?".concat(patient_ids_str);
+    let link = apiBaseURL + "/ssd_api/patients?".concat(patient_ids_str);
     axios
       .get(link)
       .then(function(response) {
@@ -279,9 +280,11 @@ class PatientsPage extends Component {
       .catch(function(error) {
         console.log(error);
       });
-    link = "https://tigernie.com/ssd_api/filter_table_with_ptid?"
-      .concat(patient_ids_str)
-      .concat("&table_name=pt_deid");
+    link =
+      apiBaseURL +
+      "/ssd_api/filter_table_with_ptid?"
+        .concat(patient_ids_str)
+        .concat("&table_name=pt_deid");
     axios
       .get(link)
       .then(function(response) {

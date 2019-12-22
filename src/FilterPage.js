@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './FilterPage.css';
+import { apiBaseURL } from './config'
 
 class FilterPage extends Component {
 
@@ -157,7 +158,7 @@ class FilterPage extends Component {
         if (this.state.eye_diagnosis !== false) {
             let category = "eye_diagnosis"
             if (this.state.eye_diagnosis_categories === false) {
-                this.get_eye_diagnosis_categories('https://tigernie.com/ssd_api/get_distinct?special=eye_diagnosis')
+                this.get_eye_diagnosis_categories(apiBaseURL + '/ssd_api/get_distinct?special=eye_diagnosis')
             }
             var category_options = this.state.eye_diagnosis_categories;
             let temp_div_eye_diagnosis = [<div className="table-title">Eye Diagnosis</div>]
@@ -179,7 +180,7 @@ class FilterPage extends Component {
             console.log("hello")
             let category = "systemic_diagnosis"
             if (this.state.systemic_diagnosis_categories === false) {
-                this.get_systemic_diagnosis_categories('https://tigernie.com/ssd_api/get_distinct?special=systemic_diagnosis')
+                this.get_systemic_diagnosis_categories(apiBaseURL + '/ssd_api/get_distinct?special=systemic_diagnosis')
             }
             var category_options = this.state.systemic_diagnosis_categories;
             let temp_div_systemic_diagnosis = [<div className="table-title">Systemic Diagnosis</div>]
@@ -259,7 +260,7 @@ class FilterPage extends Component {
         if (this.state.image_procedure_type !== false) {
             let category = "image_procedure_type"
             if (this.state.image_procedure_type_categories === false) {
-                this.get_image_procedure_type_categories('https://tigernie.com/ssd_api/get_distinct?table_name=image_procedure&col_name=image_procedure')
+                this.get_image_procedure_type_categories(apiBaseURL + '/ssd_api/get_distinct?table_name=image_procedure&col_name=image_procedure')
             }
             var category_options = this.state.image_procedure_type_categories;
             let temp_div_image_procedure_type = [<div className="table-title">Image Procedure Type</div>]
@@ -279,7 +280,7 @@ class FilterPage extends Component {
         if (this.state.labs !== false) {
             let category = "labs"
             if (this.state.labs_categories === false) {
-                this.get_labs_categories('https://tigernie.com/ssd_api/get_distinct?table_name=lab_value_deid&col_name=name')
+                this.get_labs_categories(apiBaseURL + '/ssd_api/get_distinct?table_name=lab_value_deid&col_name=name')
             }
 
             var category_options = this.state.labs_categories;
@@ -301,7 +302,7 @@ class FilterPage extends Component {
         if (this.state.medication_generic_name !== false) {
             let category = "medication_generic_name"
             if (this.state.medication_generic_name_categories === false) {
-                this.get_medication_generic_name_categories('https://tigernie.com/ssd_api/get_distinct?table_name=medication_deid&col_name=generic_name')
+                this.get_medication_generic_name_categories(apiBaseURL + '/ssd_api/get_distinct?table_name=medication_deid&col_name=generic_name')
             }
             var category_options = this.state.medication_generic_name_categories;
             let temp_div_medication_generic_name = [<div className="table-title">Medication Generic Name</div>]
@@ -322,7 +323,7 @@ class FilterPage extends Component {
         if (this.state.medication_therapuetic_name !== false) {
             let category = "medication_therapuetic_name"
             if (this.state.medication_therapuetic_name_categories === false) {
-                this.get_medication_therapuetic_name_categories('https://tigernie.com/ssd_api/get_distinct?table_name=medication_deid&col_name=therapeutic_class')
+                this.get_medication_therapuetic_name_categories(apiBaseURL + '/ssd_api/get_distinct?table_name=medication_deid&col_name=therapeutic_class')
             }
             var category_options = this.state.medication_therapuetic_name_categories;
             let temp_div_medication_therapuetic_name = [<div className="table-title">Medication Therapuetic Name</div>]
