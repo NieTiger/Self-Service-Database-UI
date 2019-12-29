@@ -91,7 +91,7 @@ class PatientExamPage extends Component {
       .get(link)
       .then(function(response) {
         let current_patient_data = currentState.state.patient_history_data;
-        current_patient_data.push(response.data);
+        current_patient_data.push(response.data.result);
         currentState.setState(
           { patient_history_data: current_patient_data },
           () => {

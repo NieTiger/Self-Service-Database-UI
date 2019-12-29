@@ -44,7 +44,8 @@ class PatientHistoryPage extends Component {
     axios
       .get(link)
       .then(function(response) {
-        let current_patient_data = response.data[currentState.state.PT_ID];
+        let current_patient_data =
+          response.data.result[currentState.state.PT_ID];
         currentState.setState(
           {
             patient_summary_data: current_patient_data,
@@ -173,8 +174,7 @@ class PatientHistoryPage extends Component {
           16
         );
       }
-      if (date === null) {
-      } else if (dates[date] && dates[date]["medication"]) {
+      if (dates[date] && dates[date]["medication"]) {
         dates[date]["medication"] = dates[date]["medication"]
           .concat("\n")
           .concat(this.state.patient_og_data.medication[i]["generic_name"]);
@@ -189,7 +189,7 @@ class PatientHistoryPage extends Component {
       }
     }
     //therapeutic class
-    for (var i = 0; i < this.state.patient_og_data.medication.length; i++) {
+    for (let i = 0; i < this.state.patient_og_data.medication.length; i++) {
       let date = null;
       if (this.state.patient_og_data.medication[i]["date"] !== null) {
         date = this.state.patient_og_data.medication[i]["date"].substring(
@@ -197,8 +197,7 @@ class PatientHistoryPage extends Component {
           16
         );
       }
-      if (date === null) {
-      } else if (dates[date] && dates[date]["therapeutic_class"]) {
+      if (dates[date] && dates[date]["therapeutic_class"]) {
         dates[date]["therapeutic_class"] = dates[date]["therapeutic_class"]
           .concat("\n")
           .concat(
@@ -217,7 +216,7 @@ class PatientHistoryPage extends Component {
       }
     }
     //eye diagnosis
-    for (var i = 0; i < this.state.patient_og_data.eye_diagnosis.length; i++) {
+    for (let i = 0; i < this.state.patient_og_data.eye_diagnosis.length; i++) {
       if (this.state.patient_og_data.eye_diagnosis[i].length === 2) {
         let date = null;
         if (this.state.patient_og_data.eye_diagnosis[i][1] !== null) {
@@ -226,8 +225,7 @@ class PatientHistoryPage extends Component {
             16
           );
         }
-        if (date === null) {
-        } else if (dates[date] && dates[date]["eye_diagnosis"]) {
+        if (dates[date] && dates[date]["eye_diagnosis"]) {
           dates[date]["eye_diagnosis"] = dates[date]["eye_diagnosis"]
             .concat("\n")
             .concat(this.state.patient_og_data.eye_diagnosis[i][0]);
@@ -244,7 +242,7 @@ class PatientHistoryPage extends Component {
     }
     //systemic diagnosis
     for (
-      var i = 0;
+      let i = 0;
       i < this.state.patient_og_data.systemic_diagnosis.length;
       i++
     ) {
@@ -256,8 +254,7 @@ class PatientHistoryPage extends Component {
             16
           );
         }
-        if (date === null) {
-        } else if (dates[date] && dates[date]["systemic_diagnosis"]) {
+        if (dates[date] && dates[date]["systemic_diagnosis"]) {
           dates[date]["systemic_diagnosis"] = dates[date]["systemic_diagnosis"]
             .concat("\n")
             .concat(this.state.patient_og_data.systemic_diagnosis[i][0]);
@@ -275,7 +272,7 @@ class PatientHistoryPage extends Component {
       }
     }
     //lab values
-    for (var i = 0; i < this.state.patient_og_data.lab_values.length; i++) {
+    for (let i = 0; i < this.state.patient_og_data.lab_values.length; i++) {
       let date = null;
       if (this.state.patient_og_data.lab_values[i]["date"] !== null) {
         date = this.state.patient_og_data.lab_values[i]["date"].substring(
@@ -286,8 +283,7 @@ class PatientHistoryPage extends Component {
       let phrase = this.state.patient_og_data.lab_values[i]["lab_name"]
         .concat(": ")
         .concat(this.state.patient_og_data.lab_values[i]["lab_value"]);
-      if (date === null) {
-      } else if (dates[date] && dates[date]["lab_values"]) {
+      if (dates[date] && dates[date]["lab_values"]) {
         dates[date]["lab_values"] = dates[date]["lab_values"]
           .concat("\n")
           .concat(phrase);
@@ -299,14 +295,13 @@ class PatientHistoryPage extends Component {
     }
 
     //left vision
-    for (var i = 0; i < this.state.patient_og_data.vision.length; i++) {
+    for (let i = 0; i < this.state.patient_og_data.vision.length; i++) {
       let date = null;
       if (this.state.patient_og_data.vision[i]["date"] !== null) {
         date = this.state.patient_og_data.vision[i]["date"].substring(0, 16);
       }
       let phrase = this.state.patient_og_data.vision[i]["value"];
-      if (date === null) {
-      } else if (dates[date] && dates[date]["left_vision"]) {
+      if (dates[date] && dates[date]["left_vision"]) {
         dates[date]["left_vision"] = dates[date]["left_vision"]
           .concat("\n")
           .concat(phrase);
@@ -317,14 +312,13 @@ class PatientHistoryPage extends Component {
       }
     }
     //right vision
-    for (var i = 0; i < this.state.patient_og_data.vision.length; i++) {
+    for (let i = 0; i < this.state.patient_og_data.vision.length; i++) {
       let date = null;
       if (this.state.patient_og_data.vision[i]["date"] !== null) {
         date = this.state.patient_og_data.vision[i]["date"].substring(0, 16);
       }
       let phrase = this.state.patient_og_data.vision[i]["value"];
-      if (date === null) {
-      } else if (dates[date] && dates[date]["right_vision"]) {
+      if (dates[date] && dates[date]["right_vision"]) {
         dates[date]["right_vision"] = dates[date]["right_vision"]
           .concat("\n")
           .concat(phrase);
@@ -336,14 +330,13 @@ class PatientHistoryPage extends Component {
     }
 
     //left pressure
-    for (var i = 0; i < this.state.patient_og_data.pressure.length; i++) {
+    for (let i = 0; i < this.state.patient_og_data.pressure.length; i++) {
       let date = null;
       if (this.state.patient_og_data.pressure[i]["date"] !== null) {
         date = this.state.patient_og_data.pressure[i]["date"].substring(0, 16);
       }
       let phrase = this.state.patient_og_data.pressure[i]["value"];
-      if (date === null) {
-      } else if (dates[date] && dates[date]["left_pressure"]) {
+      if (dates[date] && dates[date]["left_pressure"]) {
         dates[date]["left_pressure"] = dates[date]["left_pressure"]
           .concat("\n")
           .concat(phrase);
@@ -355,14 +348,13 @@ class PatientHistoryPage extends Component {
     }
 
     //right pressure
-    for (var i = 0; i < this.state.patient_og_data.pressure.length; i++) {
+    for (let i = 0; i < this.state.patient_og_data.pressure.length; i++) {
       let date = null;
       if (this.state.patient_og_data.pressure[i]["date"] !== null) {
         date = this.state.patient_og_data.pressure[i]["date"].substring(0, 16);
       }
       let phrase = this.state.patient_og_data.pressure[i]["value"];
-      if (date === null) {
-      } else if (dates[date] && dates[date]["right_pressure"]) {
+      if (dates[date] && dates[date]["right_pressure"]) {
         dates[date]["right_pressure"] = dates[date]["right_pressure"]
           .concat("\n")
           .concat(phrase);
@@ -512,7 +504,7 @@ class PatientHistoryPage extends Component {
             }
           >
             {" "}
-            See All Patient's Images
+            See All Patient Images
           </button>
         </div>
       </div>

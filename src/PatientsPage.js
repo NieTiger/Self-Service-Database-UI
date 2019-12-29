@@ -122,9 +122,12 @@ class PatientsPage extends Component {
           filters: {}
         })
         .then(function(response) {
-          currentState.setState({ patients: response.data.pt_id }, () => {
-            currentState.get_data();
-          });
+          currentState.setState(
+            { patients: response.data.result.pt_id },
+            () => {
+              currentState.get_data();
+            }
+          );
         })
         .catch(function(error) {
           console.log(error);
@@ -241,7 +244,7 @@ class PatientsPage extends Component {
         filters: input_values
       })
       .then(function(response) {
-        currentState.setState({ patients: response.data.pt_id }, () => {
+        currentState.setState({ patients: response.data.result.pt_id }, () => {
           currentState.get_data();
         });
       })
@@ -272,7 +275,7 @@ class PatientsPage extends Component {
       .get(link)
       .then(function(response) {
         let current_patient_data = currentState.state.patient_data;
-        current_patient_data["lab_values"] = response.data;
+        current_patient_data["lab_values"] = response.data.result;
         currentState.setState({ patient_data: current_patient_data }, () => {
           currentState.edit_patient_data();
         });
@@ -289,7 +292,7 @@ class PatientsPage extends Component {
       .get(link)
       .then(function(response) {
         let current_patient_data = currentState.state.patient_data;
-        current_patient_data["personal_values"] = response.data;
+        current_patient_data["personal_values"] = response.data.result;
         currentState.setState({ patient_data: current_patient_data }, () => {
           currentState.edit_patient_data();
         });
