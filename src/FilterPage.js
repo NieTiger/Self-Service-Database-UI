@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './FilterPage.css';
+
+import { Container, Row, Col } from 'react-bootstrap'
 
 class FilterPage extends Component {
 
@@ -482,10 +486,16 @@ class FilterPage extends Component {
         }
         console.log(this.state)
         return (
-            <div className="App-background">
-                <h1 className="upper-text">Please Select Your Filters to Create a Patient Cohort</h1>
-                <div className="filter-table">
-                    <div className="table-title">Filters</div>
+            <Container className="App-background">
+                <Row>
+                    <Col>
+                        <h1 className="upper-text">Please Select Your Filters to Create a Patient Cohort</h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col lg={5} md={12}>
+                        <div className="filter-table">
+                    <div className="table-title"><h4>Filters</h4></div>
                     <div className="filter-choice">
                         <input type="checkbox" checked={this.state.eye_diagnosis !== false} onChange={() => this.category_pressed("eye_diagnosis",[])}></input>
                         <label className="label-choice">Eye_Diagnosis</label>
@@ -527,8 +537,15 @@ class FilterPage extends Component {
                         <label className="label-choice">Pressure</label>
                     </div>
                 </div>
-                <button className="back_button" onClick={this.back_pressed}>Back</button>
-                <button className="submit_button" onClick={() => this.props.submit_function("patients",this.state)}>Submit</button>
+                </Col>
+                </Row>
+
+                <Row>
+                    <Col lg={5} md={12}>
+                        <button className="buttons" onClick={this.back_pressed}>Back</button>
+                        <button className="buttons" onClick={() => this.props.submit_function("patients",this.state)}>Submit</button>
+                    </Col>
+                </Row>
                 {div_eye_diagnosis}
                 {div_systemic_diagnosis}
                 {div_age}
@@ -539,7 +556,7 @@ class FilterPage extends Component {
                 {div_medication_therapuetic_name}
                 {div_vision}
                 {div_pressure}
-            </div>
+            </Container>
     );
   }
 }
