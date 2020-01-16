@@ -1,0 +1,86 @@
+.whole_div {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.title_div_patients {
+  width: 68%;
+  height: 8vh;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  margin-top: 5%;
+  margin-left: 25%;
+  font-size: 5vh;
+  text-align: center;
+}
+
+.body_div_patients {
+  width: 88.5%;
+  margin-top: 5%;
+  margin-left: 5%;
+  display:flex; 
+  flex-direction:row;
+}
+
+.show_hide_panel_patients {
+  margin-left: -2.7%;
+}
+
+.show_hide_tt {
+  font-size: 2.5vh;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  width: 37vh;
+  margin-left: -5%;
+  overflow: scroll;
+}
+
+.show_hide_category {
+  font-size: 2.5vh;
+  display:flex; 
+  flex-direction:row;
+}
+
+.table_design_patients {
+  margin-left: 3.5%;
+  width: 250vh;
+  overflow: scroll;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  max-height: 50vh;
+}
+
+.bottom_div_patients {
+  margin-left: 70%;
+  width: 23.5%;
+}
+
+.button_concept {
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  margin-top: 1vh;
+  font-size: 3vh;
+  width: 100%;
+  min-height: 5vh;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.export_dropdown {
+  margin-top: 1vh;
+}
+
+.export_button_concept {
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  margin-top: 3vh;
+  font-size: 3vh;
+  width: 100%;
+  min-height: 5vh;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
