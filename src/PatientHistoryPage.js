@@ -44,6 +44,8 @@ class PatientHistoryPage extends Component {
     axios
       .get(link)
       .then(function(response) {
+        console.log("response received")
+        console.log(response)
         let current_patient_data =
           response.data.result[currentState.state.PT_ID];
         currentState.setState(

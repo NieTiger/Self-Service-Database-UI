@@ -7,9 +7,6 @@ import { apiBaseURL } from "./config";
 class PatientsPage extends Component {
   constructor(props) {
     super(props);
-    /* console.log("patients")
-        console.log(this.props)
-        console.log("done") */
     this.get_filters = this.get_filters.bind(this);
     this.get_data = this.get_data.bind(this);
     this.get_patients = this.get_patients.bind(this);
@@ -237,8 +234,6 @@ class PatientsPage extends Component {
         input_values["right_pressure"] = right_pressure;
       }
     }
-    //console.log("input values")
-    //console.log(input_values)
     axios
       .post(apiBaseURL + "/ssd_api/filter", {
         filters: input_values
@@ -262,9 +257,6 @@ class PatientsPage extends Component {
       currentState.setState({ patient_data: [] });
       return;
     }
-
-    console.log("patients");
-    console.log(this.state.patients);
 
     for (var i = 1; i < patient_ids.length; i++) {
       let patient_id = patient_ids[i];
@@ -315,75 +307,45 @@ class PatientsPage extends Component {
     for (let i = 0; i < this.state.patients.length; i++) {
       let patient_id = this.state.patients[i];
       let patient = { PT_ID: this.state.patients[i] };
-
       let eye_diagnosis_pt = "";
       for (
-        let j = 0;
-        j <
-        this.state.patient_data["lab_values"][patient_id].eye_diagnosis.length;
-        j++
+        var j in this.state.patient_data["lab_values"][patient_id].eye_diagnosis
       ) {
         eye_diagnosis_pt = eye_diagnosis_pt.concat(
-          this.state.patient_data["lab_values"][patient_id].eye_diagnosis[j][0]
+          j
         );
         if (
-          this.state.patient_data["lab_values"][patient_id].eye_diagnosis[
-            j
-          ][1] !== null
+          this.state.patient_data["lab_values"][patient_id].eye_diagnosis.j !== null
         ) {
           eye_diagnosis_pt = eye_diagnosis_pt.concat(" (");
           eye_diagnosis_pt = eye_diagnosis_pt.concat(
-            this.state.patient_data["lab_values"][patient_id].eye_diagnosis[
-              j
-            ][1].substring(0, 16)
+            this.state.patient_data["lab_values"][patient_id].eye_diagnosis[j].substring(0, 16)
           );
           eye_diagnosis_pt = eye_diagnosis_pt.concat(")");
         }
-        if (
-          j <
-          this.state.patient_data["lab_values"][patient_id].eye_diagnosis
-            .length -
-            1
-        ) {
-          eye_diagnosis_pt = eye_diagnosis_pt.concat("\n");
-        }
+        eye_diagnosis_pt = eye_diagnosis_pt.concat("\n");
       }
       patient["eye_diagnosis"] = eye_diagnosis_pt;
 
       let systemic_diagnosis_pt = "";
       for (
-        let j = 0;
-        j <
-        this.state.patient_data["lab_values"][patient_id].systemic_diagnosis
-          .length;
-        j++
+        var j in this.state.patient_data["lab_values"][patient_id].systemic_diagnosis
       ) {
         systemic_diagnosis_pt = systemic_diagnosis_pt.concat(
-          this.state.patient_data["lab_values"][patient_id].systemic_diagnosis[
-            j
-          ][0]
+          j
         );
         if (
-          this.state.patient_data["lab_values"][patient_id].systemic_diagnosis[
-            j
-          ][1] !== null
+          this.state.patient_data["lab_values"][patient_id].systemic_diagnosis[j] !== null
         ) {
           systemic_diagnosis_pt = systemic_diagnosis_pt.concat(" (");
           systemic_diagnosis_pt = systemic_diagnosis_pt.concat(
             this.state.patient_data["lab_values"][
               patient_id
-            ].systemic_diagnosis[j][1].substring(0, 16)
+            ].systemic_diagnosis[j].substring(0, 16)
           );
           systemic_diagnosis_pt = systemic_diagnosis_pt.concat(")");
         }
-        if (
-          j <
-          this.state.patient_data["lab_values"][patient_id].systemic_diagnosis
-            .length -
-            1
-        ) {
-          systemic_diagnosis_pt = systemic_diagnosis_pt.concat("\n");
-        }
+        systemic_diagnosis_pt = systemic_diagnosis_pt.concat("\n");
       }
       patient["systemic_diagnosis"] = systemic_diagnosis_pt;
 
@@ -519,31 +481,23 @@ class PatientsPage extends Component {
       }
       patient["pressure"] = pressure_pt;
 
-      let dob_index = this.state.patient_data[
-        "personal_values"
-      ].columns.indexOf("dob");
-      let ethnicity_index = this.state.patient_data[
-        "personal_values"
-      ].columns.indexOf("ethnicity");
       for (
         let j = 0;
         j < this.state.patient_data["personal_values"].data.length;
         j++
       ) {
         if (
-          this.state.patient_data["personal_values"].data[j][0] ===
+          this.state.patient_data["personal_values"].data[j].pt_id ===
           this.state.patients[i]
         ) {
           patient["age"] =
             2019 -
             parseInt(
-              this.state.patient_data["personal_values"].data[j][
-                dob_index
-              ].substring(12, 16)
+              this.state.patient_data["personal_values"].data[j].dob.substring(12, 16)
             );
           patient["ethnicity"] = this.state.patient_data[
             "personal_values"
-          ].data[j][ethnicity_index];
+          ].data[j].ethnicity;
           break;
         }
       }
@@ -551,13 +505,11 @@ class PatientsPage extends Component {
       patient["images"] = "link-to-image";
       current_data.push(patient);
     }
-    console.log("done");
-    console.log(current_data);
+    console.log(current_data)
     this.setState({ patient_data: current_data });
   }
 
   render() {
-    console.log(this.state);
     let show_hide_filters = [];
     for (var key in this.state.original_filters) {
       let category = this.state.original_filters[key];
