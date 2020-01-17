@@ -329,7 +329,7 @@ class PatientsPage extends Component {
 
       let systemic_diagnosis_pt = "";
       for (
-        var j in this.state.patient_data["lab_values"][patient_id].systemic_diagnosis
+        let j in this.state.patient_data["lab_values"][patient_id].systemic_diagnosis
       ) {
         systemic_diagnosis_pt = systemic_diagnosis_pt.concat(
           j
