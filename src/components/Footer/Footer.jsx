@@ -26,25 +26,29 @@ class Footer extends Component {
           <nav className="pull-left">
             <ul>
               <li>
-                <a href="#pablo">Home</a>
+                <a href="#pablo">Filter Results</a>
               </li>
               <li>
-                <a href="#pablo">Company</a>
+                <a href="#pablo">Patient Exams</a>
               </li>
               <li>
-                <a href="#pablo">Portfolio</a>
+                <a href="#pablo">
+                  Patient History (links currently non-functional)
+                </a>
               </li>
               <li>
-                <a href="#pablo">Blog</a>
+                <a href="https://www.nm.org/locations/department-of-ophthalmology">
+                  NMH Ophthalmology
+                </a>
               </li>
             </ul>
           </nav>
           <p className="copyright pull-right">
             &copy; {new Date().getFullYear()}{" "}
-            <a href="http://www.creative-tim.com?ref=lbr-footer">
-              Creative Tim
+            <a href="https://www.nm.org/locations/northwestern-memorial-hospital">
+              Northwestern Memorial Hospital
             </a>
-            , made with love for a better web
+            , made with love for better health
           </p>
         </Grid>
       </footer>

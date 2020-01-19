@@ -15,9 +15,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+// Importing React and Other Stuff
 import React, { Component } from "react";
 import ChartistGraph from "react-chartist";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Container, Grid, Row, Col } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
@@ -35,6 +36,7 @@ import {
   legendBar
 } from "variables/Variables.jsx";
 
+// Updated Dashboard class
 class Dashboard extends Component {
   createLegend(json) {
     var legend = [];
@@ -46,54 +48,20 @@ class Dashboard extends Component {
     }
     return legend;
   }
+
+  //Render is what shows on the webpage
   render() {
     return (
       <div className="content">
         <Grid fluid>
+          {/*First Row*/}
           <Row>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Capacity"
-                statsValue="105GB"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText="Revenue"
-                statsValue="$1,345"
-                statsIcon={<i className="fa fa-calendar-o" />}
-                statsIconText="Last day"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="pe-7s-graph1 text-danger" />}
-                statsText="Errors"
-                statsValue="23"
-                statsIcon={<i className="fa fa-clock-o" />}
-                statsIconText="In the last hour"
-              />
-            </Col>
-            <Col lg={3} sm={6}>
-              <StatsCard
-                bigIcon={<i className="fa fa-twitter text-info" />}
-                statsText="Followers"
-                statsValue="+45"
-                statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={8}>
+            <Col md={12}>
+              {/*Graph of User Behavior*/}
               <Card
                 statsIcon="fa fa-history"
                 id="chartHours"
-                title="Users Behavior"
+                title="Please Select Your Filters"
                 category="24 Hours performance"
                 stats="Updated 3 minutes ago"
                 content={
@@ -111,54 +79,51 @@ class Dashboard extends Component {
                 }
               />
             </Col>
-            <Col md={4}>
-              <Card
-                statsIcon="fa fa-clock-o"
-                title="Email Statistics"
-                category="Last Campaign Performance"
-                stats="Campaign sent 2 days ago"
-                content={
-                  <div
-                    id="chartPreferences"
-                    className="ct-chart ct-perfect-fourth"
-                  >
-                    <ChartistGraph data={dataPie} type="Pie" />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendPie)}</div>
-                }
+          </Row>
+          {/*Second Row*/}
+          <Row>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="pe-7s-server text-warning" />}
+                statsText="Eye Diagnosis"
+                statsValue="105GB"
+                statsIcon={<i className="fa fa-refresh" />}
+                statsIconText="Updated now"
+              />
+            </Col>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="pe-7s-wallet text-success" />}
+                statsText="Systemic Diagnosis"
+                statsValue="$1,345"
+                statsIcon={<i className="fa fa-calendar-o" />}
+                statsIconText="Last day"
+              />
+            </Col>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="pe-7s-graph1 text-danger" />}
+                statsText="Age"
+                statsValue="23"
+                statsIcon={<i className="fa fa-clock-o" />}
+                statsIconText="In the last hour"
+              />
+            </Col>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="fa fa-twitter text-info" />}
+                statsText="Ethnicity"
+                statsValue="+45"
+                statsIcon={<i className="fa fa-refresh" />}
+                statsIconText="Updated now"
               />
             </Col>
           </Row>
-
           <Row>
-            <Col md={6}>
+            {/*Third Row*/}
+            <Col md={3} sm={6}>
               <Card
-                id="chartActivity"
-                title="2014 Sales"
-                category="All products including Taxes"
-                stats="Data information certified"
-                statsIcon="fa fa-check"
-                content={
-                  <div className="ct-chart">
-                    <ChartistGraph
-                      data={dataBar}
-                      type="Bar"
-                      options={optionsBar}
-                      responsiveOptions={responsiveBar}
-                    />
-                  </div>
-                }
-                legend={
-                  <div className="legend">{this.createLegend(legendBar)}</div>
-                }
-              />
-            </Col>
-
-            <Col md={6}>
-              <Card
-                title="Tasks"
+                title="Medication Name"
                 category="Backend development"
                 stats="Updated 3 minutes ago"
                 statsIcon="fa fa-history"
@@ -169,6 +134,93 @@ class Dashboard extends Component {
                     </table>
                   </div>
                 }
+              />
+            </Col>
+            {/*row 3, column 2*/}
+            <Col md={3} sm={6}>
+              <Card
+                title="Medication Name"
+                category="Backend development"
+                stats="Updated 3 minutes ago"
+                statsIcon="fa fa-history"
+                content={
+                  <div className="table-full-width">
+                    <table className="table">
+                      <Tasks />
+                    </table>
+                  </div>
+                }
+              />
+            </Col>
+            {/*row 3, column 3*/}
+            <Col md={3} sm={6}>
+              <Card
+                title="Medication Generic Name"
+                category="Backend development"
+                stats="Updated 3 minutes ago"
+                statsIcon="fa fa-history"
+                content={
+                  <div className="table-full-width">
+                    <table className="table">
+                      <Tasks />
+                    </table>
+                  </div>
+                }
+              />
+            </Col>
+            {/*row 3, column 4*/}
+            <Col md={3} sm={6}>
+              <Card
+                title="Medication Therapeutic Name"
+                category="Backend development"
+                stats="Updated 3 minutes ago"
+                statsIcon="fa fa-history"
+                content={
+                  <div className="table-full-width">
+                    <table className="table">
+                      <Tasks />
+                    </table>
+                  </div>
+                }
+              />
+            </Col>
+          </Row>
+          {/*Fourth Row*/}
+          <Row>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="pe-7s-server text-warning" />}
+                statsText="Left Vision"
+                statsValue="105GB"
+                statsIcon={<i className="fa fa-refresh" />}
+                statsIconText="Updated now"
+              />
+            </Col>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="pe-7s-wallet text-success" />}
+                statsText="Right Vision"
+                statsValue="$1,345"
+                statsIcon={<i className="fa fa-calendar-o" />}
+                statsIconText="Last day"
+              />
+            </Col>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="pe-7s-graph1 text-danger" />}
+                statsText="Left Pressure"
+                statsValue="23"
+                statsIcon={<i className="fa fa-clock-o" />}
+                statsIconText="In the last hour"
+              />
+            </Col>
+            <Col lg={3} sm={6}>
+              <StatsCard
+                bigIcon={<i className="fa fa-twitter text-info" />}
+                statsText="Right Pressure"
+                statsValue="+45"
+                statsIcon={<i className="fa fa-refresh" />}
+                statsIconText="Updated now"
               />
             </Col>
           </Row>

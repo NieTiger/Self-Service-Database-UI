@@ -60,6 +60,9 @@ class Admin extends Component {
       default:
         break;
     }
+    {
+      /*Commented out to elminate the notification on the top right of the dashboard}
+    {/*
     this.state._notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
@@ -72,6 +75,8 @@ class Admin extends Component {
       position: position,
       autoDismiss: 15
     });
+  */
+    }
   };
   getRoutes = routes => {
     return routes.map((prop, key) => {
@@ -142,6 +147,11 @@ class Admin extends Component {
       default:
         break;
     }
+
+    {
+      /*Commented out to eliminate the notification on the top right of the dashboard}
+    {
+      /*
     _notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
@@ -154,6 +164,8 @@ class Admin extends Component {
       position: "tr",
       autoDismiss: 15
     });
+  */
+    }
   }
   componentDidUpdate(e) {
     if (
@@ -173,9 +185,13 @@ class Admin extends Component {
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />
-        <Sidebar {...this.props} routes={routes} image={this.state.image}
-        color={this.state.color}
-        hasImage={this.state.hasImage}/>
+        <Sidebar
+          {...this.props}
+          routes={routes}
+          /*image={this.state.image}*/
+          color="purple"
+          /*hasImage={this.state.hasImage}*/
+        />
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <AdminNavbar
             {...this.props}
@@ -183,6 +199,7 @@ class Admin extends Component {
           />
           <Switch>{this.getRoutes(routes)}</Switch>
           <Footer />
+          {/*
           <FixedPlugin
             handleImageClick={this.handleImageClick}
             handleColorClick={this.handleColorClick}
@@ -193,6 +210,7 @@ class Admin extends Component {
             handleFixedClick={this.handleFixedClick}
             fixedClasses={this.state.fixedClasses}
           />
+          */}
         </div>
       </div>
     );

@@ -26,58 +26,52 @@ import Upgrade from "views/Upgrade.jsx";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "pe-7s-graph",
+    path: "/Dashboard",
+    name: "Select Filters",
+    icon: "pe-7s-search",
     component: Dashboard,
     layout: "/admin"
   },
   {
-    path: "/user",
-    name: "User Profile",
-    icon: "pe-7s-user",
+    path: "/userprofile",
+    name: "Filter Results",
+    icon: "pe-7s-filter",
     component: UserProfile,
     layout: "/admin"
   },
   {
     path: "/table",
-    name: "Table List",
+    name: "Patient Exams",
     icon: "pe-7s-note2",
     component: TableList,
     layout: "/admin"
   },
   {
     path: "/typography",
-    name: "Typography",
-    icon: "pe-7s-news-paper",
+    name: "Patient History",
+    icon: "pe-7s-albums",
     component: Typography,
     layout: "/admin"
   },
   {
+    path: "/UserProfile",
+    name: "Patient Images",
+    icon: "pe-7s-photo",
+    component: UserProfile,
+    layout: "/admin"
+  },
+
+  {
     path: "/icons",
-    name: "Icons",
+    name: "Admin- list of icons",
     icon: "pe-7s-science",
     component: Icons,
     layout: "/admin"
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "pe-7s-map-marker",
-    component: Maps,
-    layout: "/admin"
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "pe-7s-bell",
-    component: Notifications,
-    layout: "/admin"
-  },
-  {
     upgrade: true,
     path: "/upgrade",
-    name: "Upgrade to PRO",
+    name: "Keeping This For Now",
     icon: "pe-7s-rocket",
     component: Upgrade,
     layout: "/admin"
