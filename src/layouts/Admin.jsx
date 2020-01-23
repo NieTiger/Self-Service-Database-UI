@@ -108,7 +108,7 @@ class Admin extends Component {
         return routes[i].name;
       }
     }
-    return "Brand";
+    return "Select Filters";
   };
   handleImageClick = image => {
     this.setState({ image: image });

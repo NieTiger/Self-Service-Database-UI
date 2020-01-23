@@ -19,50 +19,78 @@ import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
+import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
+//This is the patient exams page
 class TableList extends Component {
   render() {
     return (
       <div className="content">
         <Grid fluid>
+          {/*First Column: show/hide list*/}
           <Row>
-            <Col md={12}>
+            <Col sm={4}>
               <Card
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
-                ctTableFullWidth
-                ctTableResponsive
+                title="Show/Hide"
                 content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        {thArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
+                  <form>
+                    <FormInputs
+                      ncols={["col-md-4", "col-md-4", "col-md-4"]}
+                      properties={[
+                        {
+                          label: "Patient ID",
+                          type: "checkbox",
+                          bsClass: "form-control",
+                          placeholder: "Company",
+                          defaultValue: "Creative Code Inc.",
+                          disabled: false
+                        },
+                        {
+                          label: "Image Procedure",
+                          type: "checkbox",
+                          bsClass: "form-control",
+                          placeholder: "Username",
+                          defaultValue: "michael23"
+                        },
+                        {
+                          label: "Exam ID",
+                          type: "checkbox",
+                          bsClass: "form-control",
+                          placeholder: "Email"
+                        }
+                      ]}
+                    />
+                    <FormInputs
+                      ncols={["col-md-4", "col-md-4"]}
+                      properties={[
+                        {
+                          label: "Exam Date",
+                          type: "checkbox",
+                          bsClass: "form-control",
+                          placeholder: "First name",
+                          defaultValue: "Mike"
+                        },
+                        {
+                          label: "Exam Links",
+                          type: "checkbox",
+                          bsClass: "form-control",
+                          placeholder: "Last name",
+                          defaultValue: "Andrew"
+                        }
+                      ]}
+                    />
+                    <div className="clearfix" />
+                  </form>
                 }
               />
             </Col>
 
-            <Col md={12}>
+            <Col md={8}>
               <Card
                 plain
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
+                title="Patient Cohort Exams"
+                category="Note: All the values from this table are coded in Variables.jsx. This is a list of exams for patients that meet the filter criteria."
                 ctTableFullWidth
                 ctTableResponsive
                 content={

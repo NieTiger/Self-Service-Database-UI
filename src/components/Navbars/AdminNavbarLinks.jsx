@@ -35,6 +35,8 @@ class AdminNavbarLinks extends Component {
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
           </NavItem>
+          {/*Commented out the nav drop down menu since we may not need it near the title*/}
+          {/*
           <NavDropdown
             eventKey={2}
             title={notification}
@@ -47,6 +49,7 @@ class AdminNavbarLinks extends Component {
             <MenuItem eventKey={2.4}>Notification 4</MenuItem>
             <MenuItem eventKey={2.5}>Another notifications</MenuItem>
           </NavDropdown>
+          */}
           <NavItem eventKey={3} href="#">
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>
@@ -56,6 +59,8 @@ class AdminNavbarLinks extends Component {
           <NavItem eventKey={1} href="#">
             Account
           </NavItem>
+          {/*Commented out the dropdown since we probably don't need it*/}
+          {/*
           <NavDropdown
             eventKey={2}
             title="Dropdown"
@@ -69,6 +74,7 @@ class AdminNavbarLinks extends Component {
             <MenuItem divider />
             <MenuItem eventKey={2.5}>Separated link</MenuItem>
           </NavDropdown>
+          */}
           <NavItem eventKey={3} href="#">
             Log out
           </NavItem>

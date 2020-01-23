@@ -36,7 +36,7 @@ import {
   legendBar
 } from "variables/Variables.jsx";
 
-// Updated Dashboard class
+// Updated Dashboard class: This is the selected filters page
 class Dashboard extends Component {
   createLegend(json) {
     var legend = [];
@@ -123,7 +123,7 @@ class Dashboard extends Component {
             {/*Third Row*/}
             <Col md={3} sm={6}>
               <Card
-                title="Medication Name"
+                title="Image Procedure Type"
                 category="Backend development"
                 stats="Updated 3 minutes ago"
                 statsIcon="fa fa-history"
@@ -139,7 +139,7 @@ class Dashboard extends Component {
             {/*row 3, column 2*/}
             <Col md={3} sm={6}>
               <Card
-                title="Medication Name"
+                title="Labs"
                 category="Backend development"
                 stats="Updated 3 minutes ago"
                 statsIcon="fa fa-history"

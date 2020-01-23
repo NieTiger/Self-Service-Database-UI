@@ -22,6 +22,7 @@ import Card from "components/Card/Card";
 
 import Button from "components/CustomButton/CustomButton";
 
+//This is current the Patients Image page
 class Icons extends Component {
   render() {
     return (

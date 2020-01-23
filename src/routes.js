@@ -54,10 +54,10 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/UserProfile",
+    path: "/Upgrade",
     name: "Patient Images",
     icon: "pe-7s-photo",
-    component: UserProfile,
+    component: Upgrade,
     layout: "/admin"
   },
 
