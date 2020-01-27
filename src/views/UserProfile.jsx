@@ -178,7 +178,7 @@ class UserProfile extends Component {
             <Col sm={8}>
               <Card
                 title="Your Patient Cohort"
-                category="Here is a subtitle for this table"
+                category="Note: All the values from this table are coded in Variables.jsx. These are all the patients who meet the filter criteria."
                 ctTableFullWidth
                 ctTableResponsive
                 content={
