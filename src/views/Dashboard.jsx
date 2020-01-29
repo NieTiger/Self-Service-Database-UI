@@ -25,6 +25,7 @@ import { Jumbotron } from "react-bootstrap";
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
+import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import {
   dataPie,
   legendPie,
@@ -59,9 +60,17 @@ const filter_categories = [
 //3. Matched the webpage with the color of the sidebar by investigating into the code where the color came from
 //4. Decreased the vertical spacing between the categories in the sidebar by adding some css code below to replace ones defined by card and card-stats
 
+//Notes from Jan. 29 Testing - Arnold
+//Text box alignment- tried justify-content alignItems, but don't work
+//Tried using Forminputs (see around line 340), but will need to change the others accordingly
+//Added if statement in getSelectedFilters in order to use adjustable columns when shrikning window down (color appearance a little weird though but functional)
+
+
 //Future Things to Fix:
-//Less to less than, etc.
-//When window size is smaller than something, make the subcategory boxes maybe one per row instead of three 
+//Textbox alignment
+//When window size is smaller than something, make the subcategory boxes maybe one per row instead of three (Jan. 29)
+//subcategory box height and color- able to be adjustable and not fixed height (see main_div_style)?
+//"Less" to "less than", etc.
 //Adapt this layout and checkbox style to other pages
 
 // Updated Dashboard class: This is the selected filters page
@@ -332,11 +341,26 @@ class Dashboard extends Component {
                 style={styles.main_div_button_text}
               />
               and
-              <input
+              {/*Below 4 lines responsible for the input text box for age, vision, pressure, etc.*/}
+              <FormInputs
+                ncols={["col-md"]}
+                properties={[
+                  {
+                    label: "",
+                    type: "text",
+                    bsClass: "form-control",
+                    placeholder: "Company",
+                    defaultValue: "",
+                    disabled: false
+                  }
+                ]}
+              />
+              {/*<input
                 type="text"
                 title={key + ";" + name}
                 style={styles.main_div_button_text}
               />
+              */}
             </div>
           );
         }
@@ -359,7 +383,31 @@ class Dashboard extends Component {
     var chosen_categories = [];
     for (var i = 0; i < this.state.selected_categories.length; i++) {
       var name = this.state.selected_categories[i];
-      chosen_categories.push(this.state.filter_subcategories_div[name]);
+      /*Below lines: testing Jan. 29th: added the if statement to utilize the adjustable column size based on windows size*/
+      if (i % 3 == 2) {
+        chosen_categories.push(
+          <div className="row">
+            <div
+              className="col-lg-4 col-md-12"
+              style={styles.subcategory_box_style}
+            >
+              {" "}
+              {this.state.filter_subcategories_div[name]}{" "}
+            </div>
+          </div>
+        );
+      } else {
+        chosen_categories.push(
+          <div
+            className="col-lg-4 col-md-12"
+            style={styles.subcategory_box_style}
+          >
+            {" "}
+            {this.state.filter_subcategories_div[name]}{" "}
+          </div>
+        );
+        /*chosen_categories.push(this.state.filter_subcategories_div[name]);*/
+      }
     }
     return chosen_categories;
   }
@@ -444,9 +492,11 @@ class Dashboard extends Component {
       <div className="content">
         <Grid fluid>
           {/*Temporary testing*/}
+          {/*Select Filters title*/}
           <Row>
             <Col lg={12} xs={5}></Col>
           </Row>
+          {/*Left side show hide bar*/}
           <Row>
             <Col lg={12} xs={5}>
               <div className="card card-stats" style={styles.upper_div_style}>
@@ -455,6 +505,7 @@ class Dashboard extends Component {
               </div>
             </Col>
           </Row>
+          {/*Right side subcategories*/}
           <Row>
             <Col lg={3} sm={5}>
               <div className="card card-stats" style={styles.side_div_style}>
@@ -490,13 +541,14 @@ const styles = {
     /*height: "10vh"*/
   },
   main_div_style: {
-    display: "grid",
+    /*Commented some parts of this out due to implementation of the if statement in the getSelectedFilters() function*/
+    /*display: "grid",
     "grid-template-columns": "1fr 1fr 1fr",
-    "grid-template-rows": "1fr 1fr 1fr 1fr",
-    height: "101vh",
+    "grid-template-rows": "1fr 1fr 1fr 1fr", */
+    /*height: "200vh",*/
     padding: "20px",
-    "grid-row-gap": "20px",
-    "grid-column-gap": "20px",
+    /*"grid-row-gap": "20px",
+    "grid-column-gap": "20px",*/
     "background-color": "#9368E9"
   },
   main_div_button_style: {
@@ -516,8 +568,10 @@ const styles = {
     "margin-right": "10px"
   },
   main_div_button_text: {
+    "align-items": "end",
     "margin-left": "2vh",
     "margin-right": "2vh",
+    "background-color": "#aaa",
     width: "5vh"
   },
   side_div_style: {
@@ -539,5 +593,10 @@ const styles = {
   checkbox_style: {
     "margin-right": "10px",
     zoom: "2"
+  },
+
+  /*Added Jan. 29 by Arnold: subcategory box style */
+  subcategory_box_style: {
+    "background-color": "#9368E9"
   }
 };
