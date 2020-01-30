@@ -20,7 +20,6 @@ import {
   Grid,
   Row,
   Col,
-  Table,
   FormGroup,
   ControlLabel,
   FormControl
@@ -30,74 +29,59 @@ import { Card } from "components/Card/Card.jsx";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import { thArray, tdArray } from "variables/Variables.jsx";
+
 import avatar from "assets/img/faces/face-3.jpg";
 
-{
-  /*The original template didn't import thArray, tdArray, or Table, added due to incorporation of those components*/
-  /*This is the filter results page*/
-}
-
-// This is the Filter results page and currently also the patient images page (need to change later)
-//The checkboxes are currently really large, not sure how to format it properly
 class UserProfile extends Component {
   render() {
     return (
       <div className="content">
         <Grid fluid>
-          {/*First Column: show/hide list*/}
           <Row>
-            <Col sm={4}>
+            <Col md={8}>
               <Card
-                title="Show/Hide"
+                title="Edit Profile"
                 content={
                   <form>
                     <FormInputs
-                      ncols={["col-md-4", "col-md-4", "col-md-4"]}
+                      ncols={["col-md-5", "col-md-3", "col-md-4"]}
                       properties={[
                         {
-                          label: "Patient ID",
-                          type: "checkbox",
+                          label: "Company (disabled)",
+                          type: "text",
                           bsClass: "form-control",
                           placeholder: "Company",
                           defaultValue: "Creative Code Inc.",
-                          disabled: false
+                          disabled: true
                         },
                         {
-                          label: "Age",
-                          type: "checkbox",
+                          label: "Username",
+                          type: "text",
                           bsClass: "form-control",
                           placeholder: "Username",
                           defaultValue: "michael23"
                         },
                         {
-                          label: "Images",
-                          type: "checkbox",
+                          label: "Email address",
+                          type: "email",
                           bsClass: "form-control",
                           placeholder: "Email"
                         }
                       ]}
                     />
                     <FormInputs
-                      ncols={["col-md-4", "col-md-4", "col-md-4"]}
+                      ncols={["col-md-6", "col-md-6"]}
                       properties={[
                         {
-                          label: "Eye Diagnosis",
-                          type: "checkbox",
+                          label: "First name",
+                          type: "text",
                           bsClass: "form-control",
                           placeholder: "First name",
                           defaultValue: "Mike"
                         },
                         {
-                          label: "Systemic Diagnosis",
-                          type: "checkbox",
-                          bsClass: "form-control",
-                          placeholder: "Last name",
-                          defaultValue: "Andrew"
-                        },
-                        {
-                          label: "Age",
-                          type: "checkbox",
+                          label: "Last name",
+                          type: "text",
                           bsClass: "form-control",
                           placeholder: "Last name",
                           defaultValue: "Andrew"
@@ -105,28 +89,15 @@ class UserProfile extends Component {
                       ]}
                     />
                     <FormInputs
-                      ncols={["col-md-4", "col-md-4", "col-md-4"]}
+                      ncols={["col-md-12"]}
                       properties={[
                         {
-                          label: "Ethnicity",
-                          type: "checkbox",
+                          label: "Adress",
+                          type: "text",
                           bsClass: "form-control",
-                          placeholder: "First name",
-                          defaultValue: "Mike"
-                        },
-                        {
-                          label: "Image Procedure Type",
-                          type: "checkbox",
-                          bsClass: "form-control",
-                          placeholder: "Last name",
-                          defaultValue: "Andrew"
-                        },
-                        {
-                          label: "Labs",
-                          type: "checkbox",
-                          bsClass: "form-control",
-                          placeholder: "Last name",
-                          defaultValue: "Andrew"
+                          placeholder: "Home Adress",
+                          defaultValue:
+                            "Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                         }
                       ]}
                     />
@@ -134,74 +105,77 @@ class UserProfile extends Component {
                       ncols={["col-md-4", "col-md-4", "col-md-4"]}
                       properties={[
                         {
-                          label: "Medication Generic Name",
-                          type: "checkbox",
+                          label: "City",
+                          type: "text",
                           bsClass: "form-control",
-                          placeholder: "First name",
+                          placeholder: "City",
                           defaultValue: "Mike"
                         },
                         {
-                          label: "Medication Therapeutic Name",
-                          type: "checkbox",
+                          label: "Country",
+                          type: "text",
                           bsClass: "form-control",
-                          placeholder: "Last name",
+                          placeholder: "Country",
                           defaultValue: "Andrew"
                         },
                         {
-                          label: "Vision",
-                          type: "checkbox",
+                          label: "Postal Code",
+                          type: "number",
                           bsClass: "form-control",
-                          placeholder: "Last name",
-                          defaultValue: "Andrew"
+                          placeholder: "ZIP Code"
                         }
                       ]}
                     />
-                    <FormInputs
-                      ncols={["col-md-4"]}
-                      properties={[
-                        {
-                          label:
-                            "Pressure: checkboxes are below text->not sure how to format it properly",
-                          type: "checkbox",
-                          bsClass: "form-control",
-                          placeholder: "First name",
-                          defaultValue: "Mike"
-                        }
-                      ]}
-                    />
+
+                    <Row>
+                      <Col md={12}>
+                        <FormGroup controlId="formControlsTextarea">
+                          <ControlLabel>About Me</ControlLabel>
+                          <FormControl
+                            rows="5"
+                            componentClass="textarea"
+                            bsClass="form-control"
+                            placeholder="Here can be your description"
+                            defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Button bsStyle="info" pullRight fill type="submit">
+                      Update Profile
+                    </Button>
                     <div className="clearfix" />
                   </form>
                 }
               />
             </Col>
-            {/*Second Column: Actual table*/}
-            <Col sm={8}>
-              <Card
-                title="Your Patient Cohort"
-                category="Note: All the values from this table are coded in Variables.jsx. These are all the patients who meet the filter criteria."
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        {thArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
+            <Col md={4}>
+              <UserCard
+                bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
+                avatar={avatar}
+                name="Mike Andrew"
+                userName="michael24"
+                description={
+                  <span>
+                    "Lamborghini Mercy
+                    <br />
+                    Your chick she so thirsty
+                    <br />
+                    I'm in that two seat Lambo"
+                  </span>
+                }
+                socials={
+                  <div>
+                    <Button simple>
+                      <i className="fa fa-facebook-square" />
+                    </Button>
+                    <Button simple>
+                      <i className="fa fa-twitter" />
+                    </Button>
+                    <Button simple>
+                      <i className="fa fa-google-plus-square" />
+                    </Button>
+                  </div>
                 }
               />
             </Col>
