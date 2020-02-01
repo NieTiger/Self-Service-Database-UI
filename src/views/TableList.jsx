@@ -57,7 +57,7 @@ class TableList extends Component {
                   <tr>
                     {this.state.columns.map((prop, key) => {
                       return (
-                        <th key={key} style={styles.TableFontStyle}>
+                        <th key={key} style={styles.TableTitleStyle}>
                           {prop}
                         </th>
                       );
@@ -95,8 +95,11 @@ const styles = {
   TableStyle: {
     border: "solid 2px black"
   },
-  TableFontStyle: {
+  TableTitleStyle: {
     "font-weight": "bold",
+    color: "black"
+  },
+  TableFontStyle: {
     color: "black"
   }
 };
