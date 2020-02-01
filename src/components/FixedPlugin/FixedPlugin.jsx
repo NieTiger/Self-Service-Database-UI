@@ -74,6 +74,8 @@ class FixedPlugin extends Component {
                       this.props.handleColorClick("black");
                     }}
                   />
+                  {/*Eliminated popup box*/}
+                  {/*
                   <span
                     className={
                       this.props.bgColor === "azure"
@@ -129,22 +131,13 @@ class FixedPlugin extends Component {
                       this.props.handleColorClick("purple");
                     }}
                   />
+                  */}
                 </div>
                 <div className="clearfix" />
               </a>
             </li>
             <li className="header-title">Sidebar Images</li>
-            <li className={this.state["bgImage"] === imagine1 ? "active" : ""}>
-              <a
-                className="img-holder switch-trigger"
-                onClick={() => {
-                  this.setState({ bgImage: imagine1 });
-                  this.props.handleImageClick(imagine1);
-                }}
-              >
-                <img src={imagine1} alt="..." />
-              </a>
-            </li>
+            
             <li className={this.state["bgImage"] === imagine2 ? "active" : ""}>
               <a
                 className="img-holder switch-trigger"
@@ -156,6 +149,21 @@ class FixedPlugin extends Component {
                 <img src={imagine2} alt="..." />
               </a>
             </li>
+
+            <li className={this.state["bgImage"] === imagine1 ? "active" : ""}>
+              <a
+                className="img-holder switch-trigger"
+                onClick={() => {
+                  this.setState({ bgImage: imagine1 });
+                  this.props.handleImageClick(imagine1);
+                }}
+              >
+                <img src={imagine1} alt="..." />
+              </a>
+            </li>
+          
+        
+            {/*
             <li className={this.state["bgImage"] === imagine3 ? "active" : ""}>
               <a
                 className="img-holder switch-trigger"
@@ -178,6 +186,7 @@ class FixedPlugin extends Component {
                 <img src={imagine4} alt="..." />
               </a>
             </li>
+              */}
 
             <li className="button-container">
               <div className="">
