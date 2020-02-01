@@ -71,6 +71,17 @@ class FilterPage extends Component {
     setTimeout(() => {
       this.createFilterSubcategoryDivs();
     }, 1000);
+    if (this.props.additionalInfo) {
+      console.log("HELLO")
+      var tempSelectedCategories = []
+      for (var key in this.props.additionalInfo) {
+        tempSelectedCategories.push(key)
+      }
+      this.setState({
+        selected_categories: tempSelectedCategories,
+        selected_values: this.props.additionalInfo
+      })
+    }
   }
 
   //resets all of the filters and subfilters selected
@@ -84,7 +95,6 @@ class FilterPage extends Component {
 
   //submits all of the filters to the patients page
   submitButtonPressed() {
-    console.log("SUBMIT BUTTON PRESSED")
     let temp_selected_values = this.state.selected_values
     for (var key in this.state.checkbox_values) {
       temp_selected_values[key] = this.state.checkbox_values[key]

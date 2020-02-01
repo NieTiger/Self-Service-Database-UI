@@ -35,7 +35,7 @@ class Dashboard extends Component {
   pageSelector() {
     let page = this.state.page
     if (page === "FilterPage") {
-      return <FilterPage changePage={(newState) => this.changePage(newState)}/>
+      return <FilterPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
     }
     else if (page === "PatientsPage") {
       return <PatientsPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>

@@ -76,6 +76,7 @@ class PatientsPage extends Component {
         this.getFilters = this.getFilters.bind(this);
         this.categoryFilterPressed = this.categoryFilterPressed.bind(this);
         this.getTable = this.getTable.bind(this);
+        this.backButtonPressed = this.backButtonPressed.bind(this)
     }
 
     componentDidMount() {
@@ -217,21 +218,26 @@ class PatientsPage extends Component {
             return null
         }
         let patientInfo = this.state.patientInfo
-        let categoryTitles = this.state.selectedFilterCategories;
+        let categoryTitles = [];
         let tableData = []
         for (var i = 0; i < this.state.patientsIDs.length; i++) {
             let patientID = this.state.patientsIDs[i]
             let tempPatientInfo = []
-            for (var j = 0; j < this.state.selectedFilterCategories.length; j++) {
-                let category = this.state.selectedFilterCategories[j]
-                if (category === "Patient ID") {
-                    tempPatientInfo.push(patientID)
-                }
-                else if (category === "Images") {
-                    tempPatientInfo.push("images")
-                }
-                else {
-                    tempPatientInfo.push(patientInfo[patientID][frontendToBackend[category]])
+            for (var j = 0; j < this.state.filterCategories.length; j++) {
+                let category = this.state.filterCategories[j]
+                if (this.state.selectedFilterCategories.indexOf(category) !== -1) {
+                    if (categoryTitles.indexOf(category) === -1) {
+                        categoryTitles.push(category)
+                    }
+                    if (category === "Patient ID") {
+                        tempPatientInfo.push(patientID)
+                    }
+                    else if (category === "Images") {
+                        tempPatientInfo.push("images")
+                    }
+                    else {
+                        tempPatientInfo.push(patientInfo[patientID][frontendToBackend[category]])
+                    }
                 }
             }
             tableData.push(tempPatientInfo)
@@ -256,7 +262,15 @@ class PatientsPage extends Component {
             tableKey: this.state.tableKey + 1
           });
         }
-      }
+    }
+
+    backButtonPressed() {
+        let newState = {
+            "page": "FilterPage",
+            "additionalInfo": this.props.additionalInfo
+        }
+        this.props.changePage(newState)
+    }
 
     createLegend(json) {
         var legend = [];
@@ -274,7 +288,7 @@ class PatientsPage extends Component {
         var all_filters = this.getFilters()
 
         return (
-            <div className="content">
+            <div style={styles.container}>
             <Grid fluid>
                 <Row style = {styles.titleStyle}>
                     <Col lg={12} sm={8} style = {styles.titleText}>
@@ -291,8 +305,12 @@ class PatientsPage extends Component {
                         <Grid fluid>
                           <Row>
                             {this.getTable()}
+                            <div style = {styles.underMainStyle}> 
+                                <CustomButton style = {styles.buttonUpperSubmit} onClick={() => this.backButtonPressed()}>BACK TO FILTERS PAGE</CustomButton>
+                                <CustomButton style = {styles.buttonUpperReset} onClick={() => this.resetButtonPressed()}>GO TO EXAMS PAGE</CustomButton>
+                            </div>
                           </Row>
-                        </Grid>
+                          </Grid>
                     </Col>
                 </Row>
             </Grid>
@@ -329,12 +347,6 @@ const styles = {
       "color": "black",
       "border": "solid 2px black",
   },
-    sideDivStyle: {
-        "height": "80vh",
-    },
-    mainDivStyle : {
-        "height": "90vh",
-    },
     mainDivCategoryStyle : {
         "height": "20vh",
         "overflow": "scroll",
@@ -347,26 +359,26 @@ const styles = {
       "font-weight": "bold",
       "text-decoration": "underline",
     },
-    underTitleStyle: {
+    underMainStyle: {
       "display": "flex",
+      "flex-direction": "column",
       "justify-content": "flex-end",
       "align-items": "flex-end",
-      "padding-right": "16%"
+      "padding-right": "2vh",
     },
     buttonUpperSubmit: {
-      "width": "15%",
-      "margin-right": "1vh",
+      "width": "40vh",
       "color": "black",
       "border": "solid 2px black",
       "font-weight": "bold",
-      "background-color": "#a3ec9a",
+      "background-color": "#eef27c",
     },
     buttonUpperReset: {
-      "width": "15%",
-      "margin-right": "1vh",
+      "width": "40vh",
       "color": "black",
       "border": "solid 2px black",
       "font-weight": "bold",
-      "background-color": "#ec585a",
-    }
+      "background-color": "#eef27c",
+      "margin-top": "1vh",
+    },
 }
