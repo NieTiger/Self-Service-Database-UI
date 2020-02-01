@@ -19,7 +19,10 @@ import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
+import CustomButton from "components/CustomButton/CustomButton";
 import { FormInputs } from "components/FormInputs/FormInputs.jsx";
+
+import { apiBaseURL } from "./Dashboard.jsx";
 
 const filter_categories = [
     "Eye Diagnosis",
@@ -39,12 +42,12 @@ class FilterPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          apiBaseURL: "https://tigernie.com",
           filter_categories: [],
           filter_subcategories: {},
           filter_subcategories_div: {},
           selected_categories: [],
-          selected_values: {}
+          selected_values: {},
+          checkbox_values: {}
         };
         this.getFilterCategories = this.getFilterCategories.bind(this);
         this.getFilterSubCategories = this.getFilterSubCategories.bind(this);
@@ -54,39 +57,64 @@ class FilterPage extends Component {
         this.getSelectedFilters = this.getSelectedFilters.bind(this);
         this.categoryFilterPressed = this.categoryFilterPressed.bind(this);
         this.subcategoryFilterPressed = this.subcategoryFilterPressed.bind(this);
-    }
+        this.checkBoxChanged = this.checkBoxChanged.bind(this);
+        this.resetButtonPressed = this.resetButtonPressed.bind(this);
+        this.submitButtonPressed = this.submitButtonPressed.bind(this);
+  }
 
-    componentDidMount() {
-        this.getFilterCategories();
-        this.getFilterSubCategories();
-        setTimeout(() => {
-          this.createFilterSubcategoryDivs();
-        }, 1000);
+  componentDidMount() {
+    let filter_categories = this.getFilterCategories();
+    this.setState({
+      filter_categories: filter_categories
+    });
+    this.getFilterSubCategories();
+    setTimeout(() => {
+      this.createFilterSubcategoryDivs();
+    }, 1000);
+  }
+
+  //resets all of the filters and subfilters selected
+  resetButtonPressed() {
+    this.setState({
+      selected_categories: [],
+      selected_values: {},
+      checkbox_values: {}
+    });
+  }
+
+  //submits all of the filters to the patients page
+  submitButtonPressed() {
+    console.log("SUBMIT BUTTON PRESSED")
+    let temp_selected_values = this.state.selected_values
+    for (var key in this.state.checkbox_values) {
+      temp_selected_values[key] = this.state.checkbox_values[key]
     }
+    let newState = {
+      "page": "PatientsPage",
+      "additionalInfo": temp_selected_values
+    }
+    this.props.changePage(newState)
+  }
 
     //function populates the side div of all avaliable categories according to filter_categories
   getFilterCategories() {
     var temp_filter_categories = [];
     for (var i = 0; i < filter_categories.length; i++) {
       var category_name = filter_categories[i];
-      var temp_filter_category = (
-        <div className="card card-stats" style={styles.button_style}>
-          <label>
-            <input
-              type="checkbox"
-              title={category_name}
-              style={styles.checkbox_style}
-              onChange={e => this.categoryFilterPressed(e)}
-            ></input>
-          </label>
-          <div> {category_name} </div>
-        </div>
-      );
+      var temp_filter_category = null
+      if (this.state.selected_categories.indexOf(category_name) !== -1){
+        temp_filter_category = (
+          <CustomButton style={styles.buttonDivPressed} title = {category_name} onClick = {e => this.categoryFilterPressed(e)} > {category_name} </CustomButton>
+        );
+      }
+      else {
+        temp_filter_category = (
+          <CustomButton style={styles.buttonDiv} title = {category_name} onClick = {e => this.categoryFilterPressed(e)} > {category_name} </CustomButton>
+        );
+      }
       temp_filter_categories.push(temp_filter_category);
     }
-    this.setState({
-      filter_categories: temp_filter_categories
-    });
+    return temp_filter_categories
   }
 
   //function populates the subcategories of all filter categories by making the appropriate calls to the API
@@ -95,9 +123,9 @@ class FilterPage extends Component {
     const axios = require("axios");
 
     //get eye diagnosis subcategories from database
-    var link =
-      currentComponent.state.apiBaseURL +
-      "/ssd_api/get_distinct?special=eye_diagnosis";
+    var link = apiBaseURL + "/ssd_api/get_distinct?special=eye_diagnosis";
+    console.log("GETTING SUBCATEGORIES")
+    console.log("link",link)
     axios
       .get(link)
       .then(function(response) {
@@ -113,9 +141,7 @@ class FilterPage extends Component {
       });
 
     //get systemic diagnosis subcategories from database
-    var link =
-      currentComponent.state.apiBaseURL +
-      "/ssd_api/get_distinct?special=systemic_diagnosis";
+    var link = apiBaseURL + "/ssd_api/get_distinct?special=systemic_diagnosis";
     axios
       .get(link)
       .then(function(response) {
@@ -150,9 +176,7 @@ class FilterPage extends Component {
     });
 
     //get image procedure type from database
-    var link =
-      currentComponent.state.apiBaseURL +
-      "/ssd_api/get_distinct?table_name=image_procedure&col_name=image_procedure";
+    var link = apiBaseURL + "/ssd_api/get_distinct?table_name=image_procedure&col_name=image_procedure";
     axios
       .get(link)
       .then(function(response) {
@@ -169,9 +193,7 @@ class FilterPage extends Component {
       });
 
     //get lab values from database
-    var link =
-      currentComponent.state.apiBaseURL +
-      "/ssd_api/get_distinct?table_name=lab_value_deid&col_name=name";
+    var link = apiBaseURL + "/ssd_api/get_distinct?table_name=lab_value_deid&col_name=name";
     axios
       .get(link)
       .then(function(response) {
@@ -187,9 +209,7 @@ class FilterPage extends Component {
       });
 
     //get medication generic name from database
-    var link =
-      currentComponent.state.apiBaseURL +
-      "/ssd_api/get_distinct?table_name=medication_deid&col_name=generic_name";
+    var link = apiBaseURL + "/ssd_api/get_distinct?table_name=medication_deid&col_name=generic_name";
     axios
       .get(link)
       .then(function(response) {
@@ -206,9 +226,7 @@ class FilterPage extends Component {
       });
 
     //get medication therapuetic name from database
-    var link =
-      currentComponent.state.apiBaseURL +
-      "/ssd_api/get_distinct?table_name=medication_deid&col_name=therapeutic_class";
+    var link = apiBaseURL + "/ssd_api/get_distinct?table_name=medication_deid&col_name=therapeutic_class";
     axios
       .get(link)
       .then(function(response) {
@@ -226,7 +244,13 @@ class FilterPage extends Component {
 
     //put vision subcategories
     var temp_filter_subcategories = currentComponent.state.filter_subcategories;
-    temp_filter_subcategories["Vision"] = [
+    temp_filter_subcategories["Left Vision"] = [
+      "less",
+      "greater",
+      "equal",
+      "between"
+    ];
+    temp_filter_subcategories["Right Vision"] = [
       "less",
       "greater",
       "equal",
@@ -238,7 +262,13 @@ class FilterPage extends Component {
 
     //put pressure subcategories
     var temp_filter_subcategories = currentComponent.state.filter_subcategories;
-    temp_filter_subcategories["Pressure"] = [
+    temp_filter_subcategories["Left Pressure"] = [
+      "less",
+      "greater",
+      "equal",
+      "between"
+    ];
+    temp_filter_subcategories["Right Pressure"] = [
       "less",
       "greater",
       "equal",
@@ -249,128 +279,77 @@ class FilterPage extends Component {
     });
   }
 
-  //function populates the filter categories with every unique value in database
   createFilterSubcategoryDivs() {
-    var input_categories = ["Age", "Vision", "Pressure"];
-    let temp_filter_subcategories_div = {};
+    var input_categories = ["Age","Left Vision","Right Vision","Left Pressure","Right Pressure"]
+    let temp_filter_subcategories_div = {}
+    //goes through every category (e.g Eye Diagnosis) and every subcategory (e.g retenal edema) and creates a subcategory box
     for (var key in this.state.filter_subcategories) {
-      var temp_subcategories = [];
+      var temp_subcategories = []
+      console.log(key)
       for (var index in this.state.filter_subcategories[key]) {
-        var name = this.state.filter_subcategories[key][index];
+        var name = this.state.filter_subcategories[key][index]
         if (input_categories.indexOf(key) === -1) {
-          var temp_element = (
+          /* var temp_element = 
             <div>
-              <input
-                type="checkbox"
-                title={key + ";" + name}
-                onChange={e => this.subcategoryFilterPressed(e)}
-                style={styles.main_div_button_checkbox}
-              />
+              <input type ="checkbox" title = {key + ";" + name} onChange = {e => this.subcategoryFilterPressed(e)} style={styles.main_div_button_checkbox} />
+              {name}
+            </div> */
+          var temp_element = 
+            <div>
+              <input type ="checkbox" title = {key + ";" + name} onChange = {e => this.subcategoryFilterPressed(e)} />
               {name}
             </div>
-          );
-        } else if (name !== "between") {
-          var temp_element = (
-            <div>
-              <input
-                type="checkbox"
-                title={key + ";" + name}
-                onChange={e => this.subcategoryFilterPressed(e)}
-                style={styles.main_div_button_checkbox}
-              />
-              {name}
-              <input
-                type="text"
-                title={key + ";" + name}
-                style={styles.main_div_button_text}
-              />
-            </div>
-          );
-        } else {
-          var temp_element = (
-            <div>
-              <input
-                type="checkbox"
-                title={key + ";" + name}
-                onChange={e => this.subcategoryFilterPressed(e)}
-                style={styles.main_div_button_checkbox}
-              />
-              {name}
-              <input
-                type="text"
-                title={key + ";" + name}
-                style={styles.main_div_button_text}
-              />
-              and
-              {/*Below 4 lines responsible for the input text box for age, vision, pressure, etc.*/}
-              <FormInputs
-                ncols={["col-md"]}
-                properties={[
-                  {
-                    label: "",
-                    type: "text",
-                    bsClass: "form-control",
-                    placeholder: "Company",
-                    defaultValue: "",
-                    disabled: false
-                  }
-                ]}
-              />
-              {/*<input
-                type="text"
-                title={key + ";" + name}
-                style={styles.main_div_button_text}
-              />
-              */}
-            </div>
-          );
         }
-        temp_subcategories.push(temp_element);
+        else if (name !== "between") {
+          var temp_element = 
+            <div>
+              <input type ="checkbox" title = {key + ";" + name} onChange = {e => this.subcategoryFilterPressed(e)} style={styles.main_div_button_checkbox} />
+              {name}
+              <input type ="text" title = {key + ";" + name} onChange = {e => this.checkBoxChanged(e)} style={styles.main_div_button_text}/>
+            </div>
+        }
+        else {
+          var temp_element = 
+            <div>
+              <input type ="checkbox" title = {key + ";" + name} onChange = {e => this.subcategoryFilterPressed(e)} style={styles.main_div_button_checkbox} />
+              {name}
+              <input type ="text" title = {key + ";" + name} style={styles.main_div_button_text} />
+              and
+              <input type ="text" title = {key + ";" + name} style={styles.main_div_button_text} />
+            </div>
+        }
+        temp_subcategories.push(temp_element)
       }
-      temp_filter_subcategories_div[key] = (
-        <div className="card card-stats" style={styles.main_div_button_style}>
-          <div style={styles.main_div_button_title}>{key}</div>
-          {temp_subcategories}
+      temp_filter_subcategories_div[key] = 
+      <Col lg={3} sm={4} style = {styles.mainDivCategoryStyle}>
+        <div style = {styles.mainDivButtonTitle}>
+          {key}
         </div>
-      );
+        {temp_subcategories}
+      </Col>
     }
     this.setState({
-      filter_subcategories_div: temp_filter_subcategories_div
-    });
+      "filter_subcategories_div": temp_filter_subcategories_div
+    })
   }
-
   //returns an array of selected categories
   getSelectedFilters() {
-    var chosen_categories = [];
+    var chosen_categories = []
     for (var i = 0; i < this.state.selected_categories.length; i++) {
-      var name = this.state.selected_categories[i];
-      /*Below lines: testing Jan. 29th: added the if statement to utilize the adjustable column size based on windows size*/
-      if (i % 3 == 2) {
-        chosen_categories.push(
-          <div className="row">
-            <div
-              className="col-lg-4 col-md-12"
-              style={styles.subcategory_box_style}
-            >
-              {" "}
-              {this.state.filter_subcategories_div[name]}{" "}
-            </div>
-          </div>
-        );
-      } else {
-        chosen_categories.push(
-          <div
-            className="col-lg-4 col-md-12"
-            style={styles.subcategory_box_style}
-          >
-            {" "}
-            {this.state.filter_subcategories_div[name]}{" "}
-          </div>
-        );
-        /*chosen_categories.push(this.state.filter_subcategories_div[name]);*/
+      var name = this.state.selected_categories[i]
+      if (name === "Vision") {
+        chosen_categories.push(this.state.filter_subcategories_div["Left Vision"])
+        chosen_categories.push(this.state.filter_subcategories_div["Right Vision"])
+      }
+      else if (name === "Pressure") {
+        chosen_categories.push(this.state.filter_subcategories_div["Left Pressure"])
+        chosen_categories.push(this.state.filter_subcategories_div["Right Pressure"])
+      }
+      else {
+        chosen_categories.push(this.state.filter_subcategories_div[name])
       }
     }
-    return chosen_categories;
+    return chosen_categories
   }
 
   //updates state.selected_categories according to categories selected
@@ -420,54 +399,68 @@ class FilterPage extends Component {
       });
     }
   }
-    createLegend(json) {
-        var legend = [];
-        for (var i = 0; i < json["names"].length; i++) {
-        var type = "fa fa-circle text-" + json["types"][i];
-        legend.push(<i className={type} key={i} />);
-        legend.push(" ");
-        legend.push(json["names"][i]);
-        }
-        return legend;
+
+  //updates checkbox_values according to checkbox changed
+  checkBoxChanged(e) {
+    let value = e.target.value;
+    let cat_and_sub = e.target.title.split(";");
+    let category = cat_and_sub[0];
+    let subcategory = cat_and_sub[1];
+
+    let temp_checkbox = this.state.checkbox_values;
+    if (!temp_checkbox[category]) {
+      temp_checkbox[category] = {
+        [subcategory]: value
+      }
     }
-    render() {
+    else {
+      temp_checkbox[category][subcategory] = value
+    }
+
+    this.setState({
+      checkbox_values: temp_checkbox
+    })
+    
+  }
+
+  createLegend(json) {
+    var legend = [];
+    for (var i = 0; i < json["names"].length; i++) {
+      var type = "fa fa-circle text-" + json["types"][i];
+      legend.push(<i className={type} key={i} />);
+      legend.push(" ");
+      legend.push(json["names"][i]);
+    }
+    return legend;
+  }
+  render() {
+        console.log("state",this.state)
+        let filter_categories = this.getFilterCategories()
+        var chosen_filters = this.getSelectedFilters()
         return (
         <div className="content">
             <Grid fluid>
-                <Row className = "show-grid">
-                    <Col lg={12} sm={8}>
-                        <Card
-                        title = "Please Select Your Filters to Create a Patient Cohort"
-                        hCenter = "text-center"
-                        />
-                    </Col>
-                    <Col lg={4} sm={8}>
-                        <Card
-                        title = "Please Select Your Filters to Create a Patient Cohort"
-                        hCenter = "text-center"
-                        />
-                    </Col>
-                    <Col lg={4} sm={8}>
-                        <Card
-                        title = "Please Select Your Filters to Create a Patient Cohort"
-                        hCenter = "text-center"
-                        />
-                    </Col>
-                    <Col lg={4} sm={8}>
-                        <Card
-                        title = "Please Select Your Filters to Create a Patient Cohort"
-                        hCenter = "text-center"
-                        />
+                <Row style = {styles.titleStyle}>
+                    <Col lg={12} sm={8} style = {styles.titleText}>
+                        <div>
+                            Please Select Your Filters to Create a Patient Cohort
+                        </div>
                     </Col>
                 </Row>
+                <Row style = {styles.underTitleStyle}>
+                      <CustomButton style = {styles.buttonUpperSubmit} onClick={() => this.submitButtonPressed()}>SUBMIT</CustomButton>
+                      <CustomButton style = {styles.buttonUpperReset} onClick={() => this.resetButtonPressed()}>RESET</CustomButton>
+                </Row>
                 <Row>
-                    <Col lg={3} sm={3}>
-                        <div style={styles.sideDivStyle}>
-                        </div>
+                    <Col lg={3} sm={3} style = {styles.sideDivStyle}>
+                        {filter_categories}
                     </Col>
-                    <Col lg={9} sm={6}>
-                        <div style={styles.mainDivStyle}>
-                        </div>
+                    <Col lg={9} sm={6} style = {styles.mainDivStyle}>
+                        <Grid fluid>
+                          <Row>
+                            {chosen_filters}
+                          </Row>
+                        </Grid>
                     </Col>
                 </Row>
             </Grid>
@@ -479,13 +472,70 @@ class FilterPage extends Component {
 export default FilterPage;
 
 const styles = {
+    titleStyle: {
+        "height": "10vh",
+        "margin-bottom": "2vh",
+    },
+    titleText: {
+        "display": "flex",
+        "align-items": "center",
+        "justify-content": "center",
+        "font-weight": "bold",
+        "font-size": "30px",
+    },
+    buttonDiv: {
+        "width": "100%",
+        "margin": "1vh",
+        "background-color": "white",
+        "color": "black",
+        "border": "solid 2px black",
+    },
+    buttonDivPressed: {
+      "width": "100%",
+      "margin": "1vh",
+      "background-color": "#78deec",
+      "color": "black",
+      "border": "solid 2px black",
+  },
     sideDivStyle: {
         "height": "80vh",
-        "border": "solid 5px black",
     },
     mainDivStyle : {
-        "height": "80vh",
-        "border": "solid 5px black",
+        "height": "90vh",
+    },
+    mainDivCategoryStyle : {
+        "height": "20vh",
+        "overflow": "scroll",
+        "border": "solid 2px black",
+        "margin": "1vh",
+    },
+    mainDivButtonTitle: {
+      "display": "flex",
+      "justify-content": "center",
+      "font-weight": "bold",
+      "text-decoration": "underline",
+    },
+    underTitleStyle: {
+      "display": "flex",
+      "justify-content": "flex-end",
+      "align-items": "flex-end",
+      "padding-right": "16%"
+    },
+    buttonUpperSubmit: {
+      "width": "15%",
+      "margin-right": "1vh",
+      "color": "black",
+      "border": "solid 2px black",
+      "font-weight": "bold",
+      "background-color": "#a3ec9a",
+    },
+    buttonUpperReset: {
+      "width": "15%",
+      "margin-right": "1vh",
+      "color": "black",
+      "border": "solid 2px black",
+      "font-weight": "bold",
+      "background-color": "#ec585a",
     }
 }
 
