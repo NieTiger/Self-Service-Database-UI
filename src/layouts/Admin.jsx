@@ -28,7 +28,7 @@ import { style } from "variables/Variables.jsx";
 
 import routes from "routes.js";
 
-import image from "assets/img/sidebar-3.jpg";
+import image from "assets/img/sidebar-2.jpg"; /*sidebar-2 is the default hot air balloon image*/
 
 class Admin extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class Admin extends Component {
     this.state = {
       _notificationSystem: null,
       image: image,
-      color: "black",
+      color: "black" /*black is the default color for the sidebar*/,
       hasImage: true,
       fixedClasses: "dropdown show-dropdown open"
     };
@@ -193,6 +193,9 @@ class Admin extends Component {
           />
           <Switch>{this.getRoutes(routes)}</Switch>
           <Footer />
+
+          {/*Commented this out to exclude the popup box on the side*/}
+          {/*
           <FixedPlugin
             handleImageClick={this.handleImageClick}
             handleColorClick={this.handleColorClick}
@@ -203,6 +206,7 @@ class Admin extends Component {
             handleFixedClick={this.handleFixedClick}
             fixedClasses={this.state.fixedClasses}
           />
+        */}
         </div>
       </div>
     );

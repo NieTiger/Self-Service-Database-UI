@@ -74,8 +74,6 @@ class FixedPlugin extends Component {
                       this.props.handleColorClick("black");
                     }}
                   />
-                  {/*Eliminated popup box*/}
-                  {/*
                   <span
                     className={
                       this.props.bgColor === "azure"
@@ -131,7 +129,6 @@ class FixedPlugin extends Component {
                       this.props.handleColorClick("purple");
                     }}
                   />
-                  */}
                 </div>
                 <div className="clearfix" />
               </a>
@@ -162,8 +159,6 @@ class FixedPlugin extends Component {
               </a>
             </li>
           
-        
-            {/*
             <li className={this.state["bgImage"] === imagine3 ? "active" : ""}>
               <a
                 className="img-holder switch-trigger"
@@ -186,7 +181,6 @@ class FixedPlugin extends Component {
                 <img src={imagine4} alt="..." />
               </a>
             </li>
-              */}
 
             <li className="button-container">
               <div className="">

@@ -35,6 +35,7 @@ class AdminNavbarLinks extends Component {
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
           </NavItem>
+          {/* Commented out the dropdown menu from the navigation bar
           <NavDropdown
             eventKey={2}
             title={notification}
@@ -47,6 +48,7 @@ class AdminNavbarLinks extends Component {
             <MenuItem eventKey={2.4}>Notification 4</MenuItem>
             <MenuItem eventKey={2.5}>Another notifications</MenuItem>
           </NavDropdown>
+          */}
           <NavItem eventKey={3} href="#">
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>

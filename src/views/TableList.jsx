@@ -22,51 +22,65 @@ import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
 class TableList extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      "columns": this.props.columns,
-      "rows": this.props.rows
-    }
-    console.log(this.props.columns)
-    console.log("thArray",thArray)
+      columns: this.props.columns,
+      rows: this.props.rows
+    };
+    console.log(this.props.columns);
+    console.log("thArray", thArray);
   }
-  
+
   render() {
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
+              {/*Commented this out to not use Card*/}
+              {/*}
               <Card
                 title="Patient Cohort"
                 category="Here is a table of all patients that match your criteria"
                 ctTableFullWidth
                 ctTableResponsive
-                content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        {this.state.columns.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
+    content={ */}
+              <Table
+                bordered
+                striped
+                hover
+                responsive
+                style={styles.TableStyle}
+              >
+                <thead>
+                  <tr>
+                    {this.state.columns.map((prop, key) => {
+                      return (
+                        <th key={key} style={styles.TableFontStyle}>
+                          {prop}
+                        </th>
+                      );
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.rows.map((prop, key) => {
+                    return (
+                      <tr key={key}>
+                        {prop.map((prop, key) => {
+                          return (
+                            <td key={key} style={styles.TableFontStyle}>
+                              {prop}
+                            </td>
+                          );
                         })}
                       </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.rows.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                }
-              />
+                    );
+                  })}
+                </tbody>
+              </Table>
+              {/*/>*/}
             </Col>
           </Row>
         </Grid>
@@ -76,3 +90,13 @@ class TableList extends Component {
 }
 
 export default TableList;
+
+const styles = {
+  TableStyle: {
+    border: "solid 2px black"
+  },
+  TableFontStyle: {
+    "font-weight": "bold",
+    color: "black"
+  }
+};
