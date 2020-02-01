@@ -54,10 +54,12 @@ class AdminNavbarLinks extends Component {
             <p className="hidden-lg hidden-md">Search</p>
           </NavItem>
         </Nav>
-        <Nav pullRight>
+        <Nav pullRight style={styles.NavStyle}>
           <NavItem eventKey={1} href="#">
             Account
           </NavItem>
+          {/*Commented this out because we may not use this dropdown menu in the nav bar*/}
+          {/*
           <NavDropdown
             eventKey={2}
             title="Dropdown"
@@ -71,6 +73,7 @@ class AdminNavbarLinks extends Component {
             <MenuItem divider />
             <MenuItem eventKey={2.5}>Separated link</MenuItem>
           </NavDropdown>
+          */}
           <NavItem eventKey={3} href="#">
             Log out
           </NavItem>
@@ -81,3 +84,10 @@ class AdminNavbarLinks extends Component {
 }
 
 export default AdminNavbarLinks;
+
+const styles = {
+  /*Currently this is not working because somehow the default is difficult to override*/
+  NavStyle: {
+    color: "#ZZZZZZ"
+  }
+};

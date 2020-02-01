@@ -189,7 +189,10 @@ class Admin extends Component {
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <AdminNavbar
             {...this.props}
-            brandText={this.getBrandText(this.props.location.pathname)}
+            style={styles.NavStyle}
+            brandText={this.getBrandText(
+              this.props.location.pathname
+            )} /*This line is responsible for the text that appears on the top of the screen, corresponding to the page name*/
           />
           <Switch>{this.getRoutes(routes)}</Switch>
           <Footer />
@@ -214,3 +217,10 @@ class Admin extends Component {
 }
 
 export default Admin;
+
+const styles = {
+  NavStyle: {
+    "font-weight": "bold",
+    color: "black"
+  }
+};
