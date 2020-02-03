@@ -50,12 +50,12 @@ class Sidebar extends Component {
         data-color={this.props.color}
         data-image={this.props.image}
       >
-        {this.props.hasImage ? (
-          <div className="sidebar-background" style={sidebarBackground} />
-        ) : null}
+          {this.props.hasImage ? (
+            <div className="sidebar-background" style={sidebarBackground} />
+          ) : (
+            null
+          )}
         <div className="logo">
-          {/*Eliminated the creative tim logo*/}
-          {/*
           <a
             href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-mini"
@@ -64,12 +64,11 @@ class Sidebar extends Component {
               <img src={logo} alt="logo_image" />
             </div>
           </a>
-          */}
           <a
-            href="https://www.nm.org/locations/northwestern-memorial-hospital"
+            href="https://www.creative-tim.com?ref=lbd-sidebar"
             className="simple-text logo-normal"
           >
-            Northwestern Memorial Hospital
+            Creative Tim
           </a>
         </div>
         <div className="sidebar-wrapper">

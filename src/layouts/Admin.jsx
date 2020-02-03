@@ -28,7 +28,7 @@ import { style } from "variables/Variables.jsx";
 
 import routes from "routes.js";
 
-import image from "assets/img/sidebar-2.jpg"; /*sidebar-2 is the default hot air balloon image*/
+import image from "assets/img/sidebar-3.jpg";
 
 class Admin extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class Admin extends Component {
     this.state = {
       _notificationSystem: null,
       image: image,
-      color: "black" /*black is the default color for the sidebar*/,
+      color: "black",
       hasImage: true,
       fixedClasses: "dropdown show-dropdown open"
     };
@@ -60,8 +60,6 @@ class Admin extends Component {
       default:
         break;
     }
-    /*Eliminated the notificatino that pops up in the original template*/
-    /*
     this.state._notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
@@ -74,7 +72,6 @@ class Admin extends Component {
       position: position,
       autoDismiss: 15
     });
-    */
   };
   getRoutes = routes => {
     return routes.map((prop, key) => {
@@ -145,8 +142,6 @@ class Admin extends Component {
       default:
         break;
     }
-    /*Eliminated the notificatino that pops up in the original template*/
-    /*
     _notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
@@ -159,7 +154,6 @@ class Admin extends Component {
       position: "tr",
       autoDismiss: 15
     });
-    */
   }
   componentDidUpdate(e) {
     if (
@@ -179,26 +173,16 @@ class Admin extends Component {
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />
-        <Sidebar
-          {...this.props}
-          routes={routes}
-          image={this.state.image}
-          color={this.state.color}
-          hasImage={this.state.hasImage}
-        />
+        <Sidebar {...this.props} routes={routes} image={this.state.image}
+        color={this.state.color}
+        hasImage={this.state.hasImage}/>
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <AdminNavbar
             {...this.props}
-            style={styles.NavStyle}
-            brandText={this.getBrandText(
-              this.props.location.pathname
-            )} /*This line is responsible for the text that appears on the top of the screen, corresponding to the page name*/
+            brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>{this.getRoutes(routes)}</Switch>
           <Footer />
-
-          {/*Commented this out to exclude the popup box on the side*/}
-          {/*
           <FixedPlugin
             handleImageClick={this.handleImageClick}
             handleColorClick={this.handleColorClick}
@@ -209,7 +193,6 @@ class Admin extends Component {
             handleFixedClick={this.handleFixedClick}
             fixedClasses={this.state.fixedClasses}
           />
-        */}
         </div>
       </div>
     );
@@ -217,10 +200,3 @@ class Admin extends Component {
 }
 
 export default Admin;
-
-const styles = {
-  NavStyle: {
-    "font-weight": "bold",
-    color: "black"
-  }
-};

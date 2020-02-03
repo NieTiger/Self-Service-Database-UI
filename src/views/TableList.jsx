@@ -20,67 +20,65 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
+import CustomButton from "components/CustomButton/CustomButton";
 
 class TableList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      columns: this.props.columns,
-      rows: this.props.rows
-    };
-    console.log(this.props.columns);
-    console.log("thArray", thArray);
-  }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      "columns": this.props.columns,
+      "rows": this.props.rows
+    }
+  }
+  
   render() {
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
-              {/*Commented this out to not use Card*/}
-              {/*}
               <Card
                 title="Patient Cohort"
                 category="Here is a table of all patients that match your criteria"
                 ctTableFullWidth
                 ctTableResponsive
-    content={ */}
-              <Table
-                bordered
-                striped
-                hover
-                responsive
-                style={styles.TableStyle}
-              >
-                <thead>
-                  <tr>
-                    {this.state.columns.map((prop, key) => {
-                      return (
-                        <th key={key} style={styles.TableTitleStyle}>
-                          {prop}
-                        </th>
-                      );
-                    })}
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.state.rows.map((prop, key) => {
-                    return (
-                      <tr key={key}>
-                        {prop.map((prop, key) => {
-                          return (
-                            <td key={key} style={styles.TableFontStyle}>
-                              {prop}
-                            </td>
-                          );
+                content={
+                  <Table striped hover>
+                    <thead>
+                      <tr>
+                        {this.state.columns.map((prop, key) => {
+                          return <th key={key}>{prop}</th>;
                         })}
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-              {/*/>*/}
+                    </thead>
+                    <tbody>
+                      {this.state.rows.map((prop, key) => {
+                        return (
+                        <tr key={key}>
+                        {prop.map((prop, key) => {
+                          var type = prop["type"]
+                          var text = prop["text"]
+                          if (type === "button") {
+                            var submitFunction = prop["submitFunction"]
+                            var submitInformation = prop["submitInformation"]
+                          }
+                          if (type === 'button') {
+                            return (
+                            <td key={key}>
+                              <CustomButton style = {styles.button} onClick = {() => submitFunction(submitInformation)}>{text}</CustomButton>
+                            </td>
+                            );
+                          }
+                          return <td key={key}>{text}</td>;
+                        })}
+                      </tr>
+                        )}
+                      )}
+                    </tbody>
+                  </Table>
+                }
+              />
             </Col>
           </Row>
         </Grid>
@@ -92,14 +90,11 @@ class TableList extends Component {
 export default TableList;
 
 const styles = {
-  TableStyle: {
-    border: "solid 2px black"
+  button: {
+    "width": "70%",
+    "margin": "1vh",
+    "background-color": "#d4d5d7",
+    "color": "black",
+    "border": "solid 2px black",
   },
-  TableTitleStyle: {
-    "font-weight": "bold",
-    color: "black"
-  },
-  TableFontStyle: {
-    color: "black"
-  }
-};
+}

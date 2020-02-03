@@ -134,19 +134,6 @@ class FixedPlugin extends Component {
               </a>
             </li>
             <li className="header-title">Sidebar Images</li>
-            
-            <li className={this.state["bgImage"] === imagine2 ? "active" : ""}>
-              <a
-                className="img-holder switch-trigger"
-                onClick={() => {
-                  this.setState({ bgImage: imagine2 });
-                  this.props.handleImageClick(imagine2);
-                }}
-              >
-                <img src={imagine2} alt="..." />
-              </a>
-            </li>
-
             <li className={this.state["bgImage"] === imagine1 ? "active" : ""}>
               <a
                 className="img-holder switch-trigger"
@@ -158,7 +145,17 @@ class FixedPlugin extends Component {
                 <img src={imagine1} alt="..." />
               </a>
             </li>
-          
+            <li className={this.state["bgImage"] === imagine2 ? "active" : ""}>
+              <a
+                className="img-holder switch-trigger"
+                onClick={() => {
+                  this.setState({ bgImage: imagine2 });
+                  this.props.handleImageClick(imagine2);
+                }}
+              >
+                <img src={imagine2} alt="..." />
+              </a>
+            </li>
             <li className={this.state["bgImage"] === imagine3 ? "active" : ""}>
               <a
                 className="img-holder switch-trigger"

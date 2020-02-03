@@ -18,6 +18,10 @@
 import React, { Component } from "react";
 import FilterPage from "./FilterPage.jsx";
 import PatientsPage from "./PatientsPage.jsx";
+import ExamsPage from "./ExamsPage.jsx";
+import PatientHistoryPage from "./PatientHistoryPage.jsx";
+import PatientImagesPage from "./PatientImagesPage.jsx";
+import ShowPatientImagePage from "./ShowPatientImagePage.jsx"
 
 export const apiBaseURL = "https://tigernie.com";
 
@@ -39,6 +43,18 @@ class Dashboard extends Component {
     }
     else if (page === "PatientsPage") {
       return <PatientsPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
+    }
+    else if (page === "ExamsPage") {
+      return <ExamsPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
+    }
+    else if (page === "PatientHistoryPage") {
+      return <PatientHistoryPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
+    }
+    else if (page === "PatientImagesPage") {
+      return <PatientImagesPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
+    }
+    else if (page === "ShowPatientImagePage") {
+      return <ShowPatientImagePage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
     }
   }
 

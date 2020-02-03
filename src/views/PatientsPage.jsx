@@ -40,23 +40,9 @@ const frontendToBackend = {
     "Patient ID": "pt_id"
 }
 
-const backendToFrontend = {
-    "eye_diagnosis": "Eye Diagnosis",
-    "systemic_diagnosis": "Systemic Diagnosis",
-    "age": "Age",
-    "ethnicity": "Ethnicity",
-    "image_procedure_type": "Image Procedure Type",
-    "labs": "Labs",
-    "medication_generic_name": "Medication Generic Name",
-    "medication_therapuetic_name": "Medication Therapuetic Name",
-    "left_vision": "Left Vision",
-    "right_vision": "Right Vision",
-    "left_pressure": "Left Pressure",
-    "right_pressure": "Right Pressure",
-    "pt_id": "Patient ID"
+function isDict(v) {
+    return typeof v==='object' && v!==null && !(v instanceof Array) && !(v instanceof Date);
 }
-
-var table = null;
 
 class PatientsPage extends Component {
 
@@ -68,6 +54,9 @@ class PatientsPage extends Component {
             "filterCategories": ["Patient ID"],
             "selectedFilterCategories": [],
             "tableKey": 1,
+            "exportPressed": {
+                "display": false
+            },
         }
         this._calculateAge = this._calculateAge.bind(this);
         this.getPatients = this.getPatients.bind(this);
@@ -77,6 +66,11 @@ class PatientsPage extends Component {
         this.categoryFilterPressed = this.categoryFilterPressed.bind(this);
         this.getTable = this.getTable.bind(this);
         this.backButtonPressed = this.backButtonPressed.bind(this)
+        this.examsPagePressed = this.examsPagePressed.bind(this)
+        this.exportAllImagesPressed = this.exportAllImagesPressed.bind(this);
+        this.getExport = this.getExport.bind(this)
+        this.exportCategoryPressed = this.exportCategoryPressed.bind(this);
+        this.exportImagesPressed = this.exportImagesPressed.bind(this)
     }
 
     componentDidMount() {
@@ -97,7 +91,6 @@ class PatientsPage extends Component {
 
     getPatients() {
         let data = this.props.additionalInfo;
-        let specials = ["Left Vision","Right Vision","Left Pressure","Right Pressure"]
         let temp_data = {}
         let tempFilterCategories = this.state["filterCategories"]
         for (var key in data) {
@@ -226,23 +219,61 @@ class PatientsPage extends Component {
             for (var j = 0; j < this.state.filterCategories.length; j++) {
                 let category = this.state.filterCategories[j]
                 if (this.state.selectedFilterCategories.indexOf(category) !== -1) {
+                    var value = {}
                     if (categoryTitles.indexOf(category) === -1) {
                         categoryTitles.push(category)
                     }
                     if (category === "Patient ID") {
-                        tempPatientInfo.push(patientID)
+                        value["type"] = "button"
+                        value["text"] = patientID
+                        let newState = {
+                            "page": "PatientHistoryPage",
+                            "additionalInfo": {
+                                "patientID": patientID,
+                                "patientInfo": patientInfo[patientID],
+                                "FilterPage": this.props.additionalInfo,
+                            }
+                        }
+                        value["submitFunction"] = (newState) => this.props.changePage(newState)
+                        value["submitInformation"] = newState
+                        tempPatientInfo.push(value)
                     }
                     else if (category === "Images") {
-                        tempPatientInfo.push("images")
+                        value["type"] = "button"
+                        value["text"] = "See Images"
+                        let newState = {
+                            "page": "PatientImagesPage",
+                            "additionalInfo": {
+                                "patientID": patientID,
+                                "FilterPage": this.props.additionalInfo,
+                            }
+                        }
+                        value["submitFunction"] = (newState) => this.props.changePage(newState)
+                        value["submitInformation"] = newState
+                        tempPatientInfo.push(value)
                     }
                     else {
-                        tempPatientInfo.push(patientInfo[patientID][frontendToBackend[category]])
+                        var tempValue = patientInfo[patientID][frontendToBackend[category]]
+                        var text = []
+                        if (isDict(tempValue)) {
+                            for (var key in tempValue) {
+                                text.push(key + " (" + tempValue[key].substring(0,16) + ")")
+                                text.push(<br/>)
+                            }
+                        }
+                        else {
+                            text = tempValue
+                        }
+                        value["type"] = "string"
+                        value["text"] = text
+                        tempPatientInfo.push(value)
                     }
                 }
             }
             tableData.push(tempPatientInfo)
         }
-        return <TableList key = {this.state.tableKey} columns={categoryTitles} rows={tableData}>hello</TableList>
+        console.log("table data",tableData)
+        return <TableList key = {this.state.tableKey} columns={categoryTitles} rows={tableData}></TableList>
     }
 
     categoryFilterPressed(e) {
@@ -272,6 +303,76 @@ class PatientsPage extends Component {
         this.props.changePage(newState)
     }
 
+    examsPagePressed() {
+        let newState = {
+            "page": "ExamsPage",
+            "additionalInfo": {
+                "PatientsPage": this.state.patientsIDs,
+                "FilterPage": this.props.additionalInfo,
+            }
+        }
+        this.props.changePage(newState)
+    }
+
+    exportAllImagesPressed() {
+        this.setState({
+            "exportPressed": {
+                "display": !this.state.exportPressed.display
+            }
+        })
+    }
+
+    exportCategoryPressed(e) {
+        let category = e.target.title;
+        if (this.state.exportPressed[category]) {
+            this.setState({
+                "exportPressed": {
+                    [category]: !this.state.exportPressed.display,
+                    "display": true
+                }
+            })
+        }
+        else {
+            this.setState({
+                "exportPressed": {
+                    [category]: true,
+                    "display": true
+                }
+            })
+        } 
+    }
+
+    exportImagesPressed() {
+        //code for exporting all images
+        return null
+    }
+
+    getExport() {
+        if (!this.state.exportPressed.display) {
+            return <CustomButton style = {styles.buttonUpperExport} onClick={() => this.exportAllImagesPressed()}>EXPORT ALL IMAGES</CustomButton>
+        }
+        return (
+            <div> 
+                <CustomButton style = {styles.buttonUpperExport} onClick={() => this.exportAllImagesPressed()}>EXPORT ALL IMAGES</CustomButton>
+                <div style = {styles.exportDropdownPressed}>
+                    <div>
+                        <input type ="checkbox" title = {"by Patient ID"} onChange = {e => this.exportCategoryPressed(e)} />
+                        by Patient ID
+                    </div>
+                    <div>
+                        <input type ="checkbox" title = {"by diagnosis"} onChange = {e => this.exportCategoryPressed(e)} />
+                        by diagnosis
+                    </div>
+                    <div>
+                        <input type ="checkbox" title = {"by image procedure"} onChange = {e => this.exportCategoryPressed(e)} />
+                        by image procedure
+                    </div>
+                </div>
+                <CustomButton style = {styles.buttonUpperExport} onClick={() => this.exportImagesPressed()}>EXPORT IMAGES</CustomButton>
+            </div>
+        )
+    }
+
     createLegend(json) {
         var legend = [];
         for (var i = 0; i < json["names"].length; i++) {
@@ -280,13 +381,14 @@ class PatientsPage extends Component {
             legend.push(" ");
             legend.push(json["names"][i]);
         }
-    return legend;
-  }
+        return legend;
+    }
 
     render() {
         console.log("state",this.state)
         var all_filters = this.getFilters()
-
+        var exportButton = this.getExport()
+        var table = this.getTable();
         return (
             <div style={styles.container}>
             <Grid fluid>
@@ -304,10 +406,11 @@ class PatientsPage extends Component {
                     <Col lg={9} sm={6} style = {styles.mainDivStyle}>
                         <Grid fluid>
                           <Row>
-                            {this.getTable()}
+                          {table}
                             <div style = {styles.underMainStyle}> 
                                 <CustomButton style = {styles.buttonUpperSubmit} onClick={() => this.backButtonPressed()}>BACK TO FILTERS PAGE</CustomButton>
-                                <CustomButton style = {styles.buttonUpperReset} onClick={() => this.resetButtonPressed()}>GO TO EXAMS PAGE</CustomButton>
+                                <CustomButton style = {styles.buttonUpperReset} onClick={() => this.examsPagePressed()}>GO TO EXAMS PAGE</CustomButton>
+                                {exportButton}
                             </div>
                           </Row>
                           </Grid>
@@ -380,5 +483,14 @@ const styles = {
       "font-weight": "bold",
       "background-color": "#eef27c",
       "margin-top": "1vh",
+    },
+    buttonUpperExport: {
+        "width": "40vh",
+        "color": "black",
+        "border": "solid 2px black",
+        "font-weight": "bold",
+        "background-color": "#eef27c",
+        "margin-top": "1vh",
+        "margin-bottom": "1vh",
     },
 }

@@ -35,7 +35,6 @@ class AdminNavbarLinks extends Component {
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
           </NavItem>
-          {/* Commented out the dropdown menu from the navigation bar
           <NavDropdown
             eventKey={2}
             title={notification}
@@ -48,18 +47,15 @@ class AdminNavbarLinks extends Component {
             <MenuItem eventKey={2.4}>Notification 4</MenuItem>
             <MenuItem eventKey={2.5}>Another notifications</MenuItem>
           </NavDropdown>
-          */}
           <NavItem eventKey={3} href="#">
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>
           </NavItem>
         </Nav>
-        <Nav pullRight style={styles.NavStyle}>
+        <Nav pullRight>
           <NavItem eventKey={1} href="#">
             Account
           </NavItem>
-          {/*Commented this out because we may not use this dropdown menu in the nav bar*/}
-          {/*
           <NavDropdown
             eventKey={2}
             title="Dropdown"
@@ -73,7 +69,6 @@ class AdminNavbarLinks extends Component {
             <MenuItem divider />
             <MenuItem eventKey={2.5}>Separated link</MenuItem>
           </NavDropdown>
-          */}
           <NavItem eventKey={3} href="#">
             Log out
           </NavItem>
@@ -84,10 +79,3 @@ class AdminNavbarLinks extends Component {
 }
 
 export default AdminNavbarLinks;
-
-const styles = {
-  /*Currently this is not working because somehow the default is difficult to override*/
-  NavStyle: {
-    color: "#ZZZZZZ"
-  }
-};
