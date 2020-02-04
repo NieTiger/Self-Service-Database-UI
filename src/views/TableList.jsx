@@ -23,62 +23,82 @@ import { thArray, tdArray } from "variables/Variables.jsx";
 import CustomButton from "components/CustomButton/CustomButton";
 
 class TableList extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      "columns": this.props.columns,
-      "rows": this.props.rows
-    }
+      columns: this.props.columns,
+      rows: this.props.rows
+    };
+    console.log(this.props.columns);
+    console.log("thArray", thArray);
   }
-  
+
   render() {
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
+              {/*Commented this out to not use Card*/}
+              {/*
               <Card
                 title="Patient Cohort"
                 category="Here is a table of all patients that match your criteria"
                 ctTableFullWidth
                 ctTableResponsive
-                content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        {this.state.columns.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.rows.map((prop, key) => {
-                        return (
-                        <tr key={key}>
+              content={*/}
+              <Table
+                bordered
+                striped
+                hover
+                responsive
+                style={styles.TableStyle}
+              >
+                <thead>
+                  <tr>
+                    {this.state.columns.map((prop, key) => {
+                      return <th key={key}>{prop}</th>;
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.rows.map((prop, key) => {
+                    return (
+                      <tr key={key} style={styles.TableFontStyle}>
                         {prop.map((prop, key) => {
-                          var type = prop["type"]
-                          var text = prop["text"]
+                          var type = prop["type"];
+                          var text = prop["text"];
                           if (type === "button") {
-                            var submitFunction = prop["submitFunction"]
-                            var submitInformation = prop["submitInformation"]
+                            var submitFunction = prop["submitFunction"];
+                            var submitInformation = prop["submitInformation"];
                           }
-                          if (type === 'button') {
+                          if (type === "button") {
                             return (
-                            <td key={key}>
-                              <CustomButton style = {styles.button} onClick = {() => submitFunction(submitInformation)}>{text}</CustomButton>
-                            </td>
+                              <td key={key}>
+                                <CustomButton
+                                  style={styles.button}
+                                  onClick={() =>
+                                    submitFunction(submitInformation)
+                                  }
+                                >
+                                  {text}
+                                </CustomButton>
+                              </td>
                             );
                           }
-                          return <td key={key}>{text}</td>;
+                          return (
+                            <td key={key} style={styles.TableFontStyle}>
+                              {text}
+                            </td>
+                          );
                         })}
                       </tr>
-                        )}
-                      )}
-                    </tbody>
-                  </Table>
-                }
-              />
+                    );
+                  })}
+                </tbody>
+              </Table>
+              {/*}}
+              />*/}
             </Col>
           </Row>
         </Grid>
@@ -91,10 +111,17 @@ export default TableList;
 
 const styles = {
   button: {
-    "width": "70%",
-    "margin": "1vh",
+    width: "70%",
+    margin: "1vh",
     "background-color": "#d4d5d7",
-    "color": "black",
-    "border": "solid 2px black",
+    color: "black",
+    border: "solid 2px black"
   },
-}
+  TableStyle: {
+    border: "solid 2 px black"
+  },
+  TableFontStyle: {
+    "font-weight": "bold",
+    color: "black"
+  }
+};
