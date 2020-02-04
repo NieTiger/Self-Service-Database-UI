@@ -15,60 +15,90 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+/*This is page selector that selects which page is shown*/
 import React, { Component } from "react";
 import FilterPage from "./FilterPage.jsx";
 import PatientsPage from "./PatientsPage.jsx";
 import ExamsPage from "./ExamsPage.jsx";
 import PatientHistoryPage from "./PatientHistoryPage.jsx";
 import PatientImagesPage from "./PatientImagesPage.jsx";
-import ShowPatientImagePage from "./ShowPatientImagePage.jsx"
+import ShowPatientImagePage from "./ShowPatientImagePage.jsx";
 
 export const apiBaseURL = "https://tigernie.com";
 
+/*props means properties*/
+/*state used for updating components- e.g. this.state.page on line 41*/
+/* bind is helpful for retaining hte object instance, so it'll remember what "this" is*/
+
 class Dashboard extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      "page": "FilterPage",
-      "additionalInfo": null
-    }
+      page: "FilterPage",
+      additionalInfo: null
+    };
     this.pageSelector = this.pageSelector.bind(this);
-    this.changePage = this.changePage.bind(this)
+    this.changePage = this.changePage.bind(this);
   }
 
+  /* arrow functions (param1, param2, paramN) => expression*/
+  /*changePage function sets the state to newState(see bottom of page)*/
+  /*In ReactJS, a starting and closing tag are not necessarily required (e.g. <div></div>), different from HTML. */
   pageSelector() {
-    let page = this.state.page
+    let page = this.state.page;
     if (page === "FilterPage") {
-      return <FilterPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
-    }
-    else if (page === "PatientsPage") {
-      return <PatientsPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
-    }
-    else if (page === "ExamsPage") {
-      return <ExamsPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
-    }
-    else if (page === "PatientHistoryPage") {
-      return <PatientHistoryPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
-    }
-    else if (page === "PatientImagesPage") {
-      return <PatientImagesPage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
-    }
-    else if (page === "ShowPatientImagePage") {
-      return <ShowPatientImagePage changePage={(newState) => this.changePage(newState)} additionalInfo={this.state.additionalInfo}/>
+      return (
+        <FilterPage
+          changePage={newState => this.changePage(newState)}
+          additionalInfo={this.state.additionalInfo}
+        />
+      );
+    } else if (page === "PatientsPage") {
+      return (
+        <PatientsPage
+          changePage={newState => this.changePage(newState)}
+          additionalInfo={this.state.additionalInfo}
+        />
+      );
+    } else if (page === "ExamsPage") {
+      return (
+        <ExamsPage
+          changePage={newState => this.changePage(newState)}
+          additionalInfo={this.state.additionalInfo}
+        />
+      );
+    } else if (page === "PatientHistoryPage") {
+      return (
+        <PatientHistoryPage
+          changePage={newState => this.changePage(newState)}
+          additionalInfo={this.state.additionalInfo}
+        />
+      );
+    } else if (page === "PatientImagesPage") {
+      return (
+        <PatientImagesPage
+          changePage={newState => this.changePage(newState)}
+          additionalInfo={this.state.additionalInfo}
+        />
+      );
+    } else if (page === "ShowPatientImagePage") {
+      return (
+        <ShowPatientImagePage
+          changePage={newState => this.changePage(newState)}
+          additionalInfo={this.state.additionalInfo}
+        />
+      );
     }
   }
 
   changePage(newState) {
-    this.setState(newState)
+    this.setState(newState);
   }
 
   render() {
-    let currentPage = this.pageSelector()
-    return (
-      currentPage
-    )
+    let currentPage = this.pageSelector();
+    return currentPage;
   }
 }
 
 export default Dashboard;
-

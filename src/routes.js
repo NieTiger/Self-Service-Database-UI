@@ -15,7 +15,14 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
+/* 2/4/2020 changed path, name, etc*/
 import Dashboard from "views/Dashboard.jsx";
+import FilterPage from "views/FilterPage.jsx";
+import PatientsPage from "views/PatientsPage.jsx";
+import PatientHistoryPage from "views/PatientHistoryPage.jsx";
+import PatientImagesPage from "views/PatientImagesPage.jsx";
+
 import UserProfile from "views/UserProfile.jsx";
 import TableList from "views/TableList.jsx";
 import Typography from "views/Typography.jsx";
@@ -26,33 +33,35 @@ import Upgrade from "views/Upgrade.jsx";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
-    name: "Dashboard",
+    path: "/filters",
+    name: "Filters Page",
     icon: "pe-7s-graph",
     component: Dashboard,
     layout: "/admin"
   },
   {
-    path: "/user",
-    name: "User Profile",
+    path: "/cohort",
+    name: "Patient Cohort",
     icon: "pe-7s-user",
-    component: UserProfile,
+    component: PatientsPage,
     layout: "/admin"
   },
   {
-    path: "/table",
-    name: "Table List",
+    path: "/history",
+    name: "Patient History",
     icon: "pe-7s-note2",
-    component: TableList,
+    component: PatientHistoryPage,
     layout: "/admin"
   },
   {
-    path: "/typography",
-    name: "Typography",
+    path: "/imageslist",
+    name: "Patient Images",
     icon: "pe-7s-news-paper",
-    component: Typography,
+    component: PatientImagesPage,
     layout: "/admin"
   },
+  /*Commented out the irrelevant tabs*/
+  /*
   {
     path: "/icons",
     name: "Icons",
@@ -82,6 +91,7 @@ const dashboardRoutes = [
     component: Upgrade,
     layout: "/admin"
   }
+  */
 ];
 
 export default dashboardRoutes;

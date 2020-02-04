@@ -36,7 +36,7 @@ class Admin extends Component {
     this.state = {
       _notificationSystem: null,
       image: image,
-      color: "black", /*black is the default color for the sidebar*/
+      color: "black" /*black is the default color for the sidebar*/,
       hasImage: true,
       fixedClasses: "dropdown show-dropdown open"
     };
@@ -145,6 +145,8 @@ class Admin extends Component {
       default:
         break;
     }
+    {
+      /*
     _notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
@@ -157,6 +159,8 @@ class Admin extends Component {
       position: "tr",
       autoDismiss: 15
     });
+    */
+    }
   }
   componentDidUpdate(e) {
     if (
@@ -176,12 +180,17 @@ class Admin extends Component {
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />
-        <Sidebar {...this.props} routes={routes} image={this.state.image}
-        color={this.state.color}
-        hasImage={this.state.hasImage}/>
+        <Sidebar
+          {...this.props}
+          routes={routes}
+          image={this.state.image}
+          color={this.state.color}
+          hasImage={this.state.hasImage}
+        />
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <AdminNavbar
             {...this.props}
+            style={styles.NavStyle}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>{this.getRoutes(routes)}</Switch>
@@ -206,3 +215,10 @@ class Admin extends Component {
 }
 
 export default Admin;
+
+const styles = {
+  NavStyle: {
+    "font-weight": "bold",
+    color: "black"
+  }
+};

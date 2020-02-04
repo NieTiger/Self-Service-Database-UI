@@ -57,14 +57,18 @@ class TableList extends Component {
                 <thead>
                   <tr>
                     {this.state.columns.map((prop, key) => {
-                      return <th key={key}>{prop}</th>;
+                      return (
+                        <th key={key} style={styles.TableTitleStyle}>
+                          {prop}
+                        </th>
+                      );
                     })}
                   </tr>
                 </thead>
                 <tbody>
                   {this.state.rows.map((prop, key) => {
                     return (
-                      <tr key={key} style={styles.TableFontStyle}>
+                      <tr key={key}>
                         {prop.map((prop, key) => {
                           var type = prop["type"];
                           var text = prop["text"];
@@ -120,8 +124,11 @@ const styles = {
   TableStyle: {
     border: "solid 2 px black"
   },
-  TableFontStyle: {
+  TableTitleStyle: {
     "font-weight": "bold",
+    color: "black"
+  },
+  TableFontStyle: {
     color: "black"
   }
 };

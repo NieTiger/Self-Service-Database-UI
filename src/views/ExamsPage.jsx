@@ -179,7 +179,7 @@ class ExamPage extends Component {
         let newState = {
             "page": "PatientsPage",
             "additionalInfo": this.props.additionalInfo.FilterPage
-        }
+        } /*let allows you to declare variables that are limited to a scope of ablock statement, unlike var, which defines variable globally*/
         this.props.changePage(newState)
     }
 

@@ -393,7 +393,7 @@ class PatientsPage extends Component {
             <div style={styles.container}>
             <Grid fluid>
                 <Row style = {styles.titleStyle}>
-                    <Col lg={12} sm={8} style = {styles.titleText}>
+                    <Col style = {styles.titleText}>
                         <div>
                             Your Patient Cohort
                         </div>
