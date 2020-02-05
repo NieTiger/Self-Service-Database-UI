@@ -44,7 +44,7 @@ const filter_categories = [
 /*variable definitions
 filter_categories: An array of custombuttons containing e.g. eye diagnosis, age, ethnicity, etc. 
 filter_subcategories: The items in each category constitute filter_subcategories (e.g ketorolac, etc. ), with the indexing 
-filter_subcategories_div:
+filter_subcategories_div: A list of the actual items with each subcategory box, including the checkboxes and styling itself, with the key of the array being e.g. Age
 selected_categories: A list of numbers that represent which categories were selected
 selected_values:
 checkbox_values: 
@@ -409,8 +409,10 @@ class FilterPage extends Component {
       }
       temp_filter_subcategories_div[key] = (
         <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
-          <div style={styles.mainDivButtonTitle}>{key}</div>
-          {temp_subcategories}
+          <div style={styles.mainDivButtonTitle}>{key}</div>{" "}
+          {/*This is the title in each subcategory box (bold, underlined)*/}
+          {temp_subcategories}{" "}
+          {/*This is the actual list of checkbox items (e.g. Prenatal multi..., hydroxychloroquine, etc.) that are being populated in each subcategory box*/}
         </Col>
       );
     }
@@ -418,7 +420,7 @@ class FilterPage extends Component {
       filter_subcategories_div: temp_filter_subcategories_div
     });
   }
-  //returns an array of selected categories
+  //returns an array of selected categories. In the case that it is either vision or pressure, add both left and right to each push.
   getSelectedFilters() {
     var chosen_categories = [];
     for (var i = 0; i < this.state.selected_categories.length; i++) {
@@ -462,7 +464,7 @@ class FilterPage extends Component {
     }
   }
 
-  //updates state.selected_values according to subcategories selected
+  //updates state.selected_values according to subcategories selected: subcategory filters showing up on website, etc
   subcategoryFilterPressed(e) {
     let event = e.target.title;
     let values = event.split(";");
@@ -499,7 +501,7 @@ class FilterPage extends Component {
     }
   }
 
-  //updates checkbox_values according to checkbox changed
+  //updates checkbox_values according to checkbox changed: individual checkboxes in each subcategory
   checkBoxChanged(e) {
     let value = e.target.value;
     let cat_and_sub = e.target.title.split(";");
