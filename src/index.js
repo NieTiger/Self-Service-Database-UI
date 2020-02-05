@@ -28,6 +28,7 @@ import "./assets/css/pe-icon-7-stroke.css";
 
 import AdminLayout from "layouts/Admin.jsx";
 
+/*... in {...props} is the spread syntax, allowing array expressions to be expanded in places where mulitple arguments are expected*/
 ReactDOM.render(
   <BrowserRouter>
     <Switch>

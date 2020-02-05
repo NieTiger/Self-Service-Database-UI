@@ -15,15 +15,19 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { Component } from "react";
-import { Grid, Row, Col, Container } from "react-bootstrap";
 
-import { Card } from "components/Card/Card.jsx";
+/*Feb. 4, 2020: fixed some warnings relating to varaible declaration*/
+
+import React, { Component } from "react";
+import { Grid, Row, Col } from "react-bootstrap";
+
+//import { Card } from "components/Card/Card.jsx";
 import CustomButton from "components/CustomButton/CustomButton";
-import { FormInputs } from "components/FormInputs/FormInputs.jsx";
+//import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 
 import { apiBaseURL } from "./Dashboard.jsx";
 
+/*values assigned to const cannot be changed*/
 const filter_categories = [
   "Eye Diagnosis",
   "Systemic Diagnosis",
@@ -37,6 +41,14 @@ const filter_categories = [
   "Pressure"
 ];
 
+/*variable definitions
+filter_categories: An array of custombuttons containing e.g. eye diagnosis, age, ethnicity, etc. 
+filter_subcategories: The items in each category constitute filter_subcategories (e.g ketorolac, etc. ), with the indexing 
+filter_subcategories_div:
+selected_categories: A list of numbers that represent which categories were selected
+selected_values:
+checkbox_values: 
+*/
 class FilterPage extends Component {
   constructor(props) {
     super(props);
@@ -100,7 +112,7 @@ class FilterPage extends Component {
     }
     let newState = {
       page: "PatientsPage",
-      additionalInfo: temp_selected_values
+      additionalInfo: temp_selected_values /*when button is pressed, goes to the PatientsPage*/
     };
     this.props.changePage(newState);
   }
@@ -112,7 +124,7 @@ class FilterPage extends Component {
       var category_name = filter_categories[i];
       var temp_filter_category = null;
       if (this.state.selected_categories.indexOf(category_name) !== -1) {
-        temp_filter_category = (
+        temp_filter_category /*selected_categories provide a list of index numbers that show which categories were selected. If selected, styles have blue background.*/ = (
           <CustomButton
             style={styles.buttonDivPressed}
             title={category_name}
@@ -151,9 +163,10 @@ class FilterPage extends Component {
       .then(function(response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
-        temp_filter_subcategories["Eye Diagnosis"] = response.data.result.data;
+        temp_filter_subcategories["Eye Diagnosis"] =
+          response.data.result.data; /*stores into an array with key "Eye Diagnosis"*/
         currentComponent.setState({
-          filter_subcategories: temp_filter_subcategories
+          filter_subcategories: temp_filter_subcategories /*updates the state of filter_subcategories each time*/
         });
       })
       .catch(function(error) {
@@ -161,9 +174,9 @@ class FilterPage extends Component {
       });
 
     //get systemic diagnosis subcategories from database
-    var link = apiBaseURL + "/ssd_api/get_distinct?special=systemic_diagnosis";
+    var link2 = apiBaseURL + "/ssd_api/get_distinct?special=systemic_diagnosis";
     axios
-      .get(link)
+      .get(link2)
       .then(function(response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
@@ -185,7 +198,7 @@ class FilterPage extends Component {
     });
 
     //put ethnicity subcategories
-    var temp_filter_subcategories = currentComponent.state.filter_subcategories;
+    temp_filter_subcategories = currentComponent.state.filter_subcategories;
     temp_filter_subcategories["Ethnicity"] = [
       "Hispanic or Latino",
       "Not Hispanic or Latino",
@@ -196,11 +209,11 @@ class FilterPage extends Component {
     });
 
     //get image procedure type from database
-    var link =
+    var link3 =
       apiBaseURL +
       "/ssd_api/get_distinct?table_name=image_procedure&col_name=image_procedure";
     axios
-      .get(link)
+      .get(link3)
       .then(function(response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
@@ -215,11 +228,11 @@ class FilterPage extends Component {
       });
 
     //get lab values from database
-    var link =
+    var link4 =
       apiBaseURL +
       "/ssd_api/get_distinct?table_name=lab_value_deid&col_name=name";
     axios
-      .get(link)
+      .get(link4)
       .then(function(response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
@@ -233,11 +246,11 @@ class FilterPage extends Component {
       });
 
     //get medication generic name from database
-    var link =
+    var link5 =
       apiBaseURL +
       "/ssd_api/get_distinct?table_name=medication_deid&col_name=generic_name";
     axios
-      .get(link)
+      .get(link5)
       .then(function(response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
@@ -252,11 +265,11 @@ class FilterPage extends Component {
       });
 
     //get medication therapuetic name from database
-    var link =
+    var link6 =
       apiBaseURL +
       "/ssd_api/get_distinct?table_name=medication_deid&col_name=therapeutic_class";
     axios
-      .get(link)
+      .get(link6)
       .then(function(response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
@@ -271,7 +284,7 @@ class FilterPage extends Component {
       });
 
     //put vision subcategories
-    var temp_filter_subcategories = currentComponent.state.filter_subcategories;
+    temp_filter_subcategories = currentComponent.state.filter_subcategories;
     temp_filter_subcategories["Left Vision"] = [
       "less",
       "greater",
@@ -289,7 +302,7 @@ class FilterPage extends Component {
     });
 
     //put pressure subcategories
-    var temp_filter_subcategories = currentComponent.state.filter_subcategories;
+    temp_filter_subcategories = currentComponent.state.filter_subcategories;
     temp_filter_subcategories["Left Pressure"] = [
       "less",
       "greater",
@@ -329,10 +342,12 @@ class FilterPage extends Component {
     //goes through every category (e.g Eye Diagnosis) and every subcategory (e.g retenal edema) and creates a subcategory box
     for (var key in this.state.filter_subcategories) {
       var temp_subcategories = [];
+      var temp_element;
       for (var index in this.state.filter_subcategories[key]) {
         var name = this.state.filter_subcategories[key][index];
+        // if the category is something like eye diagnosis or labs without less, greater, or between, then run this
         if (input_categories.indexOf(key) === -1) {
-          var temp_element = (
+          temp_element = (
             <div>
               <input
                 type="checkbox"
@@ -342,9 +357,9 @@ class FilterPage extends Component {
               />
               {name}
             </div>
-          );
+          ); // if the category is something like age, vision, pressure, and the item is not "between", then run the elseif part
         } else if (name !== "between") {
-          var temp_element = (
+          temp_element = (
             <div>
               <input
                 type="checkbox"
@@ -362,9 +377,9 @@ class FilterPage extends Component {
                 style={styles.main_div_button_text}
               />
             </div>
-          );
+          ); // If there is "between", then need a checkbox and two textboxes (in contrast to one textbox)
         } else {
-          var temp_element = (
+          temp_element = (
             <div>
               <input
                 type="checkbox"
@@ -454,10 +469,17 @@ class FilterPage extends Component {
     let category = values[0];
     let value = values[1];
     if (!this.state.selected_values[category]) {
+      /*edited due to warning*/
+      var temp_selected_values = this.state.selected_values;
+      temp_selected_values[category] = [value];
+      this.setState({
+        selected_values: temp_selected_values
+      });
+      /*
       this.state.selected_values[category] = [value];
       this.setState({
         selected_values: this.state.selected_values
-      });
+      });*/
     } else if (this.state.selected_values[category].indexOf(value) === -1) {
       this.state.selected_values[category].push(value);
       this.setState({

@@ -33,7 +33,7 @@ import Upgrade from "views/Upgrade.jsx";
 
 const dashboardRoutes = [
   {
-    path: "/filters",
+    path: "/dashboard",
     name: "Filters Page",
     icon: "pe-7s-graph",
     component: Dashboard,
@@ -59,12 +59,16 @@ const dashboardRoutes = [
     icon: "pe-7s-news-paper",
     component: PatientImagesPage,
     layout: "/admin"
-  },
+  }
   /*Commented out the irrelevant tabs*/
+  /*path: what shows up in the website address bar*/
+  /*name: name that shows up on the sidebar*/
+  /*component: which jsx file it comes from (see top, import ___ from ___)
+  /*layout: 
   /*
   {
-    path: "/icons",
-    name: "Icons",
+    path: "/icons", 
+    name: "Icons", 
     icon: "pe-7s-science",
     component: Icons,
     layout: "/admin"
