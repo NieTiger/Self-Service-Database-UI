@@ -15,6 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
+//This is the page that appears after submitting the filters page, containing patient information
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
@@ -44,6 +46,12 @@ function isDict(v) {
     return typeof v==='object' && v!==null && !(v instanceof Array) && !(v instanceof Date);
 }
 
+//Variables
+//patientsIDs: 
+//patientInfo: 
+//filterCategories: The fitler categories that will appear on the table in the patients page (always have patient ID, also images is pushed in getPatients() function below)
+//tableKey: 
+//exportPressed: 
 class PatientsPage extends Component {
 
     constructor(props) {
@@ -77,6 +85,7 @@ class PatientsPage extends Component {
         this.getPatients()
     }
 
+    //calculates and returns the age age_now from date of birth dob1
     _calculateAge(dob1) {
         var today = new Date();
         var birthDate = new Date(dob1);  // create a date object directly from `dob1` argument
@@ -89,12 +98,13 @@ class PatientsPage extends Component {
         return age_now;
       }
 
+    //
     getPatients() {
-        let data = this.props.additionalInfo;
+        let data = this.props.additionalInfo; //see submitButtonPressed() for additionalInfo
         let temp_data = {}
         let tempFilterCategories = this.state["filterCategories"]
         for (var key in data) {
-            temp_data[frontendToBackend[key]] = data[key]
+            temp_data[frontendToBackend[key]] = data[key] //frontendToBackend towards the top of this file
             tempFilterCategories.push(key)
         }
         tempFilterCategories.push("Images")
@@ -119,6 +129,7 @@ class PatientsPage extends Component {
         })
     }
 
+    //sets this.state.patientInfo to what is obtained from the API 
     getData() {
         let currentComponent = this;
         let patientIDs = this.state.patientsIDs;
@@ -188,8 +199,8 @@ class PatientsPage extends Component {
             }
         }
 
-        for (var i = 0; i < this.state.patientInfo.length; i++) {
-            let patient = this.state.patientInfo[i]
+        for (var j = 0; j < this.state.patientInfo.length; j++) {
+            let patient = this.state.patientInfo[j]
             let key_list = Object.keys(patient)
             if (key_list[0] === "data") {
                 var patientPersonal = patient.data[0]
@@ -400,10 +411,10 @@ class PatientsPage extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={3} sm={3} style = {styles.sideDivStyle}>
+                    <Col sm={3} style = {styles.sideDivStyle}>
                         {all_filters}
                     </Col>
-                    <Col lg={9} sm={6} style = {styles.mainDivStyle}>
+                    <Col sm={9} style = {styles.mainDivStyle}>
                         <Grid fluid>
                           <Row>
                           {table}
