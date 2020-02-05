@@ -70,8 +70,13 @@ class TableList extends Component {
                     return (
                       <tr key={key}>
                         {prop.map((prop, key) => {
-                          var type = prop["type"];
-                          var text = prop["text"];
+                          if (!prop.hasOwnProperty("type")) {
+                            var type = null;
+                            var text = prop["text"];
+                          } else if (prop.hasOwnProperty("type")) {
+                            var type = prop["type"];
+                            var text = prop["text"];
+                          }
                           if (type === "button") {
                             var submitFunction = prop["submitFunction"];
                             var submitInformation = prop["submitInformation"];

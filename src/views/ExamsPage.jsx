@@ -150,6 +150,7 @@ class ExamPage extends Component {
         for (var i = 0; i < this.state.patientsIDs.length; i++) {
             let patientID = this.state.patientsIDs[i]
             for (var j = 0; j < patientInfo[patientID].length; j++) {
+                var value = {} //testing, added, commented out code in this function are original code
                 let examInfo = patientInfo[patientID][j]
                 let tempPatientInfo = []
                 for (var k = 0; k < this.state.filterCategories.length; k++) {
@@ -159,20 +160,29 @@ class ExamPage extends Component {
                             categoryTitles.push(category)
                         }
                         if (category === "Patient ID") {
-                            tempPatientInfo.push(patientID)
+                            value["type"] = "button"
+                            value["text"] = patientID
+                            tempPatientInfo.push(value)
+                            //tempPatientInfo.push(patientID)
                         }
                         else if (category === "Images") {
-                            tempPatientInfo.push("images")
+                            value["type"] = "button"
+                            value["text"] = "See Images"
+                            tempPatientInfo.push(value)
+                            //tempPatientInfo.push("images")
                         }
                         else {
-                            tempPatientInfo.push(examInfo[frontendToBackend[category]])
+                            value["type"] = "string"
+                            value["text"] = examInfo[frontendToBackend[category]]
+                            tempPatientInfo.push(value)                            
+                            //tempPatientInfo.push(examInfo[frontendToBackend[category]])
                         }
                     }
                 }
                 tableData.push(tempPatientInfo)
             }
         }
-        return <TableList key = {this.state.tableKey} columns={categoryTitles} rows={tableData}>hello</TableList>
+        return <TableList key = {this.state.tableKey} columns={categoryTitles} rows={tableData}></TableList>
     }
 
     backButtonPressed() {
