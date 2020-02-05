@@ -38,7 +38,9 @@ const dashboardRoutes = [
     icon: "pe-7s-graph",
     component: Dashboard,
     layout: "/admin"
-  },
+  }
+  /*commented out for now since links are currently in progress*/
+  /*
   {
     path: "/cohort",
     name: "Patient Cohort",
@@ -60,6 +62,7 @@ const dashboardRoutes = [
     component: PatientImagesPage,
     layout: "/admin"
   }
+  */
   /*Commented out the irrelevant tabs*/
   /*path: what shows up in the website address bar*/
   /*name: name that shows up on the sidebar*/

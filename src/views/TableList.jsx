@@ -115,11 +115,11 @@ export default TableList;
 
 const styles = {
   button: {
-    width: "70%",
+    width: "8em",
     margin: "1vh",
     "background-color": "#d4d5d7",
     color: "black",
-    border: "solid 2px black"
+    border: "solid 5px black"
   },
   TableStyle: {
     border: "solid 2 px black"

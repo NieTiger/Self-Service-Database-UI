@@ -16,7 +16,8 @@
 
 */
 
-//This is the page that appears after submitting the filters page, containing patient information
+//This is the page that appears after submitting the filters page, containing patient cohort information
+//Feb. 4, 2020 added comments and fixed systemtic diagnosis bug
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
@@ -47,11 +48,11 @@ function isDict(v) {
 }
 
 //Variables
-//patientsIDs: 
-//patientInfo: 
+//patientsIDs: A list of relevant patient IDs based on the filters
+//patientInfo: Information for each patient obtained from the API
 //filterCategories: The fitler categories that will appear on the table in the patients page (always have patient ID, also images is pushed in getPatients() function below)
 //tableKey: 
-//exportPressed: 
+//exportPressed: determines whether the export details are shown (incl. export checkboxes) or not (just one single button)
 class PatientsPage extends Component {
 
     constructor(props) {
@@ -98,13 +99,13 @@ class PatientsPage extends Component {
         return age_now;
       }
 
-    //
+    //sets up the state of filterCategories, also sets up the state of patientIDs (see around line 118)
     getPatients() {
         let data = this.props.additionalInfo; //see submitButtonPressed() for additionalInfo
         let temp_data = {}
         let tempFilterCategories = this.state["filterCategories"]
         for (var key in data) {
-            temp_data[frontendToBackend[key]] = data[key] //frontendToBackend towards the top of this file
+            temp_data[frontendToBackend[key]] = data[key] //frontendToBackend is a dictionary, defined towards the top of this file
             tempFilterCategories.push(key)
         }
         tempFilterCategories.push("Images")
@@ -164,6 +165,7 @@ class PatientsPage extends Component {
         }
     }
 
+    //Obtains the filter categories used, including the CustomButton styling, for the left side of the page
     getFilters() {
         var filter_categories = this.state.filterCategories;
         var temp_filter_categories = [];
@@ -217,6 +219,9 @@ class PatientsPage extends Component {
         })
     }
 
+    //Loops through each category to create the relevant table info for patient history page
+    //Outside loop goes through each patient ID
+    //Inside loop goes through each filter category of each patient ID
     getTable() {
         if (!this.state.loaded) {
             return null
@@ -229,12 +234,13 @@ class PatientsPage extends Component {
             let tempPatientInfo = []
             for (var j = 0; j < this.state.filterCategories.length; j++) {
                 let category = this.state.filterCategories[j]
-                if (this.state.selectedFilterCategories.indexOf(category) !== -1) {
+                if (this.state.selectedFilterCategories.indexOf(category) !== -1) { //if the category is one of the selected, then run this block 
                     var value = {}
                     if (categoryTitles.indexOf(category) === -1) {
                         categoryTitles.push(category)
                     }
-                    if (category === "Patient ID") {
+                    //If the patient ID number is pressed, jump to the PatientHistoryPage with the given patientID
+                    if (category === "Patient ID") { 
                         value["type"] = "button"
                         value["text"] = patientID
                         let newState = {
@@ -249,6 +255,7 @@ class PatientsPage extends Component {
                         value["submitInformation"] = newState
                         tempPatientInfo.push(value)
                     }
+                    //If images is pressed, jump to the PatientImagesPage
                     else if (category === "Images") {
                         value["type"] = "button"
                         value["text"] = "See Images"
@@ -268,7 +275,22 @@ class PatientsPage extends Component {
                         var text = []
                         if (isDict(tempValue)) {
                             for (var key in tempValue) {
-                                text.push(key + " (" + tempValue[key].substring(0,16) + ")")
+                                /*logging in console for error checking*/
+                                /*
+                                var str = "hello hello";
+                                console.log(str)
+                                var str2 = "this is key";
+                                console.log(str2)
+                                console.log(key)
+                                var str3 = "this is tempValue";
+                                console.log(str3)
+                                console.log(tempValue)
+                                */
+                               if (tempValue[key] == null) {
+                                    text.push(key)
+                                } else {
+                                    text.push(key + " (" + tempValue[key].substring(0,16) + ")") // e.g. key is the diagnosis, and tempValue[key] displays the date
+                                }
                                 text.push(<br/>)
                             }
                         }
@@ -287,6 +309,7 @@ class PatientsPage extends Component {
         return <TableList key = {this.state.tableKey} columns={categoryTitles} rows={tableData}></TableList>
     }
 
+    //If the category filter pressed doesn't exist (first if), then push to selectedFilterCategories, otherwise remain the same
     categoryFilterPressed(e) {
         let category = e.target.title;
         if (this.state.selectedFilterCategories.indexOf(category) === -1) {
@@ -306,6 +329,7 @@ class PatientsPage extends Component {
         }
     }
 
+    //When the back button is pressed, jump to the original filter page while maintaing additionalInfo (stuff relating to the filters the user submitted, retaining "memory")
     backButtonPressed() {
         let newState = {
             "page": "FilterPage",
@@ -314,6 +338,7 @@ class PatientsPage extends Component {
         this.props.changePage(newState)
     }
 
+    //When the see all exams button is pressed, jump to the exams page while maintaining the info from patients page and filter page
     examsPagePressed() {
         let newState = {
             "page": "ExamsPage",
@@ -325,6 +350,7 @@ class PatientsPage extends Component {
         this.props.changePage(newState)
     }
 
+    //used in the getExport() function to set the state of "exportPressed"
     exportAllImagesPressed() {
         this.setState({
             "exportPressed": {
@@ -333,6 +359,7 @@ class PatientsPage extends Component {
         })
     }
 
+    //If the cateogry is pressed, then if it was not already pressed, set state to true. Otherwise also set state to true. 
     exportCategoryPressed(e) {
         let category = e.target.title;
         if (this.state.exportPressed[category]) {
@@ -358,6 +385,7 @@ class PatientsPage extends Component {
         return null
     }
 
+    //If the export button is pressed, then display the checkboxes with patient ID, diagnosis, image procedure; otherwise, don't display those
     getExport() {
         if (!this.state.exportPressed.display) {
             return <CustomButton style = {styles.buttonUpperExport} onClick={() => this.exportAllImagesPressed()}>EXPORT ALL IMAGES</CustomButton>
@@ -395,6 +423,7 @@ class PatientsPage extends Component {
         return legend;
     }
 
+    //render displays what is shown on the webpage
     render() {
         console.log("state",this.state)
         var all_filters = this.getFilters()

@@ -111,8 +111,8 @@ class FilterPage extends Component {
       temp_selected_values[key] = this.state.checkbox_values[key];
     }
     let newState = {
-      page: "PatientsPage",
-      additionalInfo: temp_selected_values /*when button is pressed, goes to the PatientsPage*/
+      page: "PatientsPage", /*when button is pressed, goes to the PatientsPage*/
+      additionalInfo: temp_selected_values 
     };
     this.props.changePage(newState);
   }
