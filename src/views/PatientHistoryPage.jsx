@@ -53,6 +53,7 @@ const frontendToBackend = {
   "Exam ID": "exam_id"
 };
 
+//purpose is to convert the capitalization and underlines between the frontend and backend 
 const backendToFrontend = {};
 for (var key in frontendToBackend) {
   backendToFrontend[frontendToBackend[key]] = key;
@@ -67,6 +68,9 @@ function isDict(v) {
   );
 }
 
+//function compareDates compares dates a and b 
+//returns true if date a is later than b, false otherwise
+//dates are in the format of "Thu, 09 Aug 2018" without the quotes
 function compareDates(a, b) {
   var year_a = parseInt(a.substring(12, 16));
   var month_a = a.substring(8, 11);
