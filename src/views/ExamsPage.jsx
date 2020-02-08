@@ -172,6 +172,7 @@ class ExamPage extends Component {
                             //tempPatientInfo.push("images")
                         }
                         else {
+                            //will need to come back to this part to populate the exams page table
                             value["type"] = "string"
                             value["text"] = examInfo[frontendToBackend[category]]
                             tempPatientInfo.push(value)                            
