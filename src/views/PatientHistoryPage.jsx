@@ -107,6 +107,12 @@ function compareDates(a, b) {
   return 0;
 }
 
+//Variables:
+//patientID
+//filterCategories
+//selectedFilterCategories
+//tableKey
+//exportPressed
 class PatientHistoryPage extends Component {
   constructor(props) {
     super(props);
@@ -138,6 +144,7 @@ class PatientHistoryPage extends Component {
     );
   }
 
+  //sets the state of patientinfo to be the one for the relevant patient ID
   getData() {
     var currentComponent = this;
     var patientID = this.state.patientID;
@@ -155,13 +162,14 @@ class PatientHistoryPage extends Component {
       });
   }
 
+  //
   editData() {
-    if (!this.state.patientInfo) {
+    if (!this.state.patientInfo) { //if patient info is nonexistent, then cannot edit patient info, so return
       return;
     }
     let patientInfo = {};
     for (var key in this.state.patientInfo) {
-      if (key === "eye_diagnosis" || key == "systemic_diagnosis") {
+      if (key == "eye_diagnosis" || key == "systemic_diagnosis") {
         for (var key2 in this.state.patientInfo[key]) {
           if (this.state.patientInfo[key][key2] != null) {
             //!= corresponds to ==, !== corresponds to ===, the latter means equal value and equal type
