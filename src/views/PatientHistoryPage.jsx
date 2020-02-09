@@ -53,7 +53,7 @@ const frontendToBackend = {
   "Exam ID": "exam_id"
 };
 
-//purpose is to convert the capitalization and underlines between the frontend and backend 
+//purpose is to convert the capitalization and underlines between the frontend and backend
 const backendToFrontend = {};
 for (var key in frontendToBackend) {
   backendToFrontend[frontendToBackend[key]] = key;
@@ -68,7 +68,7 @@ function isDict(v) {
   );
 }
 
-//function compareDates compares dates a and b 
+//function compareDates compares dates a and b
 //returns true if date a is later than b, false otherwise
 //dates are in the format of "Thu, 09 Aug 2018" without the quotes
 function compareDates(a, b) {
@@ -108,7 +108,7 @@ function compareDates(a, b) {
 }
 
 //Variables:
-//patientID
+//patientID: The relevant patient ID whose patient history is dislpayed
 //filterCategories
 //selectedFilterCategories
 //tableKey
@@ -162,9 +162,10 @@ class PatientHistoryPage extends Component {
       });
   }
 
-  //
+  //sets up the patient info to populate the table on the website
   editData() {
-    if (!this.state.patientInfo) { //if patient info is nonexistent, then cannot edit patient info, so return
+    if (!this.state.patientInfo) {
+      //if patient info is nonexistent, then cannot edit patient info, so return
       return;
     }
     let patientInfo = {};
@@ -264,6 +265,8 @@ class PatientHistoryPage extends Component {
     });
   }
 
+  //uses this.state.filterCategories, containing a list of fitler category names, then recreates a list
+  //with CustomButton elements that is returned as temp_filter_categories
   getFilters() {
     var filter_categories = this.state.filterCategories;
     var temp_filter_categories = [];
@@ -298,6 +301,7 @@ class PatientHistoryPage extends Component {
     return temp_filter_categories;
   }
 
+  //If the category filter is pressed, update the state of selectedFilterCategories to what is newly selected
   categoryFilterPressed(e) {
     let category = e.target.title;
     if (this.state.selectedFilterCategories.indexOf(category) === -1) {
@@ -317,6 +321,9 @@ class PatientHistoryPage extends Component {
     }
   }
 
+  //return tablelist object
+  //If a category exists in the selectedFilterCategories list, then push it into a variable called selectedCategories
+  //Exception for vision and pressure, have both left and right addded to the category.
   getTables() {
     if (!this.state.loaded) {
       return null;
@@ -350,6 +357,7 @@ class PatientHistoryPage extends Component {
           }
         ];
       }
+
       for (var i = 0; i < selectedCategories.length; i++) {
         let category = selectedCategories[i];
         let value = {
@@ -394,6 +402,8 @@ class PatientHistoryPage extends Component {
     ];
   }
 
+  //used in the getTable() function
+  //returns TableList object
   getSummaryTable(patientData) {
     if (!patientData[0]) {
       return null;
@@ -454,6 +464,7 @@ class PatientHistoryPage extends Component {
     );
   }
 
+  //Change page to patients page, with additionalInfo serving as the "memory" to retain entered filter information
   backButtonPressed() {
     let newState = {
       page: "PatientsPage",
@@ -462,8 +473,10 @@ class PatientHistoryPage extends Component {
     this.props.changePage(newState);
   }
 
+  //To be filled after images are set up
   imagesButtonPressed() {}
 
+  //render is what shows on the webpage
   render() {
     console.log("state", this.state);
 
