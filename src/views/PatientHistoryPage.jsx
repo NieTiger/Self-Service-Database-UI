@@ -169,8 +169,10 @@ class PatientHistoryPage extends Component {
       return;
     }
     let patientInfo = {};
+    var date = [];
+    var category = null;
     for (var key in this.state.patientInfo) {
-      if (key == "eye_diagnosis" || key == "systemic_diagnosis") {
+      if (key === "eye_diagnosis" || key === "systemic_diagnosis") {
         for (var key2 in this.state.patientInfo[key]) {
           if (this.state.patientInfo[key][key2] != null) {
             //!= corresponds to ==, !== corresponds to ===, the latter means equal value and equal type
@@ -188,7 +190,7 @@ class PatientHistoryPage extends Component {
             var something5 = "this is patientinfo";
             console.log(something5);
             console.log(patientInfo);
-            var date = this.state.patientInfo[key][key2].substring(0, 16);
+            date = this.state.patientInfo[key][key2].substring(0, 16);
             patientInfo[date] = {};
           }
         }
@@ -198,7 +200,7 @@ class PatientHistoryPage extends Component {
             isDict(this.state.patientInfo[key][i]) &&
             this.state.patientInfo[key][i].date
           ) {
-            var date = this.state.patientInfo[key][i].date.substring(0, 16);
+            date = this.state.patientInfo[key][i].date.substring(0, 16);
             patientInfo[date] = {};
           }
         }
@@ -208,7 +210,7 @@ class PatientHistoryPage extends Component {
       if (key === "eye_diagnosis" || key === "systemic_diagnosis") {
         for (var key2 in this.state.patientInfo[key]) {
           if (this.state.patientInfo[key][key2] != null) {
-            var date = this.state.patientInfo[key][key2].substring(0, 16);
+            date = this.state.patientInfo[key][key2].substring(0, 16);
             if (patientInfo[date]) {
               patientInfo[date][backendToFrontend[key]] = key2;
             }
@@ -226,8 +228,8 @@ class PatientHistoryPage extends Component {
         }
         for (var i = 0; i < this.state.patientInfo[key].length; i++) {
           if (this.state.patientInfo[key][i].date) {
-            var date = this.state.patientInfo[key][i].date.substring(0, 16);
-            var category = category2;
+            date = this.state.patientInfo[key][i].date.substring(0, 16);
+            category = category2;
             if (this.state.patientInfo[key][i].name.search("LEFT") !== -1) {
               category = category1;
             }
@@ -237,8 +239,8 @@ class PatientHistoryPage extends Component {
       } else if (key === "lab_values") {
         for (var i = 0; i < this.state.patientInfo[key].length; i++) {
           if (this.state.patientInfo[key][i].date) {
-            var date = this.state.patientInfo[key][i].date.substring(0, 16);
-            var category = backendToFrontend[key];
+            date = this.state.patientInfo[key][i].date.substring(0, 16);
+            category = backendToFrontend[key];
             patientInfo[date][category] = {
               "Lab Name": this.state.patientInfo[key][i].lab_name,
               "Lab Value": this.state.patientInfo[key][i].lab_value
@@ -248,7 +250,7 @@ class PatientHistoryPage extends Component {
       } else if (key === "medication") {
         for (var i = 0; i < this.state.patientInfo[key].length; i++) {
           if (this.state.patientInfo[key][i].date) {
-            var date = this.state.patientInfo[key][i].date.substring(0, 16);
+            date = this.state.patientInfo[key][i].date.substring(0, 16);
             patientInfo[date][
               "Medication Generic Name"
             ] = this.state.patientInfo[key][i].generic_name;
@@ -358,7 +360,7 @@ class PatientHistoryPage extends Component {
         ];
       }
 
-      for (var i = 0; i < selectedCategories.length; i++) {
+      for (var ii = 0; ii < selectedCategories.length; ii++) {
         let category = selectedCategories[i];
         let value = {
           type: "string",
@@ -377,7 +379,7 @@ class PatientHistoryPage extends Component {
               text.push(labName + ": " + labValue);
               text.push(<br />);
             } else if (labName) {
-              text.push(labName + ": " + "undefined");
+              text.push(labName + ": undefined");
               text.push(<br />);
             }
           } else {
@@ -498,10 +500,8 @@ class PatientHistoryPage extends Component {
             </Col>
           </Row>
           <Row>
-            <Col lg={3} sm={3}>
-              {all_filters}
-            </Col>
-            <Col lg={9} sm={6}>
+            <Col sm={3}>{all_filters}</Col>
+            <Col sm={9}>
               <Grid fluid>
                 <Row style={styles.underTitleStyle}>{summaryTable}</Row>
                 <Row>
