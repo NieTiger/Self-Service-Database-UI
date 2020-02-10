@@ -321,10 +321,10 @@ class PatientImagesPage extends Component {
             </Col>
           </Row>
           <Row>
-            <Col lg={3} sm={3}>
+            <Col sm={3}>
               {all_filters}
             </Col>
-            <Col lg={9} sm={6}>
+            <Col sm={9}>
               <Grid fluid>
                 <Row>
                   <div style={styles.mainDivStyle}>{table}</div>
