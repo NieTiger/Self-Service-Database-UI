@@ -32,6 +32,9 @@ const frontendToBackend = {
     "Exam Date": "exam_date",
 }
 
+//Feb. 10, 2020: ExamPage data is not displaying currently
+
+//ExamPage displays all patient exams on a page 
 class ExamPage extends Component {
     constructor(props) {
         super(props);
