@@ -18,7 +18,7 @@
 import React, { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 
-import Card from "components/Card/Card.jsx";
+// import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 import CustomButton from "components/CustomButton/CustomButton";
 
@@ -47,13 +47,7 @@ class TableList extends Component {
                 ctTableFullWidth
                 ctTableResponsive
               content={*/}
-              <Table
-                bordered
-                striped
-                hover
-                responsive
-                style={styles.TableStyle}
-              >
+              <Table striped bordered hover responsive variant="dark">
                 <thead>
                   <tr>
                     {this.state.columns.map((prop, key) => {
@@ -126,9 +120,9 @@ const styles = {
     color: "black",
     border: "solid 5px black"
   },
-  TableStyle: {
-    border: "solid 2 px black"
-  },
+  // TableStyle: {
+  //   border: "solid 2 px black"
+  // },
   TableTitleStyle: {
     "font-weight": "bold",
     color: "black"

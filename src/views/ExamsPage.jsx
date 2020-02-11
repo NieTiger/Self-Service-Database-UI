@@ -186,6 +186,7 @@ class ExamPage extends Component {
     let patientInfo = this.state.patientInfo;
     let categoryTitles = [];
     let tableData = [];
+
     for (var i = 0; i < this.state.patientsIDs.length; i++) {
       let patientID = this.state.patientsIDs[i];
       for (var j = 0; j < patientInfo[patientID].length; j++) {
@@ -198,12 +199,12 @@ class ExamPage extends Component {
             if (categoryTitles.indexOf(category) === -1) {
               categoryTitles.push(category);
             }
-            if (category === "Patient ID") {
+            if (category == "Patient ID") {
               value["type"] = "button";
               value["text"] = patientID;
               tempPatientInfo.push(value);
               //tempPatientInfo.push(patientID)
-            } else if (category === "Images") {
+            } else if (category == "Images") {
               value["type"] = "button";
               value["text"] = "See Images";
               tempPatientInfo.push(value);
@@ -220,6 +221,13 @@ class ExamPage extends Component {
         tableData.push(tempPatientInfo);
       }
     }
+    //for error checking
+    var str10 = "this is tableData";
+    console.log(str10);
+    console.log(tableData);
+    var str20 = "this is this.state.filterCategories";
+    console.log(str20);
+    console.log(this.state.filterCategories);
     return (
       <TableList
         key={this.state.tableKey}
@@ -326,6 +334,7 @@ class ExamPage extends Component {
   render() {
     var all_filters = this.getFilters();
     var exportButton = this.getExport();
+    var mainTable = this.getTable();
     return (
       <div>
         <Grid fluid>
@@ -339,7 +348,7 @@ class ExamPage extends Component {
             <Col sm={9}>
               <Grid fluid>
                 <Row>
-                  <div style={styles.mainDivStyle}>{this.getTable()}</div>
+                  <div style={styles.mainDivStyle}>{mainTable}</div>
                   <div style={styles.underMainStyle}>
                     <CustomButton
                       style={styles.buttonUpperBack}

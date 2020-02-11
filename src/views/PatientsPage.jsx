@@ -21,7 +21,7 @@
 //Feb. 10, 2020 added show and hide demonstration buttons. Not sure if it is helpful?
 
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, Table } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
@@ -508,19 +508,6 @@ class PatientsPage extends Component {
               <div>Your Patient Cohort</div>
             </Col>
           </Row>
-          {/* <Row>
-            <Col sm={3}></Col>
-            <Col sm={3}>
-              <CustomButton style={styles.buttonDivPressed}>
-                {" "}
-                Shown{" "}
-              </CustomButton>
-            </Col>
-            <Col sm={3}>
-              <CustomButton style={styles.buttonDiv}> Hidden </CustomButton>
-            </Col>
-            <Col sm={3}></Col>
-          </Row> */}
           <Row>
             <Col sm={3} style={styles.sideDivStyle}>
               <Row>
@@ -538,7 +525,8 @@ class PatientsPage extends Component {
             <Col sm={9} style={styles.mainDivStyle}>
               <Grid fluid>
                 <Row>
-                  {table}
+                  <div style={styles.tableStyle}>{table}</div>
+
                   <div style={styles.underMainStyle}>
                     <CustomButton
                       style={styles.buttonUpperSubmit}
