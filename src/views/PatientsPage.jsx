@@ -181,17 +181,17 @@ class PatientsPage extends Component {
   getFilters() {
     var filter_categories = this.state.filterCategories;
     var temp_filter_categories = [];
-    var show_category = null;
-    var hide_category = null;
-    //add two demonstration show and hide buttons
-    show_category = (
-      <CustomButton style={styles.buttonDivPressed}> Shown </CustomButton>
-    );
-    temp_filter_categories.push(show_category);
-    hide_category = (
-      <CustomButton style={styles.buttonDiv}> Hidden </CustomButton>
-    );
-    temp_filter_categories.push(hide_category);
+    // var show_category = null;
+    // var hide_category = null;
+    // //add two demonstration show and hide buttons
+    // show_category = (
+    //   <CustomButton style={styles.buttonDivPressed}> Shown </CustomButton>
+    // );
+    // temp_filter_categories.push(show_category);
+    // hide_category = (
+    //   <CustomButton style={styles.buttonDiv}> Hidden </CustomButton>
+    // );
+    // temp_filter_categories.push(hide_category);
     for (var i = 0; i < filter_categories.length; i++) {
       var category_name = filter_categories[i];
       var temp_filter_category = null;
@@ -523,7 +523,17 @@ class PatientsPage extends Component {
           </Row> */}
           <Row>
             <Col sm={3} style={styles.sideDivStyle}>
-              {all_filters}
+              <Row>
+                <CustomButton style={styles.buttonDivShow}>
+                  {" "}
+                  Shown{" "}
+                </CustomButton>
+                <CustomButton style={styles.buttonDivHide}>
+                  {" "}
+                  Hidden{" "}
+                </CustomButton>
+              </Row>
+              <Row>{all_filters}</Row>
             </Col>
             <Col sm={9} style={styles.mainDivStyle}>
               <Grid fluid>
@@ -577,6 +587,22 @@ const styles = {
   },
   buttonDivPressed: {
     width: "100%",
+    margin: "1vh",
+    "background-color": "#78deec",
+    color: "black",
+    border: "solid 2px black"
+  },
+  buttonDivHide: {
+    width: "45%",
+    "margin-top": "1vh",
+    "margin-bottom": "1vh",
+    "margin-left": "2vh",
+    "background-color": "white",
+    color: "black",
+    border: "solid 2px black"
+  },
+  buttonDivShow: {
+    width: "45%",
     margin: "1vh",
     "background-color": "#78deec",
     color: "black",
