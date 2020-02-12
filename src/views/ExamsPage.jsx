@@ -190,23 +190,31 @@ class ExamPage extends Component {
     for (var i = 0; i < this.state.patientsIDs.length; i++) {
       let patientID = this.state.patientsIDs[i];
       for (var j = 0; j < patientInfo[patientID].length; j++) {
-        var value = {}; //testing, added, commented out code in this function are original code
         let examInfo = patientInfo[patientID][j];
+        let examID = [];
         let tempPatientInfo = [];
         for (var k = 0; k < this.state.filterCategories.length; k++) {
+          var value = {}; // added this
           let category = this.state.filterCategories[k];
+          // //temporary: error checking
+          // var str101 = "this is category....."; //error checking
+          // console.log(str101); //error checking
+          // console.log(category); //error checking
+          // var bool101 = category == "Patient ID"; //error checking
+          // console.log(bool101); //error checking
           if (this.state.selectedFilterCategories.indexOf(category) !== -1) {
             if (categoryTitles.indexOf(category) === -1) {
               categoryTitles.push(category);
             }
-            if (category == "Patient ID") {
+            if (category === "Patient ID") {
               value["type"] = "button";
               value["text"] = patientID;
               tempPatientInfo.push(value);
               //tempPatientInfo.push(patientID)
-            } else if (category == "Images") {
+            } else if (category === "Exam Links") {
               value["type"] = "button";
-              value["text"] = "See Images";
+              examID = examInfo["exam_id"];
+              value["text"] = examID;
               tempPatientInfo.push(value);
               //tempPatientInfo.push("images")
             } else {
@@ -217,11 +225,23 @@ class ExamPage extends Component {
               //tempPatientInfo.push(examInfo[frontendToBackend[category]])
             }
           }
+          var str102 = "this is tempPatientInfo"; //error checking
+          console.log(str102); //error checking
+          console.log(tempPatientInfo); //error checking
+          console.log(examInfo); // error checking
+          // if (k > 0) {
+          //   // error checking
+          //   return; // error checking
+          // } // error checking
         }
         tableData.push(tempPatientInfo);
+        var str103 = "this is tableData"; //error checking
+        console.log(str103); //error checking
+        console.log(tableData); //error checking
+        // return; //error checking
       }
     }
-    //for error checking
+
     var str10 = "this is tableData";
     console.log(str10);
     console.log(tableData);

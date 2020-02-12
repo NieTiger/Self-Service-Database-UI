@@ -347,6 +347,9 @@ class PatientHistoryPage extends Component {
     let patientInfo = this.state.patientInfo;
     let tableData = [];
 
+    //Feb. 11 For error checking
+    //
+
     for (var date in patientInfo) {
       let data = patientInfo[date];
       let tempDateData = [];
