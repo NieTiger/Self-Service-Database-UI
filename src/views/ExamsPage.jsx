@@ -27,7 +27,7 @@ const axios = require("axios");
 
 const frontendToBackend = {
   "Patient ID": "pt_id",
-  "Image Procedure": "image_procedure_id",
+  "Image Info": "images",
   "Exam ID": "exam_id",
   "Exam Date": "exam_date"
 };
@@ -43,14 +43,14 @@ class ExamPage extends Component {
       patientInfo: [],
       filterCategories: [
         "Patient ID",
-        "Image Procedure",
+        "Image Info",
         "Exam ID",
         "Exam Date",
         "Exam Links"
       ],
       selectedFilterCategories: [
         "Patient ID",
-        "Image Procedure",
+        "Image Info",
         "Exam ID",
         "Exam Date",
         "Exam Links"
@@ -74,7 +74,7 @@ class ExamPage extends Component {
   componentDidMount() {
     this.setState(
       {
-        patientsIDs: this.props.additionalInfo.PatientsPage
+        patientsIDs: this.props.pageStatus.ExamsPage.patientsIDs
       },
       () => this.getData()
     );
@@ -196,12 +196,6 @@ class ExamPage extends Component {
         for (var k = 0; k < this.state.filterCategories.length; k++) {
           var value = {}; // added this
           let category = this.state.filterCategories[k];
-          // //temporary: error checking
-          // var str101 = "this is category....."; //error checking
-          // console.log(str101); //error checking
-          // console.log(category); //error checking
-          // var bool101 = category == "Patient ID"; //error checking
-          // console.log(bool101); //error checking
           if (this.state.selectedFilterCategories.indexOf(category) !== -1) {
             if (categoryTitles.indexOf(category) === -1) {
               categoryTitles.push(category);
@@ -209,15 +203,55 @@ class ExamPage extends Component {
             if (category === "Patient ID") {
               value["type"] = "button";
               value["text"] = patientID;
+
+              var tempPageStatus = this.props.pageStatus
+              tempPageStatus["PatientHistoryPage"] = {
+                patientID: patientID,
+                patientInfo: patientInfo[patientID]
+              }
+              let newState = {
+                page: "PatientHistoryPage",
+                pageStatus: tempPageStatus
+              };
+              value["submitFunction"] = newState =>
+                this.props.changePage(newState);
+              value["submitInformation"] = newState;
+
               tempPatientInfo.push(value);
-              //tempPatientInfo.push(patientID)
+
             } else if (category === "Exam Links") {
+
               value["type"] = "button";
               examID = examInfo["exam_id"];
               value["text"] = examID;
               tempPatientInfo.push(value);
-              //tempPatientInfo.push("images")
-            } else {
+
+            } else if (category === "Image Info") {
+              var text = [];
+              var images = examInfo[frontendToBackend[category]]
+              var lastImage = images[images.length-1]
+
+              if (images.length === 0) {
+                value["type"] = "string";
+                value["text"] = "";
+                tempPatientInfo.push(value);
+              }
+              else {
+                text.push("Image ID (First): " + (lastImage.image_id - lastImage.image_num + 1))
+                text.push(<br />);
+                text.push("# of Images: " + lastImage.image_num)
+                text.push(<br />);
+                text.push("Image Laterality: " + lastImage.image_laterality)
+                text.push(<br />);
+                text.push("Image Type: " + lastImage.image_type)
+                
+
+                value["type"] = "string";
+                value["text"] = text;
+                tempPatientInfo.push(value);
+              }
+            }
+            else {
               //will need to come back to this part to populate the exams page table
               value["type"] = "string";
               value["text"] = examInfo[frontendToBackend[category]];
@@ -226,28 +260,14 @@ class ExamPage extends Component {
             }
           }
           var str102 = "this is tempPatientInfo"; //error checking
-          console.log(str102); //error checking
-          console.log(tempPatientInfo); //error checking
-          console.log(examInfo); // error checking
-          // if (k > 0) {
-          //   // error checking
-          //   return; // error checking
-          // } // error checking
         }
         tableData.push(tempPatientInfo);
         var str103 = "this is tableData"; //error checking
-        console.log(str103); //error checking
-        console.log(tableData); //error checking
-        // return; //error checking
       }
     }
 
     var str10 = "this is tableData";
-    console.log(str10);
-    console.log(tableData);
     var str20 = "this is this.state.filterCategories";
-    console.log(str20);
-    console.log(this.state.filterCategories);
     return (
       <TableList
         key={this.state.tableKey}
@@ -260,7 +280,6 @@ class ExamPage extends Component {
   backButtonPressed() {
     let newState = {
       page: "PatientsPage",
-      additionalInfo: this.props.additionalInfo.FilterPage
     }; /*let allows you to declare variables that are limited to a scope of ablock statement, unlike var, which defines variable globally*/
     this.props.changePage(newState);
   }
@@ -355,6 +374,7 @@ class ExamPage extends Component {
     var all_filters = this.getFilters();
     var exportButton = this.getExport();
     var mainTable = this.getTable();
+    console.log("ExamsPage", this.state)
     return (
       <div>
         <Grid fluid>

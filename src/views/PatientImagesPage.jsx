@@ -16,7 +16,7 @@ const filter_categories = [
   "Link To Image"
 ];
 
-//Feb. 10, 2020 categoryFilterPressed still needs to be written
+//Feb. 10, 2020categoryFilterPressed  still needs to be written
 
 //PatientImagesPage displays a table of a list of images relating to one exam of one patient
 class PatientImagesPage extends Component {
@@ -28,7 +28,8 @@ class PatientImagesPage extends Component {
       selectedFilterCategories: filter_categories,
       exportPressed: {
         display: false
-      }
+      },
+      tableKey: 0
     };
     this.getData = this.getData.bind(this);
     this.getFilters = this.getFilters.bind(this);
@@ -38,12 +39,13 @@ class PatientImagesPage extends Component {
     this.exportAllImagesPressed = this.exportAllImagesPressed.bind(this);
     this.exportCategoryPressed = this.exportCategoryPressed.bind(this);
     this.backButtonPressed = this.backButtonPressed.bind(this);
+    this.categoryFilterPressed = this.categoryFilterPressed.bind(this);
   }
 
   componentDidMount() {
     this.setState(
       {
-        patientID: this.props.additionalInfo.patientID
+        patientID: this.props.pageStatus.PatientImagesPage.patientID
       },
       () => this.getData()
     );
@@ -109,8 +111,6 @@ class PatientImagesPage extends Component {
       return null;
     }
 
-    console.log("check this out", this.state.patientInfo);
-
     var selectedCategories = [];
     for (var i = 0; i < this.state.filterCategories.length; i++) {
       let category = this.state.filterCategories[i];
@@ -129,7 +129,6 @@ class PatientImagesPage extends Component {
     let tableData = [];
     for (var i = 0; i < this.state.patientInfo.length; i++) {
       var imageInfo = this.state.patientInfo[i];
-      console.log("imaeg info", imageInfo);
       let tempImageData = [];
       for (var j = 0; j < imageInfo.images.length; j++) {
         tempImageData.push([]);
@@ -178,12 +177,14 @@ class PatientImagesPage extends Component {
           }
         } else if (category === "Link To Image") {
           for (var k = 0; k < imageInfo.images.length; k++) {
+            var tempPageStatus = this.props.pageStatus
+            tempPageStatus["ShowPatientImagePage"] = {
+              imageID: imageInfo.images[k].image_id,
+              patientID: this.state.patientID
+            }
             let newState = {
               page: "ShowPatientImagePage",
-              additionalInfo: {
-                imageID: imageInfo.images[k].image_id,
-                patientID: this.state.patientID
-              }
+              pageStatus: tempPageStatus
             };
             let value = {
               type: "button",
@@ -195,12 +196,10 @@ class PatientImagesPage extends Component {
           }
         }
       }
-      console.log("temp image data", tempImageData);
       for (var j = 0; j < tempImageData.length; j++) {
         tableData.push(tempImageData[j]);
       }
     }
-    console.log("table data", tableData);
     return (
       <TableList
         key={this.state.tableKey}
@@ -212,6 +211,26 @@ class PatientImagesPage extends Component {
 
   exportImagesPressed() {
     //code for exporting all images
+  }
+
+   //If the category filter is pressed, update the state of selectedFilterCategories to what is newly selected
+   categoryFilterPressed(e) {
+    let category = e.target.title;
+    if (this.state.selectedFilterCategories.indexOf(category) === -1) {
+      this.state.selectedFilterCategories.push(category);
+      this.setState({
+        selectedFilterCategories: this.state.selectedFilterCategories,
+        tableKey: this.state.tableKey + 1
+      });
+    } else {
+      var new_list = this.state.selectedFilterCategories.filter(function(name) {
+        return name !== category;
+      });
+      this.setState({
+        selectedFilterCategories: new_list,
+        tableKey: this.state.tableKey + 1
+      });
+    }
   }
 
   //similar to the other pages, to be used in the getExport function, sets the state when the button is pressed
@@ -301,6 +320,7 @@ class PatientImagesPage extends Component {
 
   //Goes back to the PatientsPage when the back button is pressed
   backButtonPressed() {
+    console.log("PROPS",this.props.additionalInfo.FilterPage)
     let newState = {
       page: "PatientsPage",
       additionalInfo: this.props.additionalInfo.FilterPage
@@ -312,6 +332,7 @@ class PatientImagesPage extends Component {
     var all_filters = this.getFilters();
     var table = this.getTable();
     var exportButton = this.getExport();
+    console.log("Patients Images Page", this.state)
     return (
       <div>
         <Grid fluid>

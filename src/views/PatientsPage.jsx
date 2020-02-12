@@ -106,7 +106,7 @@ class PatientsPage extends Component {
 
   //sets up the state of filterCategories, also sets up the state of patientIDs (see around line 118)
   getPatients() {
-    let data = this.props.additionalInfo; //see submitButtonPressed() for additionalInfo
+    let data = this.props.pageStatus.PatientsPage; //see submitButtonPressed() for additionalInfo
     let temp_data = {};
     let tempFilterCategories = this.state["filterCategories"];
     for (var key in data) {
@@ -280,13 +280,14 @@ class PatientsPage extends Component {
           if (category === "Patient ID") {
             value["type"] = "button";
             value["text"] = patientID;
+            var tempPageStatus = this.props.pageStatus
+            tempPageStatus["PatientHistoryPage"] = {
+              patientID: patientID,
+              patientInfo: patientInfo[patientID]
+            }
             let newState = {
               page: "PatientHistoryPage",
-              additionalInfo: {
-                patientID: patientID,
-                patientInfo: patientInfo[patientID],
-                FilterPage: this.props.additionalInfo
-              }
+              pageStatus: tempPageStatus
             };
             value["submitFunction"] = newState =>
               this.props.changePage(newState);
@@ -297,12 +298,13 @@ class PatientsPage extends Component {
           else if (category === "Images") {
             value["type"] = "button";
             value["text"] = "See Images";
+            var tempPageStatus = this.props.pageStatus
+            tempPageStatus["PatientImagesPage"] = {
+              patientID: patientID,
+            }
             let newState = {
               page: "PatientImagesPage",
-              additionalInfo: {
-                patientID: patientID,
-                FilterPage: this.props.additionalInfo
-              }
+              pageStatus: tempPageStatus
             };
             value["submitFunction"] = newState =>
               this.props.changePage(newState);
@@ -383,12 +385,13 @@ class PatientsPage extends Component {
 
   //When the see all exams button is pressed, jump to the exams page while maintaining the info from patients page and filter page
   examsPagePressed() {
+    var tempPageStatus = this.props.pageStatus
+    tempPageStatus["ExamsPage"] = {
+      "patientsIDs": this.state.patientsIDs
+    }
     let newState = {
       page: "ExamsPage",
-      additionalInfo: {
-        PatientsPage: this.state.patientsIDs,
-        FilterPage: this.props.additionalInfo
-      }
+      pageStatus: tempPageStatus
     };
     this.props.changePage(newState);
   }

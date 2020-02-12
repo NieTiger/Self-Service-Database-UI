@@ -138,7 +138,7 @@ class PatientHistoryPage extends Component {
   componentDidMount() {
     this.setState(
       {
-        patientID: this.props.additionalInfo.patientID
+        patientID: this.props.pageStatus.PatientHistoryPage.patientID
       },
       () => this.getData()
     );
@@ -174,22 +174,7 @@ class PatientHistoryPage extends Component {
     for (var key in this.state.patientInfo) {
       if (key === "eye_diagnosis" || key === "systemic_diagnosis") {
         for (var key2 in this.state.patientInfo[key]) {
-          if (this.state.patientInfo[key][key2] != null) {
-            //!= corresponds to ==, !== corresponds to ===, the latter means equal value and equal type
-            var something = "hello";
-            console.log(something);
-            var something2 = "this is key2";
-            console.log(something2);
-            console.log(key2);
-            var something3 = "this is patientInfo[key]";
-            console.log(something3);
-            console.log(this.state.patientInfo[key]);
-            var something4 = "this is key";
-            console.log(something4);
-            console.log(key);
-            var something5 = "this is patientinfo";
-            console.log(something5);
-            console.log(patientInfo);
+          if (this.state.patientInfo[key][key2] !== null) {
             date = this.state.patientInfo[key][key2].substring(0, 16);
             patientInfo[date] = {};
           }
@@ -306,6 +291,9 @@ class PatientHistoryPage extends Component {
   //If the category filter is pressed, update the state of selectedFilterCategories to what is newly selected
   categoryFilterPressed(e) {
     let category = e.target.title;
+    if (category === "Date") {
+      return
+    }
     if (this.state.selectedFilterCategories.indexOf(category) === -1) {
       this.state.selectedFilterCategories.push(category);
       this.setState({
@@ -330,7 +318,6 @@ class PatientHistoryPage extends Component {
     if (!this.state.loaded) {
       return null;
     }
-
     var selectedCategories = [];
     for (var i = 0; i < this.state.filterCategories.length; i++) {
       let category = this.state.filterCategories[i];
@@ -347,14 +334,13 @@ class PatientHistoryPage extends Component {
     let patientInfo = this.state.patientInfo;
     let tableData = [];
 
-    //Feb. 11 For error checking
-    //
+    console.log("Selected Categories",selectedCategories)
 
     for (var date in patientInfo) {
       let data = patientInfo[date];
       let tempDateData = [];
       let isEmpty = true;
-      if (selectedCategories.indexOf("Date") !== -1) {
+     if (selectedCategories.indexOf("Date") !== -1) {
         tempDateData = [
           {
             type: "string",
@@ -362,9 +348,8 @@ class PatientHistoryPage extends Component {
           }
         ];
       }
-
-      for (var ii = 0; ii < selectedCategories.length; ii++) {
-        let category = selectedCategories[i];
+      for (var ii = 1; ii < selectedCategories.length; ii++) {
+        let category = selectedCategories[ii];
         let value = {
           type: "string",
           text: ""
@@ -375,15 +360,19 @@ class PatientHistoryPage extends Component {
         } else {
           isEmpty = false;
           var text = [];
-          if (category === "Labs") {
-            const labName = tempValue["Lab Name"];
-            const labValue = tempValue["Lab Value"];
-            if (labName && labValue) {
-              text.push(labName + ": " + labValue);
-              text.push(<br />);
-            } else if (labName) {
-              text.push(labName + ": undefined");
-              text.push(<br />);
+          if (category === "Date") {
+            continue
+          }
+          else if (category === "Labs") {
+            for (var labName in tempValue) {
+              var labValue = tempValue[labName]
+              if (labName && labValue) {
+                text.push(labName + ": " + labValue);
+                text.push(<br />);
+              } else if (labName) {
+                text.push(labName + ": undefined");
+                text.push(<br />);
+              }
             }
           } else {
             text = tempValue;
@@ -410,7 +399,7 @@ class PatientHistoryPage extends Component {
   //used in the getTable() function
   //returns TableList object
   getSummaryTable(patientData) {
-    if (!patientData[0]) {
+    if (!(patientData && patientData[0])) {
       return null;
     }
 
@@ -434,21 +423,17 @@ class PatientHistoryPage extends Component {
     var date = patientData[0].text;
     patientData = this.state.patientInfo[date];
 
-    var patientInfo = this.props.additionalInfo.patientInfo;
+    var patientInfo = this.props.pageStatus.PatientHistoryPage.patientInfo
     patientData["Ethnicity"] = patientInfo.ethnicity;
     patientData["Image Procedure Type"] = patientInfo.image_type;
     patientData["Age"] = patientInfo.age;
     patientData["Date"] = date;
-
-    console.log("check this out", patientData);
 
     let tableData = [];
     let tempDateData = [];
 
     for (var i = 0; i < selectedCategories.length; i++) {
       let category = selectedCategories[i];
-      console.log("category", category);
-      console.log(patientData[category]);
       let value = {
         type: "string",
         text: patientData[category]
@@ -472,18 +457,27 @@ class PatientHistoryPage extends Component {
   //Change page to patients page, with additionalInfo serving as the "memory" to retain entered filter information
   backButtonPressed() {
     let newState = {
-      page: "PatientsPage",
-      additionalInfo: this.props.additionalInfo.FilterPage
+      page: "PatientsPage"
     };
     this.props.changePage(newState);
   }
 
   //To be filled after images are set up
-  imagesButtonPressed() {}
+  imagesButtonPressed() {
+    var tempPageStatus = this.props.pageStatus
+    tempPageStatus["PatientImagesPage"] = {
+      patientID: this.state.patientID
+    }
+    let newState = {
+      page: "PatientImagesPage",
+      pageStatus: tempPageStatus
+    };
+    this.props.changePage(newState);
+  }
 
   //render is what shows on the webpage
   render() {
-    console.log("state", this.state);
+    console.log("Patients History Page", this.state);
 
     var all_filters = this.getFilters();
     var tables = this.getTables();

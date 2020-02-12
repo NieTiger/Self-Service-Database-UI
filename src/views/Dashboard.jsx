@@ -35,7 +35,8 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       page: "FilterPage",
-      additionalInfo: null
+      additionalInfo: null,
+      pageStatus: {}
     };
     this.pageSelector = this.pageSelector.bind(this);
     this.changePage = this.changePage.bind(this);
@@ -51,6 +52,7 @@ class Dashboard extends Component {
         <FilterPage
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
+          pageStatus={this.state.pageStatus}
         />
       );
     } else if (page === "PatientsPage") {
@@ -58,6 +60,7 @@ class Dashboard extends Component {
         <PatientsPage
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
+          pageStatus={this.state.pageStatus}
         />
       );
     } else if (page === "ExamsPage") {
@@ -65,6 +68,7 @@ class Dashboard extends Component {
         <ExamsPage
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
+          pageStatus={this.state.pageStatus}
         />
       );
     } else if (page === "PatientHistoryPage") {
@@ -72,6 +76,7 @@ class Dashboard extends Component {
         <PatientHistoryPage
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
+          pageStatus={this.state.pageStatus}
         />
       );
     } else if (page === "PatientImagesPage") {
@@ -79,6 +84,7 @@ class Dashboard extends Component {
         <PatientImagesPage
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
+          pageStatus={this.state.pageStatus}
         />
       );
     } else if (page === "ShowPatientImagePage") {
@@ -86,6 +92,7 @@ class Dashboard extends Component {
         <ShowPatientImagePage
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
+          pageStatus={this.state.pageStatus}
         />
       );
     }

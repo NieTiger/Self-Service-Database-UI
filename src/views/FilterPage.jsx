@@ -80,14 +80,14 @@ class FilterPage extends Component {
       filter_categories: filter_categories
     });
     this.getFilterSubCategories();
-    if (this.props.additionalInfo) {
+    if (this.props.pageStatus.FilterPage) {
       var tempSelectedCategories = [];
-      for (var key in this.props.additionalInfo) {
+      for (var key in this.props.pageStatus.FilterPage) {
         tempSelectedCategories.push(key);
       }
       this.setState({
         selected_categories: tempSelectedCategories,
-        selected_values: this.props.additionalInfo
+        selected_values: this.props.pageStatus.FilterPage
       });
     }
     setTimeout(() => {
@@ -110,9 +110,13 @@ class FilterPage extends Component {
     for (var key in this.state.checkbox_values) {
       temp_selected_values[key] = this.state.checkbox_values[key];
     }
+    var tempPageStatus = this.props.pageStatus
+    tempPageStatus["FilterPage"] = temp_selected_values
+    tempPageStatus["PatientsPage"] = temp_selected_values
     let newState = {
       page: "PatientsPage", /*when button is pressed, goes to the PatientsPage*/
-      additionalInfo: temp_selected_values 
+      additionalInfo: temp_selected_values,
+      pageStatus: tempPageStatus
     };
     this.props.changePage(newState);
   }

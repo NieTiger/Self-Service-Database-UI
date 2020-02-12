@@ -12,7 +12,7 @@ class ShowPatientImagePage extends Component {
     super(props);
     console.log(this.props);
     this.state = {
-      imageID: this.props.additionalInfo.imageID
+      imageID: this.props.pageStatus.ShowPatientImagePage.imageID
     };
     this.backButtonPressed = this.backButtonPressed.bind(this);
     this.downloadButtonPressed = this.downloadButtonPressed.bind(this);
@@ -21,9 +21,6 @@ class ShowPatientImagePage extends Component {
   backButtonPressed() {
     let newState = {
       page: "PatientImagesPage",
-      additionalInfo: {
-        patientID: this.props.additionalInfo.patientID
-      }
     };
     this.props.changePage(newState);
   }
