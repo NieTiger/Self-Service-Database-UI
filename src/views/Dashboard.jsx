@@ -96,6 +96,7 @@ class Dashboard extends Component {
         />
       );
     }
+    return null
   }
 
   changePage(newState) {

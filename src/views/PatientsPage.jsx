@@ -86,6 +86,7 @@ class PatientsPage extends Component {
     this.getExport = this.getExport.bind(this);
     this.exportCategoryPressed = this.exportCategoryPressed.bind(this);
     this.exportImagesPressed = this.exportImagesPressed.bind(this);
+    this.getFilterSummary = this.getFilterSummary.bind(this)
   }
 
   componentDidMount() {
@@ -486,6 +487,7 @@ class PatientsPage extends Component {
     );
   }
 
+  //template function that creates legend
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -497,9 +499,30 @@ class PatientsPage extends Component {
     return legend;
   }
 
+  //returns a text of chosen filters to display above table
+  getFilterSummary() {
+    var selectedFilters = this.props.pageStatus.FilterPage
+    var text = []
+    for (var key in selectedFilters) {
+      var title = key
+      var tempText = ": "
+      for (var index = 0; index < selectedFilters[key].length; index++) {
+        if (index !== 0) {
+          tempText += ", "
+        }
+        tempText += selectedFilters[key][index]
+      }
+      text.push(<b><u>{title}</u></b>)
+      text.push(tempText)
+      text.push(<br />)
+    }
+    return text
+  }
+
   //render displays what is shown on the webpage
   render() {
     console.log("state", this.state);
+    var filterSummary = this.getFilterSummary()
     var all_filters = this.getFilters();
     var exportButton = this.getExport();
     var table = this.getTable();
@@ -527,9 +550,13 @@ class PatientsPage extends Component {
             </Col>
             <Col sm={9} style={styles.mainDivStyle}>
               <Grid fluid>
+                <Row style={styles.summaryStyle}>
+                  <Col style={styles.summaryText}>
+                    <div>{filterSummary}</div>
+                  </Col>
+                </Row>
                 <Row>
                   <div style={styles.tableStyle}>{table}</div>
-
                   <div style={styles.underMainStyle}>
                     <CustomButton
                       style={styles.buttonUpperSubmit}
@@ -568,6 +595,15 @@ const styles = {
     "justify-content": "center",
     "font-weight": "bold",
     "font-size": "30px"
+  },
+  summaryStyle: {
+    "margin-bottom": "2vh"
+  },
+  summaryText: {
+    display: "flex",
+    "align-items": "flex-start",
+    "justify-content": "flex-start",
+    "margin": "2.1vh"
   },
   buttonDiv: {
     width: "100%",
