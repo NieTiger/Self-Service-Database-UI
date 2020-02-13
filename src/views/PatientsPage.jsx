@@ -280,11 +280,11 @@ class PatientsPage extends Component {
           if (category === "Patient ID") {
             value["type"] = "button";
             value["text"] = patientID;
-            var tempPageStatus = this.props.pageStatus
+            var tempPageStatus = this.props.pageStatus;
             tempPageStatus["PatientHistoryPage"] = {
               patientID: patientID,
               patientInfo: patientInfo[patientID]
-            }
+            };
             let newState = {
               page: "PatientHistoryPage",
               pageStatus: tempPageStatus
@@ -298,10 +298,10 @@ class PatientsPage extends Component {
           else if (category === "Images") {
             value["type"] = "button";
             value["text"] = "See Images";
-            var tempPageStatus = this.props.pageStatus
+            var tempPageStatus = this.props.pageStatus;
             tempPageStatus["PatientImagesPage"] = {
-              patientID: patientID,
-            }
+              patientID: patientID
+            };
             let newState = {
               page: "PatientImagesPage",
               pageStatus: tempPageStatus
@@ -385,10 +385,10 @@ class PatientsPage extends Component {
 
   //When the see all exams button is pressed, jump to the exams page while maintaining the info from patients page and filter page
   examsPagePressed() {
-    var tempPageStatus = this.props.pageStatus
+    var tempPageStatus = this.props.pageStatus;
     tempPageStatus["ExamsPage"] = {
-      "patientsIDs": this.state.patientsIDs
-    }
+      patientsIDs: this.state.patientsIDs
+    };
     let newState = {
       page: "ExamsPage",
       pageStatus: tempPageStatus

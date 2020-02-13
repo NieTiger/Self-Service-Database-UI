@@ -177,11 +177,11 @@ class PatientImagesPage extends Component {
           }
         } else if (category === "Link To Image") {
           for (var k = 0; k < imageInfo.images.length; k++) {
-            var tempPageStatus = this.props.pageStatus
+            var tempPageStatus = this.props.pageStatus;
             tempPageStatus["ShowPatientImagePage"] = {
               imageID: imageInfo.images[k].image_id,
               patientID: this.state.patientID
-            }
+            };
             let newState = {
               page: "ShowPatientImagePage",
               pageStatus: tempPageStatus
@@ -213,8 +213,8 @@ class PatientImagesPage extends Component {
     //code for exporting all images
   }
 
-   //If the category filter is pressed, update the state of selectedFilterCategories to what is newly selected
-   categoryFilterPressed(e) {
+  //If the category filter is pressed, update the state of selectedFilterCategories to what is newly selected
+  categoryFilterPressed(e) {
     let category = e.target.title;
     if (this.state.selectedFilterCategories.indexOf(category) === -1) {
       this.state.selectedFilterCategories.push(category);
@@ -320,7 +320,7 @@ class PatientImagesPage extends Component {
 
   //Goes back to the PatientsPage when the back button is pressed
   backButtonPressed() {
-    console.log("PROPS",this.props.additionalInfo.FilterPage)
+    console.log("PROPS", this.props.additionalInfo.FilterPage);
     let newState = {
       page: "PatientsPage",
       additionalInfo: this.props.additionalInfo.FilterPage
@@ -332,7 +332,7 @@ class PatientImagesPage extends Component {
     var all_filters = this.getFilters();
     var table = this.getTable();
     var exportButton = this.getExport();
-    console.log("Patients Images Page", this.state)
+    console.log("Patients Images Page", this.state);
     return (
       <div>
         <Grid fluid>
@@ -343,7 +343,17 @@ class PatientImagesPage extends Component {
           </Row>
           <Row>
             <Col sm={3}>
-              {all_filters}
+              <Row>
+                <CustomButton style={styles.buttonDivShow}>
+                  {" "}
+                  Shown{" "}
+                </CustomButton>
+                <CustomButton style={styles.buttonDivHide}>
+                  {" "}
+                  Hidden{" "}
+                </CustomButton>
+              </Row>
+              <Row>{all_filters}</Row>
             </Col>
             <Col sm={9}>
               <Grid fluid>
@@ -391,6 +401,22 @@ const styles = {
   },
   buttonDivPressed: {
     width: "100%",
+    margin: "1vh",
+    "background-color": "#78deec",
+    color: "black",
+    border: "solid 2px black"
+  },
+  buttonDivHide: {
+    width: "45%",
+    "margin-top": "1vh",
+    "margin-bottom": "1vh",
+    "margin-left": "2vh",
+    "background-color": "white",
+    color: "black",
+    border: "solid 2px black"
+  },
+  buttonDivShow: {
+    width: "45%",
     margin: "1vh",
     "background-color": "#78deec",
     color: "black",

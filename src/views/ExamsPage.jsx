@@ -204,11 +204,11 @@ class ExamPage extends Component {
               value["type"] = "button";
               value["text"] = patientID;
 
-              var tempPageStatus = this.props.pageStatus
+              var tempPageStatus = this.props.pageStatus;
               tempPageStatus["PatientHistoryPage"] = {
                 patientID: patientID,
                 patientInfo: patientInfo[patientID]
-              }
+              };
               let newState = {
                 page: "PatientHistoryPage",
                 pageStatus: tempPageStatus
@@ -218,40 +218,37 @@ class ExamPage extends Component {
               value["submitInformation"] = newState;
 
               tempPatientInfo.push(value);
-
             } else if (category === "Exam Links") {
-
               value["type"] = "button";
               examID = examInfo["exam_id"];
               value["text"] = examID;
               tempPatientInfo.push(value);
-
             } else if (category === "Image Info") {
               var text = [];
-              var images = examInfo[frontendToBackend[category]]
-              var lastImage = images[images.length-1]
+              var images = examInfo[frontendToBackend[category]];
+              var lastImage = images[images.length - 1];
 
               if (images.length === 0) {
                 value["type"] = "string";
                 value["text"] = "";
                 tempPatientInfo.push(value);
-              }
-              else {
-                text.push("Image ID (First): " + (lastImage.image_id - lastImage.image_num + 1))
+              } else {
+                text.push(
+                  "Image ID (First): " +
+                    (lastImage.image_id - lastImage.image_num + 1)
+                );
                 text.push(<br />);
-                text.push("# of Images: " + lastImage.image_num)
+                text.push("# of Images: " + lastImage.image_num);
                 text.push(<br />);
-                text.push("Image Laterality: " + lastImage.image_laterality)
+                text.push("Image Laterality: " + lastImage.image_laterality);
                 text.push(<br />);
-                text.push("Image Type: " + lastImage.image_type)
-                
+                text.push("Image Type: " + lastImage.image_type);
 
                 value["type"] = "string";
                 value["text"] = text;
                 tempPatientInfo.push(value);
               }
-            }
-            else {
+            } else {
               //will need to come back to this part to populate the exams page table
               value["type"] = "string";
               value["text"] = examInfo[frontendToBackend[category]];
@@ -279,7 +276,7 @@ class ExamPage extends Component {
 
   backButtonPressed() {
     let newState = {
-      page: "PatientsPage",
+      page: "PatientsPage"
     }; /*let allows you to declare variables that are limited to a scope of ablock statement, unlike var, which defines variable globally*/
     this.props.changePage(newState);
   }
@@ -374,7 +371,7 @@ class ExamPage extends Component {
     var all_filters = this.getFilters();
     var exportButton = this.getExport();
     var mainTable = this.getTable();
-    console.log("ExamsPage", this.state)
+    console.log("ExamsPage", this.state);
     return (
       <div>
         <Grid fluid>
@@ -384,7 +381,19 @@ class ExamPage extends Component {
             </Col>
           </Row>
           <Row>
-            <Col sm={3}>{all_filters}</Col>
+            <Col sm={3}>
+              <Row>
+                <CustomButton style={styles.buttonDivShow}>
+                  {" "}
+                  Shown{" "}
+                </CustomButton>
+                <CustomButton style={styles.buttonDivHide}>
+                  {" "}
+                  Hidden{" "}
+                </CustomButton>
+              </Row>
+              <Row>{all_filters}</Row>
+            </Col>
             <Col sm={9}>
               <Grid fluid>
                 <Row>
@@ -430,6 +439,22 @@ const styles = {
   },
   buttonDivPressed: {
     width: "100%",
+    margin: "1vh",
+    "background-color": "#78deec",
+    color: "black",
+    border: "solid 2px black"
+  },
+  buttonDivHide: {
+    width: "45%",
+    "margin-top": "1vh",
+    "margin-bottom": "1vh",
+    "margin-left": "2vh",
+    "background-color": "white",
+    color: "black",
+    border: "solid 2px black"
+  },
+  buttonDivShow: {
+    width: "45%",
     margin: "1vh",
     "background-color": "#78deec",
     color: "black",

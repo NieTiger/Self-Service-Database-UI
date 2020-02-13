@@ -110,11 +110,11 @@ class FilterPage extends Component {
     for (var key in this.state.checkbox_values) {
       temp_selected_values[key] = this.state.checkbox_values[key];
     }
-    var tempPageStatus = this.props.pageStatus
-    tempPageStatus["FilterPage"] = temp_selected_values
-    tempPageStatus["PatientsPage"] = temp_selected_values
+    var tempPageStatus = this.props.pageStatus;
+    tempPageStatus["FilterPage"] = temp_selected_values;
+    tempPageStatus["PatientsPage"] = temp_selected_values;
     let newState = {
-      page: "PatientsPage", /*when button is pressed, goes to the PatientsPage*/
+      page: "PatientsPage" /*when button is pressed, goes to the PatientsPage*/,
       additionalInfo: temp_selected_values,
       pageStatus: tempPageStatus
     };
@@ -290,14 +290,14 @@ class FilterPage extends Component {
     //put vision subcategories
     temp_filter_subcategories = currentComponent.state.filter_subcategories;
     temp_filter_subcategories["Left Vision"] = [
-      "less",
-      "greater",
+      "less than",
+      "greater than",
       "equal",
       "between"
     ];
     temp_filter_subcategories["Right Vision"] = [
-      "less",
-      "greater",
+      "less than",
+      "greater than",
       "equal",
       "between"
     ];
@@ -308,14 +308,14 @@ class FilterPage extends Component {
     //put pressure subcategories
     temp_filter_subcategories = currentComponent.state.filter_subcategories;
     temp_filter_subcategories["Left Pressure"] = [
-      "less",
-      "greater",
+      "less than",
+      "greater than",
       "equal",
       "between"
     ];
     temp_filter_subcategories["Right Pressure"] = [
-      "less",
-      "greater",
+      "less than",
+      "greater than",
       "equal",
       "between"
     ];

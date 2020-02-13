@@ -292,7 +292,7 @@ class PatientHistoryPage extends Component {
   categoryFilterPressed(e) {
     let category = e.target.title;
     if (category === "Date") {
-      return
+      return;
     }
     if (this.state.selectedFilterCategories.indexOf(category) === -1) {
       this.state.selectedFilterCategories.push(category);
@@ -334,13 +334,13 @@ class PatientHistoryPage extends Component {
     let patientInfo = this.state.patientInfo;
     let tableData = [];
 
-    console.log("Selected Categories",selectedCategories)
+    console.log("Selected Categories", selectedCategories);
 
     for (var date in patientInfo) {
       let data = patientInfo[date];
       let tempDateData = [];
       let isEmpty = true;
-     if (selectedCategories.indexOf("Date") !== -1) {
+      if (selectedCategories.indexOf("Date") !== -1) {
         tempDateData = [
           {
             type: "string",
@@ -361,11 +361,10 @@ class PatientHistoryPage extends Component {
           isEmpty = false;
           var text = [];
           if (category === "Date") {
-            continue
-          }
-          else if (category === "Labs") {
+            continue;
+          } else if (category === "Labs") {
             for (var labName in tempValue) {
-              var labValue = tempValue[labName]
+              var labValue = tempValue[labName];
               if (labName && labValue) {
                 text.push(labName + ": " + labValue);
                 text.push(<br />);
@@ -423,7 +422,7 @@ class PatientHistoryPage extends Component {
     var date = patientData[0].text;
     patientData = this.state.patientInfo[date];
 
-    var patientInfo = this.props.pageStatus.PatientHistoryPage.patientInfo
+    var patientInfo = this.props.pageStatus.PatientHistoryPage.patientInfo;
     patientData["Ethnicity"] = patientInfo.ethnicity;
     patientData["Image Procedure Type"] = patientInfo.image_type;
     patientData["Age"] = patientInfo.age;
@@ -464,10 +463,10 @@ class PatientHistoryPage extends Component {
 
   //To be filled after images are set up
   imagesButtonPressed() {
-    var tempPageStatus = this.props.pageStatus
+    var tempPageStatus = this.props.pageStatus;
     tempPageStatus["PatientImagesPage"] = {
       patientID: this.state.patientID
-    }
+    };
     let newState = {
       page: "PatientImagesPage",
       pageStatus: tempPageStatus
@@ -497,7 +496,19 @@ class PatientHistoryPage extends Component {
             </Col>
           </Row>
           <Row>
-            <Col sm={3}>{all_filters}</Col>
+            <Col sm={3}>
+              <Row>
+                <CustomButton style={styles.buttonDivShow}>
+                  {" "}
+                  Shown{" "}
+                </CustomButton>
+                <CustomButton style={styles.buttonDivHide}>
+                  {" "}
+                  Hidden{" "}
+                </CustomButton>
+              </Row>
+              <Row>{all_filters}</Row>
+            </Col>
             <Col sm={9}>
               <Grid fluid>
                 <Row style={styles.underTitleStyle}>{summaryTable}</Row>
@@ -550,6 +561,22 @@ const styles = {
   },
   buttonDivPressed: {
     width: "100%",
+    margin: "1vh",
+    "background-color": "#78deec",
+    color: "black",
+    border: "solid 2px black"
+  },
+  buttonDivHide: {
+    width: "45%",
+    "margin-top": "1vh",
+    "margin-bottom": "1vh",
+    "margin-left": "2vh",
+    "background-color": "white",
+    color: "black",
+    border: "solid 2px black"
+  },
+  buttonDivShow: {
+    width: "45%",
     margin: "1vh",
     "background-color": "#78deec",
     color: "black",
