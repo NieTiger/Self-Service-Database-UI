@@ -86,7 +86,7 @@ class PatientsPage extends Component {
     this.getExport = this.getExport.bind(this);
     this.exportCategoryPressed = this.exportCategoryPressed.bind(this);
     this.exportImagesPressed = this.exportImagesPressed.bind(this);
-    this.getFilterSummary = this.getFilterSummary.bind(this)
+    this.getFilterSummary = this.getFilterSummary.bind(this);
   }
 
   componentDidMount() {
@@ -501,28 +501,34 @@ class PatientsPage extends Component {
 
   //returns a text of chosen filters to display above table
   getFilterSummary() {
-    var selectedFilters = this.props.pageStatus.FilterPage
-    var text = []
+    var selectedFilters = this.props.pageStatus.FilterPage;
+    var text = [];
+    text.push(<b>You have selected these filters:</b>);
+    text.push(<br />);
     for (var key in selectedFilters) {
-      var title = key
-      var tempText = ": "
+      var title = key;
+      var tempText = ": ";
       for (var index = 0; index < selectedFilters[key].length; index++) {
         if (index !== 0) {
-          tempText += ", "
+          tempText += ", ";
         }
-        tempText += selectedFilters[key][index]
+        tempText += selectedFilters[key][index];
       }
-      text.push(<b><u>{title}</u></b>)
-      text.push(tempText)
-      text.push(<br />)
+      text.push(
+        <b>
+          <u>{title}</u>
+        </b>
+      );
+      text.push(tempText);
+      text.push(<br />);
     }
-    return text
+    return text;
   }
 
   //render displays what is shown on the webpage
   render() {
     console.log("state", this.state);
-    var filterSummary = this.getFilterSummary()
+    var filterSummary = this.getFilterSummary();
     var all_filters = this.getFilters();
     var exportButton = this.getExport();
     var table = this.getTable();
@@ -534,6 +540,13 @@ class PatientsPage extends Component {
               <div>Your Patient Cohort</div>
             </Col>
           </Row>
+
+          <Row style={styles.summaryStyle}>
+            <Col style={styles.summaryText}>
+              <div>{filterSummary}</div>
+            </Col>
+          </Row>
+
           <Row>
             <Col sm={3} style={styles.sideDivStyle}>
               <Row>
@@ -550,11 +563,6 @@ class PatientsPage extends Component {
             </Col>
             <Col sm={9} style={styles.mainDivStyle}>
               <Grid fluid>
-                <Row style={styles.summaryStyle}>
-                  <Col style={styles.summaryText}>
-                    <div>{filterSummary}</div>
-                  </Col>
-                </Row>
                 <Row>
                   <div style={styles.tableStyle}>{table}</div>
                   <div style={styles.underMainStyle}>
@@ -586,8 +594,7 @@ export default PatientsPage;
 
 const styles = {
   titleStyle: {
-    height: "10vh",
-    "margin-bottom": "2vh"
+    height: "10vh"
   },
   titleText: {
     display: "flex",
@@ -602,8 +609,8 @@ const styles = {
   summaryText: {
     display: "flex",
     "align-items": "flex-start",
-    "justify-content": "flex-start",
-    "margin": "2.1vh"
+    "justify-content": "center",
+    "margin-bottom": "2.1vh"
   },
   buttonDiv: {
     width: "100%",
