@@ -69,6 +69,7 @@ class PatientsPage extends Component {
       filterCategories: ["Patient ID"],
       selectedFilterCategories: [],
       tableKey: 1,
+      displayedMessage: "",
       exportPressed: {
         display: false
       }
@@ -260,8 +261,17 @@ class PatientsPage extends Component {
   //Outside loop goes through each patient ID
   //Inside loop goes through each filter category of each patient ID
   getTable() {
-    if (!this.state.loaded) {
+    if (!this.state.loaded && this.state.displayedMessage == "") {
+      this.setState({
+        displayedMessage: "No patient matches the filter criteria selected."
+      });
       return null;
+    } else if (!this.state.loaded) {
+      return null;
+    } else if (this.state.loaded && this.state.displayedMessage != "") {
+      this.setState({
+        displayedMessage: ""
+      });
     }
     let patientInfo = this.state.patientInfo;
     let categoryTitles = [];
@@ -565,6 +575,9 @@ class PatientsPage extends Component {
               <Grid fluid>
                 <Row>
                   <div style={styles.tableStyle}>{table}</div>
+                  <div style={styles.displayedMessageStyle}>
+                    {this.state.displayedMessage}
+                  </div>
                   <div style={styles.underMainStyle}>
                     <CustomButton
                       style={styles.buttonUpperSubmit}
@@ -684,5 +697,13 @@ const styles = {
     "background-color": "#eef27c",
     "margin-top": "1vh",
     "margin-bottom": "1vh"
+  },
+  displayedMessageStyle: {
+    display: "flex",
+    "justify-content": "flex-start",
+    color: "black",
+    "font-size": "16px",
+    "font-weight": "bold",
+    "margin-left": "3%"
   }
 };

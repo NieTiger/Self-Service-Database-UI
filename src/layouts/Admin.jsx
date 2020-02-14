@@ -211,6 +211,14 @@ class Admin extends Component {
       this.setState({
         accessGranted: true
       });
+    } else if (username == null) {
+      this.setState({
+        displayedText: "Please enter a username."
+      });
+    } else if (password == null) {
+      this.setState({
+        displayedText: "Please enter a password."
+      });
     } else {
       this.setState({
         displayedText: "Incorrect username or password. Please try again."
@@ -365,9 +373,9 @@ const styles = {
   errorMessageStyle: {
     display: "flex",
     "justify-content": "center",
-    color: "red",
+    color: "purple",
     "font-size": "20px",
     "font-weight": "bold",
-    "-bottom": "2%"
+    "margin-bottom": "2%"
   }
 };
