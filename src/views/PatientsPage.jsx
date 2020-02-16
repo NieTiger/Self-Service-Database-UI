@@ -26,6 +26,7 @@ import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
 import { apiBaseURL } from "./Dashboard.jsx";
+import { isArray } from "util";
 
 const axios = require("axios");
 
@@ -92,7 +93,6 @@ class PatientsPage extends Component {
 
   componentDidMount() {
     this.getPatients();
-    console.log("PATIENTS PAGE PROPS",this.props)
   }
 
   //calculates and returns the age age_now from date of birth dob1
@@ -134,6 +134,7 @@ class PatientsPage extends Component {
       .catch(function(error) {
         console.log(error);
       });
+    
 
     this.setState({
       filterCategories: tempFilterCategories,
@@ -184,17 +185,7 @@ class PatientsPage extends Component {
   getFilters() {
     var filter_categories = this.state.filterCategories;
     var temp_filter_categories = [];
-    // var show_category = null;
-    // var hide_category = null;
-    // //add two demonstration show and hide buttons
-    // show_category = (
-    //   <CustomButton style={styles.buttonDivPressed}> Shown </CustomButton>
-    // );
-    // temp_filter_categories.push(show_category);
-    // hide_category = (
-    //   <CustomButton style={styles.buttonDiv}> Hidden </CustomButton>
-    // );
-    // temp_filter_categories.push(hide_category);
+
     for (var i = 0; i < filter_categories.length; i++) {
       var category_name = filter_categories[i];
       var temp_filter_category = null;
@@ -273,7 +264,7 @@ class PatientsPage extends Component {
       return nullTable;
 
     }
-    
+
     let patientInfo = this.state.patientInfo;
     let categoryTitles = [];
     let tableData = [];
@@ -292,7 +283,8 @@ class PatientsPage extends Component {
           if (category === "Patient ID") {
             value["type"] = "button";
             value["text"] = patientID;
-            var tempPageStatus = this.props.pageStatus;
+            var tempPageStatus = {}
+            Object.assign(tempPageStatus, this.props.pageStatus)
             tempPageStatus["PatientHistoryPage"] = {
               patientID: patientID,
               patientInfo: patientInfo[patientID]
@@ -310,7 +302,8 @@ class PatientsPage extends Component {
           else if (category === "Images") {
             value["type"] = "button";
             value["text"] = "See Images";
-            var tempPageStatus = this.props.pageStatus;
+            var tempPageStatus = {}
+            Object.assign(tempPageStatus, this.props.pageStatus)
             tempPageStatus["PatientImagesPage"] = {
               patientID: patientID
             };
@@ -322,8 +315,13 @@ class PatientsPage extends Component {
               this.props.changePage(newState);
             value["submitInformation"] = newState;
             tempPatientInfo.push(value);
-          } else {
-            var tempValue = patientInfo[patientID][frontendToBackend[category]];
+          } 
+          else {
+            var tempCategory = frontendToBackend[category]
+            if (category === "Image Procedure Type") {
+              tempCategory = "image_type"
+            }
+            var tempValue = patientInfo[patientID][tempCategory];
             var text = [];
             if (isDict(tempValue)) {
               for (var key in tempValue) {
@@ -334,7 +332,22 @@ class PatientsPage extends Component {
                 }
                 text.push(<br />);
               }
-            } else {
+            } 
+            else if (isArray(tempValue)) {
+              for (var index = 0; index < tempValue.length; index++) {
+                if (index % 4 === 3) {
+                  text.push(tempValue[index])
+                  text.push(<br />);
+                }
+                else if (index === tempValue.length-1) {
+                  text.push(tempValue[index])
+                }
+                else {
+                  text.push(tempValue[index]+", ")
+                }
+              }
+            }
+            else {
               text = tempValue;
             }
             value["type"] = "string";

@@ -91,6 +91,7 @@ class ExamPage extends Component {
         .then(function(response) {
           let currentInfo = currentComponent.state.patientInfo;
           currentInfo.push(response.data.result);
+          console.log("DATA GATHERED",currentInfo)
           currentComponent.setState({ patientInfo: currentInfo }, () => {
             currentComponent.editData();
           });
@@ -226,7 +227,6 @@ class ExamPage extends Component {
               value["submitInformation"] = null;
 
               tempPatientInfo.push(value);
-              
             } else if (category === "Image Info") {
               var text = [];
               var images = examInfo[frontendToBackend[category]];

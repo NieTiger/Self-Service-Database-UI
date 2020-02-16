@@ -60,6 +60,7 @@ class PatientImagesPage extends Component {
       .get(link)
       .then(function(response) {
         var patientInfo = response.data.result[patientID];
+        console.log("PATIENT INFO GATHERED",patientInfo)
         currentComponent.setState({
           patientInfo: patientInfo,
           loaded: true

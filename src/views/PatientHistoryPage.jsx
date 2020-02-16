@@ -136,6 +136,7 @@ class PatientHistoryPage extends Component {
   }
 
   componentDidMount() {
+    console.log("PATIENT HISTORY PAGE",this.props)
     this.setState(
       {
         patientID: this.props.pageStatus.PatientHistoryPage.patientID
@@ -259,6 +260,9 @@ class PatientHistoryPage extends Component {
     var temp_filter_categories = [];
     for (var i = 0; i < filter_categories.length; i++) {
       var category_name = filter_categories[i];
+      if (category_name === "Date") {
+        continue
+      }
       var temp_filter_category = null;
       if (this.state.selectedFilterCategories.indexOf(category_name) !== -1) {
         temp_filter_category = (
