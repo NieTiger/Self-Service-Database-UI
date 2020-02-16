@@ -19,7 +19,6 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
 
-
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
@@ -42,9 +41,10 @@ class Admin extends Component {
       hasImage: true,
       fixedClasses: "dropdown show-dropdown open",
       accessGranted: false,
+      displayedText: "",
       loginInfo: {
         username: null,
-        password: null,
+        password: null
       }
     };
     this.pageDisplayed = this.pageDisplayed.bind(this);
@@ -189,25 +189,40 @@ class Admin extends Component {
 
   //update state loginInfo values according to the values in Text Fields
   textFieldChanged(e) {
-    var fieldName = e.target.title
-    var value = e.target.value
+    var fieldName = e.target.title;
+    var value = e.target.value;
 
-    var tempLoginInfo = this.state.loginInfo
-    tempLoginInfo[[fieldName]] = value
+    var tempLoginInfo = this.state.loginInfo;
+    tempLoginInfo[[fieldName]] = value;
 
     this.setState({
       loginInfo: tempLoginInfo
-    })
+    });
   }
 
   //logins the user if the username and password is correct
   loginButtonPressed() {
-    var username = this.state.loginInfo.username
-    var password = this.state.loginInfo.password
-    if (username === "SelfService2020@northwestern.edu" && password === "SelfService2020") {
+    var username = this.state.loginInfo.username;
+    var password = this.state.loginInfo.password;
+    if (
+      username === "SelfService2020@northwestern.edu" &&
+      password === "SelfService2020"
+    ) {
       this.setState({
         accessGranted: true
-      })
+      });
+    } else if (username == null) {
+      this.setState({
+        displayedText: "Please enter a username."
+      });
+    } else if (password == null) {
+      this.setState({
+        displayedText: "Please enter a password."
+      });
+    } else {
+      this.setState({
+        displayedText: "Incorrect username or password. Please try again."
+      });
     }
   }
 
@@ -247,51 +262,51 @@ class Admin extends Component {
           </div>
         </div>
       );
-    }
-    else {
-      return(
-          <div style={styles.mainDivStyle}>
-            <div style={styles.cardStyle}>
-              <div style={styles.innerTitleStyle}> 
-                Welcome To NMH Opthamalogy Research Site!
-              </div>
-              <div style={styles.innerTextField}> 
-                <u>Username:</u>
-                <input
-                  type="text"
-                  title="username"
-                  style={styles.textFieldStyle}
-                  onChange={e => this.textFieldChanged(e)}
-                />
-              </div>
-              <div style={styles.innerTextField}> 
-                <u>Password:</u>
-                <input
-                  type="password"
-                  title="password"
-                  style={styles.textFieldStyle}
-                  onChange={e => this.textFieldChanged(e)}
-                />
-              </div>
-              <div style={styles.innerTextField}> 
-                <CustomButton
-                  style={styles.loginButtonStyle}
-                  title="loginButton"
-                  onClick={() => this.loginButtonPressed()}
-                >
-                  Login
-                </CustomButton>
-              </div>
+    } else {
+      return (
+        <div style={styles.mainDivStyle}>
+          <div style={styles.cardStyle}>
+            <div style={styles.innerTitleStyle}>
+              Welcome to the NMH Ophthalmology Research Site!
+            </div>
+            <div style={styles.innerTextField}>
+              <div>Username:</div>
+              <input
+                type="text"
+                title="username"
+                style={styles.textFieldStyle}
+                onChange={e => this.textFieldChanged(e)}
+              />
+            </div>
+            <div style={styles.innerTextField}>
+              <div>Password:</div>
+              <input
+                type="password"
+                title="password"
+                style={styles.textFieldStyle}
+                onChange={e => this.textFieldChanged(e)}
+              />
+            </div>
+            <div style={styles.innerTextField}>
+              <CustomButton
+                style={styles.loginButtonStyle}
+                title="loginButton"
+                onClick={() => this.loginButtonPressed()}
+              >
+                Login
+              </CustomButton>
+            </div>
+            <div style={styles.errorMessageStyle}>
+              {this.state.displayedText}
             </div>
           </div>
-      )
+        </div>
+      );
     }
   }
   render() {
-    var page = this.pageDisplayed()
-    return (
-      page
-    );
+    var page = this.pageDisplayed();
+    return page;
   }
 }
 
@@ -311,7 +326,7 @@ const styles = {
     display: "flex",
     "flex-direction": "row",
     "justify-content": "center",
-    "align-items": "center",
+    "align-items": "center"
   },
   cardStyle: {
     width: "45%",
@@ -321,18 +336,19 @@ const styles = {
     backgroundColor: "white",
     display: "flex",
     "flex-direction": "column",
-    "margin": "2%"
+    margin: "2%"
   },
   textFieldStyle: {
     width: "90%",
     border: "solid 2px black",
-    backgroundColor: "white",
+    backgroundColor: "white"
   },
   loginButtonStyle: {
     width: "90%",
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
+    "font-size": "20px",
     "background-color": "#eef27c"
   },
   innerTitleStyle: {
@@ -340,16 +356,26 @@ const styles = {
     borderRadius: "7%",
     backgroundColor: "white",
     display: "flex",
+    "justify-content": "center",
     "font-weight": "bold",
     "font-size": "30px",
-    "margin": "5%",
+    margin: "5%"
   },
   innerTextField: {
     display: "flex",
     "flex-direction": "column",
     width: "100%",
     "margin-left": "5%",
-    "margin-bottom": "5%",
+    "margin-bottom": "4.5%",
     "font-size": "20px",
+    "font-weight": "bold"
+  },
+  errorMessageStyle: {
+    display: "flex",
+    "justify-content": "center",
+    color: "purple",
+    "font-size": "20px",
+    "font-weight": "bold",
+    "margin-bottom": "2%"
   }
 };
