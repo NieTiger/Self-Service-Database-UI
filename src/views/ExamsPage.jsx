@@ -219,10 +219,14 @@ class ExamPage extends Component {
 
               tempPatientInfo.push(value);
             } else if (category === "Exam Links") {
-              value["type"] = "button";
               examID = examInfo["exam_id"];
               value["text"] = examID;
+              value["type"] = "button";
+              value["submitFunction"] = () => {}
+              value["submitInformation"] = null;
+
               tempPatientInfo.push(value);
+              
             } else if (category === "Image Info") {
               var text = [];
               var images = examInfo[frontendToBackend[category]];

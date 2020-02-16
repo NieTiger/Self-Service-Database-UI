@@ -320,10 +320,9 @@ class PatientImagesPage extends Component {
 
   //Goes back to the PatientsPage when the back button is pressed
   backButtonPressed() {
-    console.log("PROPS", this.props.additionalInfo.FilterPage);
     let newState = {
       page: "PatientsPage",
-      additionalInfo: this.props.additionalInfo.FilterPage
+      additionalInfo: this.props.pageStatus.FilterPage
     };
     this.props.changePage(newState);
   }

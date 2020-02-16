@@ -91,6 +91,7 @@ class PatientsPage extends Component {
 
   componentDidMount() {
     this.getPatients();
+    console.log("PATIENTS PAGE PROPS",this.props)
   }
 
   //calculates and returns the age age_now from date of birth dob1
@@ -225,6 +226,7 @@ class PatientsPage extends Component {
   }
 
   editData() {
+
     if (this.state.patientsIDs.length * 2 !== this.state.patientInfo.length) {
       return;
     }
@@ -260,9 +262,16 @@ class PatientsPage extends Component {
   //Outside loop goes through each patient ID
   //Inside loop goes through each filter category of each patient ID
   getTable() {
+    
+    var nullTable = 
+      <Col style={styles.titleText}>
+          <div> No Patient Satisfies This Criteria </div>
+      </Col>
+
     if (!this.state.loaded) {
-      return null;
+      return nullTable;
     }
+
     let patientInfo = this.state.patientInfo;
     let categoryTitles = [];
     let tableData = [];
@@ -316,17 +325,6 @@ class PatientsPage extends Component {
             var text = [];
             if (isDict(tempValue)) {
               for (var key in tempValue) {
-                /*logging in console for error checking*/
-                /*
-                                var str = "hello hello";
-                                console.log(str)
-                                var str2 = "this is key";
-                                console.log(str2)
-                                console.log(key)
-                                var str3 = "this is tempValue";
-                                console.log(str3)
-                                console.log(tempValue)
-                                */
                 if (tempValue[key] == null) {
                   text.push(key);
                 } else {
@@ -345,7 +343,15 @@ class PatientsPage extends Component {
       }
       tableData.push(tempPatientInfo);
     }
-    console.log("table data", tableData);
+
+    console.log("tableData",tableData)
+    
+    if (tableData.length === 0) {
+      return (
+        nullTable
+      )
+    }
+
     return (
       <TableList
         key={this.state.tableKey}
