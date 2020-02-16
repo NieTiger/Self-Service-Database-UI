@@ -59,8 +59,8 @@ class PatientImagesPage extends Component {
     axios
       .get(link)
       .then(function(response) {
+        console.log("PATIENT INFO GATHERED",response.data)
         var patientInfo = response.data.result[patientID];
-        console.log("PATIENT INFO GATHERED",patientInfo)
         currentComponent.setState({
           patientInfo: patientInfo,
           loaded: true

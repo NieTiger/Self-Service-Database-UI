@@ -112,11 +112,29 @@ class PatientsPage extends Component {
     let data = this.props.pageStatus.PatientsPage; //see submitButtonPressed() for additionalInfo
     let temp_data = {};
     let tempFilterCategories = this.state["filterCategories"];
+
+    console.log("GET PATIENTS CALLED",data)
+
     for (var key in data) {
-      temp_data[frontendToBackend[key]] = data[key]; //frontendToBackend is a dictionary, defined towards the top of this file
+      var tempValue = data[key]
+      if (isDict(tempValue)) {
+        var tempDict = {}
+        for (var innerKey in tempValue) {
+          try {
+            tempDict[innerKey] = parseInt(tempValue[innerKey])
+          }
+          catch(e) {
+            tempDict[innerKey] = tempValue[innerKey]
+          }
+        }
+        tempValue = tempDict
+      }
+      temp_data[frontendToBackend[key]] = tempValue; //frontendToBackend is a dictionary, defined towards the top of this file
       tempFilterCategories.push(key);
     }
     tempFilterCategories.push("Images");
+
+    console.log("GET PATIENTS CALLED2",temp_data)
 
     let currentComponent = this;
     axios
