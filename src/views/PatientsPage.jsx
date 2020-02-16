@@ -272,7 +272,8 @@ class PatientsPage extends Component {
     if (!this.state.loaded) {
       return nullTable;
 
-
+    }
+    
     let patientInfo = this.state.patientInfo;
     let categoryTitles = [];
     let tableData = [];
