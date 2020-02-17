@@ -113,15 +113,50 @@ class PatientsPage extends Component {
     let temp_data = {};
     let tempFilterCategories = this.state["filterCategories"];
 
-    console.log("GET PATIENTS CALLED",data)
-
     for (var key in data) {
       var tempValue = data[key]
       if (isDict(tempValue)) {
         var tempDict = {}
         for (var innerKey in tempValue) {
           try {
-            tempDict[innerKey] = parseInt(tempValue[innerKey])
+            var tempNumber = tempValue[innerKey]
+            if (tempNumber.search("/") !== -1) {
+              if (innerKey === "equal") {
+                tempDict["less"] = tempNumber.substring(0,tempNumber.length-2) + (parseInt(tempNumber.substring(tempNumber.length-2,tempNumber.length)) + 1)
+                tempDict["more"] = tempNumber.substring(0,tempNumber.length-2) + (parseInt(tempNumber.substring(tempNumber.length-2,tempNumber.length)) - 1)
+              }
+              else if (innerKey === "between less") {
+                tempDict["more"] = tempNumber 
+              }
+              else if (innerKey === "between greater") {
+                tempDict["less"] = tempNumber 
+              }
+              else if (innerKey === "greater") {
+                tempDict["more"] = tempNumber 
+              }
+              else {
+                tempDict[innerKey] = tempNumber
+              }
+            }
+            else {
+              tempNumber = parseInt(tempNumber)
+              if (innerKey === "equal") {
+                tempDict["less"] = tempNumber+1
+                tempDict["more"] = tempNumber-1
+              }
+              else if (innerKey === "between less") {
+                tempDict["more"] = tempNumber 
+              }
+              else if (innerKey === "between greater") {
+                tempDict["less"] = tempNumber 
+              }
+              else if (innerKey === "greater") {
+                tempDict["more"] = tempNumber 
+              }
+              else {
+                tempDict[innerKey] = tempNumber
+              }
+            }
           }
           catch(e) {
             tempDict[innerKey] = tempValue[innerKey]
@@ -132,9 +167,8 @@ class PatientsPage extends Component {
       temp_data[frontendToBackend[key]] = tempValue; //frontendToBackend is a dictionary, defined towards the top of this file
       tempFilterCategories.push(key);
     }
+    console.log("GET PATIENTS 2",temp_data)
     tempFilterCategories.push("Images");
-
-    console.log("GET PATIENTS CALLED2",temp_data)
 
     let currentComponent = this;
     axios
@@ -341,7 +375,23 @@ class PatientsPage extends Component {
             }
             var tempValue = patientInfo[patientID][tempCategory];
             var text = [];
-            if (isDict(tempValue)) {
+            
+            if (tempCategory === "left_vision" || tempCategory === "right_vision") {
+              console.log(patientInfo[patientID])
+              var tempData = patientInfo[patientID]["vision"]
+              var searchWord = "LEFT"
+              if (tempCategory === "right_vision") {
+                searchWord = "RIGHT"
+              }
+              for (var index = 0; index < tempData.length; index++) {
+                var tempVision = tempData[index]
+                if (tempVision.name.search(searchWord) !== -1) {
+                  text.push(tempVision.date.substring(0,16) + ": " + tempVision.value)
+                  text.push(<br />);
+                }
+              }
+            }
+            else if (isDict(tempValue)) {
               for (var key in tempValue) {
                 if (tempValue[key] == null) {
                   text.push(key);
@@ -547,11 +597,20 @@ class PatientsPage extends Component {
     for (var key in selectedFilters) {
       var title = key;
       var tempText = ": ";
-      for (var index = 0; index < selectedFilters[key].length; index++) {
+      var tempArray = selectedFilters[key]
+      if (isDict(tempArray)) {
+        tempArray = Object.keys(tempArray)
+      }
+      for (var index = 0; index < tempArray.length; index++) {
         if (index !== 0) {
           tempText += ", ";
         }
-        tempText += selectedFilters[key][index];
+        if (isDict(selectedFilters[key])) {
+          tempText += tempArray[index] + ": " + selectedFilters[key][tempArray[index]]
+        }
+        else {
+          tempText += tempArray[index];
+        }
       }
       text.push(
         <b>

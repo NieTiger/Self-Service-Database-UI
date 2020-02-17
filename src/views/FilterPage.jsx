@@ -107,6 +107,7 @@ class FilterPage extends Component {
   //submits all of the filters to the patients page
   submitButtonPressed() {
     let temp_selected_values = this.state.selected_values;
+    console.log("SUBMITTING",this.state.checkbox_values)
     for (var key in this.state.checkbox_values) {
       temp_selected_values[key] = this.state.checkbox_values[key];
     }
@@ -290,14 +291,14 @@ class FilterPage extends Component {
     //put vision subcategories
     temp_filter_subcategories = currentComponent.state.filter_subcategories;
     temp_filter_subcategories["Left Vision"] = [
-      "less than",
-      "greater than",
+      "less",
+      "greater",
       "equal",
       "between"
     ];
     temp_filter_subcategories["Right Vision"] = [
-      "less than",
-      "greater than",
+      "less",
+      "greater",
       "equal",
       "between"
     ];
@@ -308,14 +309,14 @@ class FilterPage extends Component {
     //put pressure subcategories
     temp_filter_subcategories = currentComponent.state.filter_subcategories;
     temp_filter_subcategories["Left Pressure"] = [
-      "less than",
-      "greater than",
+      "less",
+      "greater",
       "equal",
       "between"
     ];
     temp_filter_subcategories["Right Pressure"] = [
-      "less than",
-      "greater than",
+      "less",
+      "greater",
       "equal",
       "between"
     ];
@@ -325,12 +326,18 @@ class FilterPage extends Component {
   }
 
   isSubcategoryChecked(key, name) {
-    if (
-      this.state.selected_values[key] &&
-      this.state.selected_values[key].indexOf(name) !== -1
-    ) {
-      return true;
+    try {
+      if (this.state.selected_values[key].indexOf(name) !== -1) {
+        return true
+      }
     }
+    catch(e) {}
+    try {
+      if (this.state.selected_values[key][name]) {
+        return true
+      }
+    }
+    catch(e) {} 
     return false;
   }
 
@@ -395,15 +402,15 @@ class FilterPage extends Component {
               {name}
               <input
                 type="text"
-                defaultChecked={this.isSubcategoryChecked(key, name)}
-                title={key + ";" + name}
+                title={key + ";" + name + " less"}
+                onChange={e => this.checkBoxChanged(e)}
                 style={styles.main_div_button_text}
               />
               and
               <input
                 type="text"
-                defaultChecked={this.isSubcategoryChecked(key, name)}
-                title={key + ";" + name}
+                title={key + ";" + name + " greater"}
+                onChange={e => this.checkBoxChanged(e)}
                 style={styles.main_div_button_text}
               />
             </div>
@@ -511,6 +518,8 @@ class FilterPage extends Component {
     let cat_and_sub = e.target.title.split(";");
     let category = cat_and_sub[0];
     let subcategory = cat_and_sub[1];
+
+    console.log("CHECKBOX CHANGED",value,category,subcategory)
 
     let temp_checkbox = this.state.checkbox_values;
     if (!temp_checkbox[category]) {
