@@ -53,14 +53,14 @@ class PatientImagesPage extends Component {
 
   //Acquires data from the API and sets the state of patientInfo to be patientInfo
   getData() {
-    var currentComponent = this;
-    var patientID = this.state.patientID;
-    var link = apiBaseURL + "/ssd_api/patient_images?pt_id=" + patientID;
+    let currentComponent = this;
+    let patientID = this.state.patientID;
+    let link = apiBaseURL + "/ssd_api/patient_images?pt_id=" + patientID;
     axios
       .get(link)
       .then(function(response) {
         console.log("PATIENT INFO GATHERED",response.data)
-        var patientInfo = response.data.result[patientID];
+        let patientInfo = response.data.result[patientID];
         currentComponent.setState({
           patientInfo: patientInfo,
           loaded: true
@@ -73,11 +73,11 @@ class PatientImagesPage extends Component {
 
   //Acquires the list of filters to populate on the left side of the website
   getFilters() {
-    var filter_categories = this.state.filterCategories;
-    var temp_filter_categories = [];
-    for (var i = 0; i < filter_categories.length; i++) {
-      var category_name = filter_categories[i];
-      var temp_filter_category = null;
+    let filter_categories = this.state.filterCategories;
+    let temp_filter_categories = [];
+    for (let i = 0; i < filter_categories.length; i++) {
+      let category_name = filter_categories[i];
+      let temp_filter_category = null;
       if (this.state.selectedFilterCategories.indexOf(category_name) !== -1) {
         temp_filter_category = (
           <CustomButton
@@ -112,8 +112,8 @@ class PatientImagesPage extends Component {
       return null;
     }
 
-    var selectedCategories = [];
-    for (var i = 0; i < this.state.filterCategories.length; i++) {
+    let selectedCategories = [];
+    for (let i = 0; i < this.state.filterCategories.length; i++) {
       let category = this.state.filterCategories[i];
       if (this.state.selectedFilterCategories.indexOf(category) !== -1) {
         selectedCategories.push(category);
@@ -128,16 +128,16 @@ class PatientImagesPage extends Component {
     //After completing tempImageData, create tableData to display on the webpage
     //TableList object with categories as columns and tableData as the rows
     let tableData = [];
-    for (var i = 0; i < this.state.patientInfo.length; i++) {
-      var imageInfo = this.state.patientInfo[i];
+    for (let i = 0; i < this.state.patientInfo.length; i++) {
+      let imageInfo = this.state.patientInfo[i];
       let tempImageData = [];
-      for (var j = 0; j < imageInfo.images.length; j++) {
+      for (let j = 0; j < imageInfo.images.length; j++) {
         tempImageData.push([]);
       }
-      for (var j = 0; j < selectedCategories.length; j++) {
-        var category = selectedCategories[j];
+      for (let j = 0; j < selectedCategories.length; j++) {
+        let category = selectedCategories[j];
         if (category === "Exam ID") {
-          for (var k = 0; k < tempImageData.length; k++) {
+          for (let k = 0; k < tempImageData.length; k++) {
             let value = {
               type: "string",
               text: imageInfo.exam_id
@@ -145,7 +145,7 @@ class PatientImagesPage extends Component {
             tempImageData[k].push(value);
           }
         } else if (category === "Exam Date") {
-          for (var k = 0; k < tempImageData.length; k++) {
+          for (let k = 0; k < tempImageData.length; k++) {
             let value = {
               type: "string",
               text: imageInfo.exam_date
@@ -153,7 +153,7 @@ class PatientImagesPage extends Component {
             tempImageData[k].push(value);
           }
         } else if (category === "Image ID") {
-          for (var k = 0; k < imageInfo.images.length; k++) {
+          for (let k = 0; k < imageInfo.images.length; k++) {
             let value = {
               type: "string",
               text: imageInfo.images[k].image_id
@@ -161,7 +161,7 @@ class PatientImagesPage extends Component {
             tempImageData[k].push(value);
           }
         } else if (category === "Image Procedure") {
-          for (var k = 0; k < imageInfo.images.length; k++) {
+          for (let k = 0; k < imageInfo.images.length; k++) {
             let value = {
               type: "string",
               text: imageInfo.images[k].image_type
@@ -169,7 +169,7 @@ class PatientImagesPage extends Component {
             tempImageData[k].push(value);
           }
         } else if (category === "Image Laterality") {
-          for (var k = 0; k < imageInfo.images.length; k++) {
+          for (let k = 0; k < imageInfo.images.length; k++) {
             let value = {
               type: "string",
               text: imageInfo.images[k].image_laterality
@@ -177,8 +177,8 @@ class PatientImagesPage extends Component {
             tempImageData[k].push(value);
           }
         } else if (category === "Link To Image") {
-          for (var k = 0; k < imageInfo.images.length; k++) {
-            var tempPageStatus = this.props.pageStatus;
+          for (let k = 0; k < imageInfo.images.length; k++) {
+            let tempPageStatus = this.props.pageStatus;
             tempPageStatus["ShowPatientImagePage"] = {
               imageID: imageInfo.images[k].image_id,
               patientID: this.state.patientID
@@ -197,7 +197,7 @@ class PatientImagesPage extends Component {
           }
         }
       }
-      for (var j = 0; j < tempImageData.length; j++) {
+      for (let j = 0; j < tempImageData.length; j++) {
         tableData.push(tempImageData[j]);
       }
     }
@@ -224,7 +224,7 @@ class PatientImagesPage extends Component {
         tableKey: this.state.tableKey + 1
       });
     } else {
-      var new_list = this.state.selectedFilterCategories.filter(function(name) {
+      let new_list = this.state.selectedFilterCategories.filter(function(name) {
         return name !== category;
       });
       this.setState({
@@ -329,9 +329,9 @@ class PatientImagesPage extends Component {
   }
 
   render() {
-    var all_filters = this.getFilters();
-    var table = this.getTable();
-    var exportButton = this.getExport();
+    let all_filters = this.getFilters();
+    let table = this.getTable();
+    let exportButton = this.getExport();
     console.log("Patients Images Page", this.state);
     return (
       <div>

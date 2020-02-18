@@ -55,7 +55,7 @@ const frontendToBackend = {
 
 //purpose is to convert the capitalization and underlines between the frontend and backend
 const backendToFrontend = {};
-for (var key in frontendToBackend) {
+for (let key in frontendToBackend) {
   backendToFrontend[frontendToBackend[key]] = key;
 }
 
@@ -72,13 +72,13 @@ function isDict(v) {
 //returns true if date a is later than b, false otherwise
 //dates are in the format of "Thu, 09 Aug 2018" without the quotes
 function compareDates(a, b) {
-  var year_a = parseInt(a.substring(12, 16));
-  var month_a = a.substring(8, 11);
-  var day_a = parseInt(a.substring(5, 7));
+  let year_a = parseInt(a.substring(12, 16));
+  let month_a = a.substring(8, 11);
+  let day_a = parseInt(a.substring(5, 7));
 
-  var year_b = parseInt(b.substring(12, 16));
-  var month_b = b.substring(8, 11);
-  var day_b = parseInt(b.substring(5, 7));
+  let year_b = parseInt(b.substring(12, 16));
+  let month_b = b.substring(8, 11);
+  let day_b = parseInt(b.substring(5, 7));
 
   const months = {
     Jan: 0,
@@ -147,13 +147,13 @@ class PatientHistoryPage extends Component {
 
   //sets the state of patientinfo to be the one for the relevant patient ID
   getData() {
-    var currentComponent = this;
-    var patientID = this.state.patientID;
-    var link = apiBaseURL + "/ssd_api/patients?pt_id=" + patientID;
+    let currentComponent = this;
+    let patientID = this.state.patientID;
+    let link = apiBaseURL + "/ssd_api/patients?pt_id=" + patientID;
     axios
       .get(link)
       .then(function(response) {
-        var patientInfo = response.data.result[patientID];
+        let patientInfo = response.data.result[patientID];
         currentComponent.setState({ patientInfo: patientInfo }, () => {
           currentComponent.editData();
         });
@@ -170,18 +170,18 @@ class PatientHistoryPage extends Component {
       return;
     }
     let patientInfo = {};
-    var date = [];
-    var category = null;
-    for (var key in this.state.patientInfo) {
+    let date = [];
+    let category = null;
+    for (let key in this.state.patientInfo) {
       if (key === "eye_diagnosis" || key === "systemic_diagnosis") {
-        for (var key2 in this.state.patientInfo[key]) {
+        for (let key2 in this.state.patientInfo[key]) {
           if (this.state.patientInfo[key][key2] !== null) {
             date = this.state.patientInfo[key][key2].substring(0, 16);
             patientInfo[date] = {};
           }
         }
       } else if (typeof this.state.patientInfo[key] === "object") {
-        for (var i = 0; i < this.state.patientInfo[key].length; i++) {
+        for (let i = 0; i < this.state.patientInfo[key].length; i++) {
           if (
             isDict(this.state.patientInfo[key][i]) &&
             this.state.patientInfo[key][i].date
@@ -192,9 +192,9 @@ class PatientHistoryPage extends Component {
         }
       }
     }
-    for (var key in this.state.patientInfo) {
+    for (let key in this.state.patientInfo) {
       if (key === "eye_diagnosis" || key === "systemic_diagnosis") {
-        for (var key2 in this.state.patientInfo[key]) {
+        for (let key2 in this.state.patientInfo[key]) {
           if (this.state.patientInfo[key][key2] != null) {
             date = this.state.patientInfo[key][key2].substring(0, 16);
             if (patientInfo[date]) {
@@ -203,8 +203,8 @@ class PatientHistoryPage extends Component {
           }
         }
       } else if (key === "vision" || key === "pressure") {
-        var category1 = null;
-        var category2 = null;
+        let category1 = null;
+        let category2 = null;
         if (key === "vision") {
           category1 = "Left Vision";
           category2 = "Right Vision";
@@ -212,7 +212,7 @@ class PatientHistoryPage extends Component {
           category1 = "Left Pressure";
           category2 = "Right Pressure";
         }
-        for (var i = 0; i < this.state.patientInfo[key].length; i++) {
+        for (let i = 0; i < this.state.patientInfo[key].length; i++) {
           if (this.state.patientInfo[key][i].date) {
             date = this.state.patientInfo[key][i].date.substring(0, 16);
             category = category2;
@@ -223,7 +223,7 @@ class PatientHistoryPage extends Component {
           }
         }
       } else if (key === "lab_values") {
-        for (var i = 0; i < this.state.patientInfo[key].length; i++) {
+        for (let i = 0; i < this.state.patientInfo[key].length; i++) {
           if (this.state.patientInfo[key][i].date) {
             date = this.state.patientInfo[key][i].date.substring(0, 16);
             category = backendToFrontend[key];
@@ -234,7 +234,7 @@ class PatientHistoryPage extends Component {
           }
         }
       } else if (key === "medication") {
-        for (var i = 0; i < this.state.patientInfo[key].length; i++) {
+        for (let i = 0; i < this.state.patientInfo[key].length; i++) {
           if (this.state.patientInfo[key][i].date) {
             date = this.state.patientInfo[key][i].date.substring(0, 16);
             patientInfo[date][
@@ -256,14 +256,14 @@ class PatientHistoryPage extends Component {
   //uses this.state.filterCategories, containing a list of fitler category names, then recreates a list
   //with CustomButton elements that is returned as temp_filter_categories
   getFilters() {
-    var filter_categories = this.state.filterCategories;
-    var temp_filter_categories = [];
-    for (var i = 0; i < filter_categories.length; i++) {
-      var category_name = filter_categories[i];
+    let filter_categories = this.state.filterCategories;
+    let temp_filter_categories = [];
+    for (let i = 0; i < filter_categories.length; i++) {
+      let category_name = filter_categories[i];
       if (category_name === "Date") {
         continue
       }
-      var temp_filter_category = null;
+      let temp_filter_category = null;
       if (this.state.selectedFilterCategories.indexOf(category_name) !== -1) {
         temp_filter_category = (
           <CustomButton
@@ -305,7 +305,7 @@ class PatientHistoryPage extends Component {
         tableKey: this.state.tableKey + 1
       });
     } else {
-      var new_list = this.state.selectedFilterCategories.filter(function(name) {
+      let new_list = this.state.selectedFilterCategories.filter(function(name) {
         return name !== category;
       });
       this.setState({
@@ -322,8 +322,8 @@ class PatientHistoryPage extends Component {
     if (!this.state.loaded) {
       return null;
     }
-    var selectedCategories = [];
-    for (var i = 0; i < this.state.filterCategories.length; i++) {
+    let selectedCategories = [];
+    for (let i = 0; i < this.state.filterCategories.length; i++) {
       let category = this.state.filterCategories[i];
       if (this.state.selectedFilterCategories.indexOf(category) !== -1) {
         if (category === "Vision" || category === "Pressure") {
@@ -340,7 +340,7 @@ class PatientHistoryPage extends Component {
 
     console.log("Selected Categories", selectedCategories);
 
-    for (var date in patientInfo) {
+    for (let date in patientInfo) {
       let data = patientInfo[date];
       let tempDateData = [];
       let isEmpty = true;
@@ -352,23 +352,23 @@ class PatientHistoryPage extends Component {
           }
         ];
       }
-      for (var ii = 1; ii < selectedCategories.length; ii++) {
+      for (let ii = 1; ii < selectedCategories.length; ii++) {
         let category = selectedCategories[ii];
         let value = {
           type: "string",
           text: ""
         };
-        var tempValue = data[category];
+        let tempValue = data[category];
         if (!tempValue) {
           tempDateData.push(value);
         } else {
           isEmpty = false;
-          var text = [];
+          let text = [];
           if (category === "Date") {
             continue;
           } else if (category === "Labs") {
-            for (var labName in tempValue) {
-              var labValue = tempValue[labName];
+            for (let labName in tempValue) {
+              let labValue = tempValue[labName];
               if (labName && labValue) {
                 text.push(labName + ": " + labValue);
                 text.push(<br />);
@@ -423,10 +423,10 @@ class PatientHistoryPage extends Component {
       "Exam ID"
     ];
 
-    var date = patientData[0].text;
+    let date = patientData[0].text;
     patientData = this.state.patientInfo[date];
 
-    var patientInfo = this.props.pageStatus.PatientHistoryPage.patientInfo;
+    let patientInfo = this.props.pageStatus.PatientHistoryPage.patientInfo;
     patientData["Ethnicity"] = patientInfo.ethnicity;
     patientData["Image Procedure Type"] = patientInfo.image_type;
     patientData["Age"] = patientInfo.age;
@@ -435,7 +435,7 @@ class PatientHistoryPage extends Component {
     let tableData = [];
     let tempDateData = [];
 
-    for (var i = 0; i < selectedCategories.length; i++) {
+    for (let i = 0; i < selectedCategories.length; i++) {
       let category = selectedCategories[i];
       let value = {
         type: "string",
@@ -443,7 +443,7 @@ class PatientHistoryPage extends Component {
       };
       let tempText = [];
       if (typeof patientData[category] === "object") {
-        for (var j = 0; j < patientData[category].length; j++) {
+        for (let j = 0; j < patientData[category].length; j++) {
           tempText.push(patientData[category][j]);
           tempText.push(<br />);
         }
@@ -467,7 +467,7 @@ class PatientHistoryPage extends Component {
 
   //To be filled after images are set up
   imagesButtonPressed() {
-    var tempPageStatus = this.props.pageStatus;
+    let tempPageStatus = this.props.pageStatus;
     tempPageStatus["PatientImagesPage"] = {
       patientID: this.state.patientID
     };
@@ -482,10 +482,10 @@ class PatientHistoryPage extends Component {
   render() {
     console.log("Patients History Page", this.state);
 
-    var all_filters = this.getFilters();
-    var tables = this.getTables();
-    var table = null;
-    var summaryTable = null;
+    let all_filters = this.getFilters();
+    let tables = this.getTables();
+    let table = null;
+    let summaryTable = null;
     if (tables) {
       table = tables[0];
       summaryTable = tables[1];

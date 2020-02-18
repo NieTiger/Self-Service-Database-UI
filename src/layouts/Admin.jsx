@@ -138,6 +138,7 @@ class Admin extends Component {
     this.setState({ _notificationSystem: this.refs.notificationSystem });
     var _notificationSystem = this.refs.notificationSystem;
     var color = Math.floor(Math.random() * 4 + 1);
+    /*
     var level;
     switch (color) {
       case 1:
@@ -155,7 +156,8 @@ class Admin extends Component {
       default:
         break;
     }
-    {
+     */
+
       /*
     _notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
@@ -170,7 +172,7 @@ class Admin extends Component {
       autoDismiss: 15
     });
     */
-    }
+
   }
   componentDidUpdate(e) {
     if (
