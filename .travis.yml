@@ -1,9 +1,9 @@
 language: node_js
+os: linux
 node_js:
    - "stable"
 cache:
    directories:
       - node_modules
 script:
-   - npm test
    - CI="" npm run build
