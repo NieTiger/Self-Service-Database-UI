@@ -193,7 +193,10 @@ class PatientsPage extends Component {
         );
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error)
+        if (error.message === "Request failed with status code 401") {
+          currentComponent.props.backToLoginPage()
+        }
       });
 
 
@@ -230,6 +233,9 @@ class PatientsPage extends Component {
         })
         .catch(function (error) {
           console.log(error);
+          if (error.message === "Request failed with status code 401") {
+            currentComponent.props.backToLoginPage()
+          }
         });
 
       link =
@@ -255,6 +261,9 @@ class PatientsPage extends Component {
         })
         .catch(function (error) {
           console.log(error);
+          if (error.message === "Request failed with status code 401") {
+            currentComponent.props.backToLoginPage()
+          }
         });
     }
   }

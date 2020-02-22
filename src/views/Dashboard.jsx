@@ -37,7 +37,8 @@ class Dashboard extends Component {
       page: "FilterPage",
       additionalInfo: null,
       pageStatus: {},
-      accessToken: this.props.accessToken
+      accessToken: this.props.accessToken,
+      backToLoginPage: this.props.backToLoginPage
     };
     this.pageSelector = this.pageSelector.bind(this);
     this.changePage = this.changePage.bind(this);
@@ -55,6 +56,7 @@ class Dashboard extends Component {
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
           accessToken = {this.state.accessToken}
+          backToLoginPage = {this.state.backToLoginPage}
         />
       );
     } else if (page === "PatientsPage") {
@@ -64,6 +66,7 @@ class Dashboard extends Component {
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
           accessToken = {this.state.accessToken}
+          backToLoginPage = {this.state.backToLoginPage}
         />
       );
     } else if (page === "ExamsPage") {
@@ -73,6 +76,7 @@ class Dashboard extends Component {
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
           accessToken = {this.state.accessToken}
+          backToLoginPage = {this.state.backToLoginPage}
         />
       );
     } else if (page === "PatientHistoryPage") {
@@ -82,6 +86,7 @@ class Dashboard extends Component {
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
           accessToken = {this.state.accessToken}
+          backToLoginPage = {this.state.backToLoginPage}
         />
       );
     } else if (page === "PatientImagesPage") {
@@ -91,6 +96,7 @@ class Dashboard extends Component {
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
           accessToken = {this.state.accessToken}
+          backToLoginPage = {this.state.backToLoginPage}
         />
       );
     } else if (page === "ShowPatientImagePage") {
@@ -100,6 +106,7 @@ class Dashboard extends Component {
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
           accessToken = {this.state.accessToken}
+          backToLoginPage = {this.state.backToLoginPage}
         />
       );
     }

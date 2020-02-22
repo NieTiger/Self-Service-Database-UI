@@ -48,6 +48,7 @@ class Admin extends Component {
     this.pageDisplayed = this.pageDisplayed.bind(this);
     this.textFieldChanged = this.textFieldChanged.bind(this);
     this.loginButtonPressed = this.loginButtonPressed.bind(this);
+    this.backToLoginPage = this.backToLoginPage.bind(this)
   }
   handleNotificationClick = position => {
     var color = Math.floor(Math.random() * 4 + 1);
@@ -95,6 +96,7 @@ class Admin extends Component {
                 {...props}
                 handleClick={this.handleNotificationClick}
                 accessToken={this.state.accessToken}
+                backToLoginPage={this.backToLoginPage}
               />
             )}
             key={key}
@@ -186,6 +188,12 @@ class Admin extends Component {
       document.scrollingElement.scrollTop = 0;
       this.refs.mainPanel.scrollTop = 0;
     }
+  }
+
+  backToLoginPage() {
+    this.setState({
+      accessGranted: false
+    })
   }
 
   //update state loginInfo values according to the values in Text Fields

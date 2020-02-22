@@ -184,6 +184,9 @@ class FilterPage extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        if (error.message === "Request failed with status code 401") {
+          currentComponent.props.backToLoginPage()
+        }
       });
 
     //get systemic diagnosis subcategories from database
@@ -208,6 +211,9 @@ class FilterPage extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        if (error.message === "Request failed with status code 401") {
+          currentComponent.props.backToLoginPage()
+        }
       });
 
     //put age subcategories
@@ -252,6 +258,9 @@ class FilterPage extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        if (error.message === "Request failed with status code 401") {
+          currentComponent.props.backToLoginPage()
+        }
       });
 
     //get lab values from database
@@ -278,6 +287,9 @@ class FilterPage extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        if (error.message === "Request failed with status code 401") {
+          currentComponent.props.backToLoginPage()
+        }
       });
 
     //get medication generic name from database
@@ -305,6 +317,9 @@ class FilterPage extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        if (error.message === "Request failed with status code 401") {
+          currentComponent.props.backToLoginPage()
+        }
       });
 
     //get medication therapuetic name from database
@@ -331,6 +346,9 @@ class FilterPage extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        if (error.message === "Request failed with status code 401") {
+          currentComponent.props.backToLoginPage()
+        }
       });
 
     //put vision subcategories

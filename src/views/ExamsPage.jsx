@@ -106,6 +106,9 @@ class ExamPage extends Component {
         })
         .catch(function (error) {
           console.log(error);
+          if (error.message === "Request failed with status code 401") {
+            currentComponent.props.backToLoginPage()
+          }
         });
     }
   }
