@@ -18,18 +18,16 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
-
 import AdminNavbar from "components/Navbars/AdminNavbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
 import CustomButton from "components/CustomButton/CustomButton";
-
 import { style } from "variables/Variables.jsx";
-
 import routes from "routes.js";
-
 import image from "assets/img/sidebar-2.jpg"; /*sidebar-2 is the default hot air balloon image*/
 import loginBackgroundImage from "assets/img/nmh.jpg";
+
+export const apiBaseURL = "https://tigernie.com";
 
 class Admin extends Component {
   constructor(props) {
@@ -96,6 +94,7 @@ class Admin extends Component {
               <prop.component
                 {...props}
                 handleClick={this.handleNotificationClick}
+                accessToken={this.state.accessToken}
               />
             )}
             key={key}
@@ -158,20 +157,20 @@ class Admin extends Component {
     }
      */
 
-      /*
-    _notificationSystem.addNotification({
-      title: <span data-notify="icon" className="pe-7s-gift" />,
-      message: (
-        <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
-        </div>
-      ),
-      level: level,
-      position: "tr",
-      autoDismiss: 15
-    });
-    */
+    /*
+  _notificationSystem.addNotification({
+    title: <span data-notify="icon" className="pe-7s-gift" />,
+    message: (
+      <div>
+        Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
+        every web developer.
+      </div>
+    ),
+    level: level,
+    position: "tr",
+    autoDismiss: 15
+  });
+  */
 
   }
   componentDidUpdate(e) {
@@ -206,26 +205,32 @@ class Admin extends Component {
   loginButtonPressed() {
     var username = this.state.loginInfo.username;
     var password = this.state.loginInfo.password;
-    if (
-      username === "SelfService2020@northwestern.edu" &&
-      password === "SelfService2020"
-    ) {
-      this.setState({
-        accessGranted: true
+
+    let currentComponent = this;
+    const axios = require("axios");
+
+    var link = apiBaseURL + "/ssd_api/token";
+    const options = {
+      url: link,
+      method: 'get',
+      headers: {
+        'Authorization': "Basic " + btoa(username+":"+password)
+      },
+    };
+
+    axios(options)
+      .then(response => {
+        console.log(response);
+        currentComponent.setState({
+          accessGranted: true,
+          accessToken: response.data.result.token
+        })
+      })
+      .catch(function (error) {
+        currentComponent.setState({
+          displayedText: "Incorrect username or password. Please try again."
+        })
       });
-    } else if (username == null) {
-      this.setState({
-        displayedText: "Please enter a username."
-      });
-    } else if (password == null) {
-      this.setState({
-        displayedText: "Please enter a password."
-      });
-    } else {
-      this.setState({
-        displayedText: "Incorrect username or password. Please try again."
-      });
-    }
   }
 
   pageDisplayed() {
@@ -248,18 +253,6 @@ class Admin extends Component {
             />
             <Switch>{this.getRoutes(routes)}</Switch>
             <Footer />
-            {/*Commented this out to exclude the popup box on the side*/}
-            {/*
-            <FixedPlugin
-              handleImageClick={this.handleImageClick}
-              handleColorClick={this.handleColorClick}
-              handleHasImage={this.handleHasImage}
-              bgColor={this.state["color"]}
-              bgImage={this.state["image"]}
-              mini={this.state["mini"]}
-              handleFixedClick={this.handleFixedClick}
-              fixedClasses={this.state.fixedClasses}
-            />
             */}
           </div>
         </div>

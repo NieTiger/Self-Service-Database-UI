@@ -136,7 +136,6 @@ class PatientHistoryPage extends Component {
   }
 
   componentDidMount() {
-    console.log("PATIENT HISTORY PAGE",this.props)
     this.setState(
       {
         patientID: this.props.pageStatus.PatientHistoryPage.patientID
@@ -150,8 +149,17 @@ class PatientHistoryPage extends Component {
     let currentComponent = this;
     let patientID = this.state.patientID;
     let link = apiBaseURL + "/ssd_api/patients?pt_id=" + patientID;
-    axios
-      .get(link)
+    var autToken = "Basic " + btoa(this.props.accessToken + ":something")
+
+    const options = {
+      url: link,
+      method: 'get',
+      headers: {
+        'Authorization': autToken
+      },
+    };
+
+    axios(options)
       .then(function(response) {
         let patientInfo = response.data.result[patientID];
         currentComponent.setState({ patientInfo: patientInfo }, () => {

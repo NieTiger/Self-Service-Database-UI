@@ -56,8 +56,16 @@ class PatientImagesPage extends Component {
     let currentComponent = this;
     let patientID = this.state.patientID;
     let link = apiBaseURL + "/ssd_api/patient_images?pt_id=" + patientID;
-    axios
-      .get(link)
+    var autToken = "Basic " + btoa(this.props.accessToken + ":something")
+
+    const options = {
+      url: link,
+      method: 'get',
+      headers: {
+        'Authorization': autToken
+      },
+    };
+    axios(options)
       .then(function(response) {
         console.log("PATIENT INFO GATHERED",response.data)
         let patientInfo = response.data.result[patientID];

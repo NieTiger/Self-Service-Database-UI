@@ -122,17 +122,17 @@ class PatientsPage extends Component {
             var tempNumber = tempValue[innerKey]
             if (tempNumber.search("/") !== -1) {
               if (innerKey === "equal") {
-                tempDict["less"] = tempNumber.substring(0,tempNumber.length-2) + (parseInt(tempNumber.substring(tempNumber.length-2,tempNumber.length)) + 1)
-                tempDict["more"] = tempNumber.substring(0,tempNumber.length-2) + (parseInt(tempNumber.substring(tempNumber.length-2,tempNumber.length)) - 1)
+                tempDict["less"] = tempNumber.substring(0, tempNumber.length - 2) + (parseInt(tempNumber.substring(tempNumber.length - 2, tempNumber.length)) + 1)
+                tempDict["more"] = tempNumber.substring(0, tempNumber.length - 2) + (parseInt(tempNumber.substring(tempNumber.length - 2, tempNumber.length)) - 1)
               }
               else if (innerKey === "between less") {
-                tempDict["more"] = tempNumber 
+                tempDict["more"] = tempNumber
               }
               else if (innerKey === "between greater") {
-                tempDict["less"] = tempNumber 
+                tempDict["less"] = tempNumber
               }
               else if (innerKey === "greater") {
-                tempDict["more"] = tempNumber 
+                tempDict["more"] = tempNumber
               }
               else {
                 tempDict[innerKey] = tempNumber
@@ -141,24 +141,24 @@ class PatientsPage extends Component {
             else {
               tempNumber = parseInt(tempNumber)
               if (innerKey === "equal") {
-                tempDict["less"] = tempNumber+1
-                tempDict["more"] = tempNumber-1
+                tempDict["less"] = tempNumber + 1
+                tempDict["more"] = tempNumber - 1
               }
               else if (innerKey === "between less") {
-                tempDict["more"] = tempNumber 
+                tempDict["more"] = tempNumber
               }
               else if (innerKey === "between greater") {
-                tempDict["less"] = tempNumber 
+                tempDict["less"] = tempNumber
               }
               else if (innerKey === "greater") {
-                tempDict["more"] = tempNumber 
+                tempDict["more"] = tempNumber
               }
               else {
                 tempDict[innerKey] = tempNumber
               }
             }
           }
-          catch(e) {
+          catch (e) {
             tempDict[innerKey] = tempValue[innerKey]
           }
         }
@@ -167,15 +167,24 @@ class PatientsPage extends Component {
       temp_data[frontendToBackend[key]] = tempValue; //frontendToBackend is a dictionary, defined towards the top of this file
       tempFilterCategories.push(key);
     }
-    console.log("GET PATIENTS 2",temp_data)
     tempFilterCategories.push("Images");
 
     let currentComponent = this;
-    axios
-      .post(apiBaseURL + "/ssd_api/filter", {
+
+    var autToken = "Basic " + btoa(this.props.accessToken + ":something")
+
+    const options = {
+      url: apiBaseURL + "/ssd_api/filter",
+      method: 'post',
+      headers: {
+        'Authorization': autToken
+      },
+      data: {
         filters: temp_data
-      })
-      .then(function(response) {
+      }
+    };
+    axios(options)
+      .then(function (response) {
         currentComponent.setState(
           { patientsIDs: response.data.result.pt_id },
           () => {
@@ -183,10 +192,10 @@ class PatientsPage extends Component {
           }
         );
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
-    
+
 
     this.setState({
       filterCategories: tempFilterCategories,
@@ -201,33 +210,50 @@ class PatientsPage extends Component {
     for (var index in patientIDs) {
       var patientID = patientIDs[index];
       let link = apiBaseURL + "/ssd_api/patients?pt_id=" + patientID.toString();
-      axios
-        .get(link)
-        .then(function(response) {
+      var autToken = "Basic " + btoa(this.props.accessToken + ":something")
+
+      var options = {
+        url: link,
+        method: 'get',
+        headers: {
+          'Authorization': autToken
+        },
+      };
+
+      axios(options)
+        .then(function (response) {
           let currentInfo = currentComponent.state.patientInfo;
           currentInfo.push(response.data.result);
           currentComponent.setState({ patientInfo: currentInfo }, () => {
             currentComponent.editData();
           });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
+
       link =
         apiBaseURL +
         "/ssd_api/filter_table_with_ptid?pt_id=" +
         patientID.toString() +
         "&table_name=pt_deid";
-      axios
-        .get(link)
-        .then(function(response) {
+
+      options = {
+        url: link,
+        method: 'get',
+        headers: {
+          'Authorization': autToken
+        },
+      };
+      axios(options)
+        .then(function (response) {
           let currentInfo = currentComponent.state.patientInfo;
           currentInfo.push(response.data.result);
           currentComponent.setState({ patientInfo: currentInfo }, () => {
             currentComponent.editData();
           });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     }
@@ -306,10 +332,10 @@ class PatientsPage extends Component {
   //Outside loop goes through each patient ID
   //Inside loop goes through each filter category of each patient ID
   getTable() {
-  
-    var nullTable = 
+
+    var nullTable =
       <Col style={styles.titleText}>
-          <div> No Patient Satisfies This Criteria </div>
+        <div> No Patient Satisfies This Criteria </div>
       </Col>
 
     if (!this.state.loaded) {
@@ -367,7 +393,7 @@ class PatientsPage extends Component {
               this.props.changePage(newState);
             value["submitInformation"] = newState;
             tempPatientInfo.push(value);
-          } 
+          }
           else {
             var tempCategory = frontendToBackend[category]
             if (category === "Image Procedure Type") {
@@ -375,7 +401,7 @@ class PatientsPage extends Component {
             }
             var tempValue = patientInfo[patientID][tempCategory];
             var text = [];
-            
+
             if (tempCategory === "left_vision" || tempCategory === "right_vision") {
               console.log(patientInfo[patientID])
               var tempData = patientInfo[patientID]["vision"]
@@ -386,7 +412,7 @@ class PatientsPage extends Component {
               for (var index = 0; index < tempData.length; index++) {
                 var tempVision = tempData[index]
                 if (tempVision.name.search(searchWord) !== -1) {
-                  text.push(tempVision.date.substring(0,16) + ": " + tempVision.value)
+                  text.push(tempVision.date.substring(0, 16) + ": " + tempVision.value)
                   text.push(<br />);
                 }
               }
@@ -400,18 +426,18 @@ class PatientsPage extends Component {
                 }
                 text.push(<br />);
               }
-            } 
+            }
             else if (isArray(tempValue)) {
               for (var index = 0; index < tempValue.length; index++) {
                 if (index % 4 === 3) {
                   text.push(tempValue[index])
                   text.push(<br />);
                 }
-                else if (index === tempValue.length-1) {
+                else if (index === tempValue.length - 1) {
                   text.push(tempValue[index])
                 }
                 else {
-                  text.push(tempValue[index]+", ")
+                  text.push(tempValue[index] + ", ")
                 }
               }
             }
@@ -427,8 +453,8 @@ class PatientsPage extends Component {
       tableData.push(tempPatientInfo);
     }
 
-    console.log("tableData",tableData)
-    
+    console.log("tableData", tableData)
+
     if (tableData.length === 0) {
       return (
         nullTable
@@ -454,7 +480,7 @@ class PatientsPage extends Component {
         tableKey: this.state.tableKey + 1
       });
     } else {
-      var new_list = this.state.selectedFilterCategories.filter(function(name) {
+      var new_list = this.state.selectedFilterCategories.filter(function (name) {
         return name !== category;
       });
       this.setState({

@@ -36,7 +36,8 @@ class Dashboard extends Component {
     this.state = {
       page: "FilterPage",
       additionalInfo: null,
-      pageStatus: {}
+      pageStatus: {},
+      accessToken: this.props.accessToken
     };
     this.pageSelector = this.pageSelector.bind(this);
     this.changePage = this.changePage.bind(this);
@@ -53,6 +54,7 @@ class Dashboard extends Component {
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
+          accessToken = {this.state.accessToken}
         />
       );
     } else if (page === "PatientsPage") {
@@ -61,6 +63,7 @@ class Dashboard extends Component {
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
+          accessToken = {this.state.accessToken}
         />
       );
     } else if (page === "ExamsPage") {
@@ -69,6 +72,7 @@ class Dashboard extends Component {
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
+          accessToken = {this.state.accessToken}
         />
       );
     } else if (page === "PatientHistoryPage") {
@@ -77,6 +81,7 @@ class Dashboard extends Component {
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
+          accessToken = {this.state.accessToken}
         />
       );
     } else if (page === "PatientImagesPage") {
@@ -85,6 +90,7 @@ class Dashboard extends Component {
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
+          accessToken = {this.state.accessToken}
         />
       );
     } else if (page === "ShowPatientImagePage") {
@@ -93,6 +99,7 @@ class Dashboard extends Component {
           changePage={newState => this.changePage(newState)}
           additionalInfo={this.state.additionalInfo}
           pageStatus={this.state.pageStatus}
+          accessToken = {this.state.accessToken}
         />
       );
     }

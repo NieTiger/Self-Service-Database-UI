@@ -86,17 +86,25 @@ class ExamPage extends Component {
     for (var i = 0; i < this.state.patientsIDs.length; i++) {
       var patientID = this.state.patientsIDs[i];
       var link = apiBaseURL + "/ssd_api/patient_images?pt_id=" + patientID;
-      axios
-        .get(link)
-        .then(function(response) {
+      var autToken = "Basic " + btoa(this.props.accessToken + ":something")
+
+      const options = {
+        url: link,
+        method: 'get',
+        headers: {
+          'Authorization': autToken
+        },
+      };
+
+      axios(options)
+        .then(function (response) {
           let currentInfo = currentComponent.state.patientInfo;
           currentInfo.push(response.data.result);
-          console.log("DATA GATHERED",currentInfo)
           currentComponent.setState({ patientInfo: currentInfo }, () => {
             currentComponent.editData();
           });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     }
@@ -165,7 +173,7 @@ class ExamPage extends Component {
         tableKey: this.state.tableKey + 1
       });
     } else {
-      var new_list = this.state.selectedFilterCategories.filter(function(name) {
+      var new_list = this.state.selectedFilterCategories.filter(function (name) {
         return name !== category;
       });
       this.setState({
@@ -223,7 +231,7 @@ class ExamPage extends Component {
               examID = examInfo["exam_id"];
               value["text"] = examID;
               value["type"] = "button";
-              value["submitFunction"] = () => {}
+              value["submitFunction"] = () => { }
               value["submitInformation"] = null;
 
               tempPatientInfo.push(value);
@@ -239,7 +247,7 @@ class ExamPage extends Component {
               } else {
                 text.push(
                   "Image ID (First): " +
-                    (lastImage.image_id - lastImage.image_num + 1)
+                  (lastImage.image_id - lastImage.image_num + 1)
                 );
                 text.push(<br />);
                 text.push("# of Images: " + lastImage.image_num);

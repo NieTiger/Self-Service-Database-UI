@@ -107,7 +107,6 @@ class FilterPage extends Component {
   //submits all of the filters to the patients page
   submitButtonPressed() {
     let temp_selected_values = this.state.selected_values;
-    console.log("SUBMITTING",this.state.checkbox_values)
     for (var key in this.state.checkbox_values) {
       temp_selected_values[key] = this.state.checkbox_values[key];
     }
@@ -163,9 +162,18 @@ class FilterPage extends Component {
 
     //get eye diagnosis subcategories from database
     var link = apiBaseURL + "/ssd_api/get_distinct?special=eye_diagnosis";
-    axios
-      .get(link)
-      .then(function(response) {
+    var autToken = "Basic " + btoa(this.props.accessToken + ":something")
+
+    const options = {
+      url: link,
+      method: 'get',
+      headers: {
+        'Authorization': autToken
+      },
+    };
+
+    axios(options)
+      .then(function (response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
         temp_filter_subcategories["Eye Diagnosis"] =
@@ -174,15 +182,22 @@ class FilterPage extends Component {
           filter_subcategories: temp_filter_subcategories /*updates the state of filter_subcategories each time*/
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
 
     //get systemic diagnosis subcategories from database
     var link2 = apiBaseURL + "/ssd_api/get_distinct?special=systemic_diagnosis";
-    axios
-      .get(link2)
-      .then(function(response) {
+
+    const options2 = {
+      url: link2,
+      method: 'get',
+      headers: {
+        'Authorization': autToken
+      },
+    };
+    axios(options2)
+      .then(function (response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
         temp_filter_subcategories["Systemic Diagnosis"] =
@@ -191,7 +206,7 @@ class FilterPage extends Component {
           filter_subcategories: temp_filter_subcategories
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
 
@@ -217,9 +232,16 @@ class FilterPage extends Component {
     var link3 =
       apiBaseURL +
       "/ssd_api/get_distinct?table_name=image_procedure&col_name=image_procedure";
-    axios
-      .get(link3)
-      .then(function(response) {
+
+    const options3 = {
+      url: link3,
+      method: 'get',
+      headers: {
+        'Authorization': autToken
+      },
+    };
+    axios(options3)
+      .then(function (response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
         temp_filter_subcategories["Image Procedure Type"] =
@@ -228,7 +250,7 @@ class FilterPage extends Component {
           filter_subcategories: temp_filter_subcategories
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
 
@@ -236,9 +258,17 @@ class FilterPage extends Component {
     var link4 =
       apiBaseURL +
       "/ssd_api/get_distinct?table_name=lab_value_deid&col_name=name";
-    axios
-      .get(link4)
-      .then(function(response) {
+
+    const options4 = {
+      url: link4,
+      method: 'get',
+      headers: {
+        'Authorization': autToken
+      },
+    };
+
+    axios(options4)
+      .then(function (response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
         temp_filter_subcategories["Labs"] = response.data.result.data;
@@ -246,7 +276,7 @@ class FilterPage extends Component {
           filter_subcategories: temp_filter_subcategories
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
 
@@ -254,9 +284,17 @@ class FilterPage extends Component {
     var link5 =
       apiBaseURL +
       "/ssd_api/get_distinct?table_name=medication_deid&col_name=generic_name";
-    axios
-      .get(link5)
-      .then(function(response) {
+
+    const options5 = {
+      url: link5,
+      method: 'get',
+      headers: {
+        'Authorization': autToken
+      },
+    };
+
+    axios(options5)
+      .then(function (response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
         temp_filter_subcategories["Medication Generic Name"] =
@@ -265,7 +303,7 @@ class FilterPage extends Component {
           filter_subcategories: temp_filter_subcategories
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
 
@@ -273,9 +311,16 @@ class FilterPage extends Component {
     var link6 =
       apiBaseURL +
       "/ssd_api/get_distinct?table_name=medication_deid&col_name=therapeutic_class";
-    axios
-      .get(link6)
-      .then(function(response) {
+
+    const options6 = {
+      url: link6,
+      method: 'get',
+      headers: {
+        'Authorization': autToken
+      },
+    };
+    axios(options6)
+      .then(function (response) {
         var temp_filter_subcategories =
           currentComponent.state.filter_subcategories;
         temp_filter_subcategories["Medication Therapuetic Name"] =
@@ -284,7 +329,7 @@ class FilterPage extends Component {
           filter_subcategories: temp_filter_subcategories
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
 
@@ -331,13 +376,13 @@ class FilterPage extends Component {
         return true
       }
     }
-    catch(e) {}
+    catch (e) { }
     try {
       if (this.state.selected_values[key][name]) {
         return true
       }
     }
-    catch(e) {} 
+    catch (e) { }
     return false;
   }
 
@@ -466,7 +511,7 @@ class FilterPage extends Component {
         selected_categories: this.state.selected_categories
       });
     } else {
-      var new_list = this.state.selected_categories.filter(function(name) {
+      var new_list = this.state.selected_categories.filter(function (name) {
         return name !== category;
       });
       this.setState({
@@ -499,7 +544,7 @@ class FilterPage extends Component {
         selected_values: this.state.selected_values
       });
     } else {
-      var temp_list = this.state.selected_values[category].filter(function(
+      var temp_list = this.state.selected_values[category].filter(function (
         name
       ) {
         return name !== value;
@@ -519,7 +564,7 @@ class FilterPage extends Component {
     let category = cat_and_sub[0];
     let subcategory = cat_and_sub[1];
 
-    console.log("CHECKBOX CHANGED",value,category,subcategory)
+    console.log("CHECKBOX CHANGED", value, category, subcategory)
 
     let temp_checkbox = this.state.checkbox_values;
     if (!temp_checkbox[category]) {
