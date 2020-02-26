@@ -29,6 +29,7 @@ import { apiBaseURL } from "./Dashboard.jsx";
 import { isArray } from "util";
 import { NONAME } from "dns";
 import { whileStatement } from "@babel/types";
+import { Minimatch } from "minimatch";
 
 const axios = require("axios");
 
@@ -365,7 +366,7 @@ class PatientsPage extends Component {
     let patientInfo = this.state.patientInfo;
     let categoryTitles = [];
     let tableData = [];
-    for (var i = (this.state.paginationNumber - 1) * 5; i < (this.state.paginationNumber) * 5; i++) {
+    for (var i = (this.state.paginationNumber - 1) * 5; i < Math.min((this.state.paginationNumber) * 5,this.state.patientsIDs.length); i++) {
       let patientID = this.state.patientsIDs[i];
       let tempPatientInfo = [];
       for (var j = 0; j < this.state.filterCategories.length; j++) {
