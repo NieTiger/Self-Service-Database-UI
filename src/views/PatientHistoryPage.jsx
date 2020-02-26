@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, DropdownButton } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
@@ -136,6 +136,9 @@ class PatientHistoryPage extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.pageStatus.PatientHistoryPage) {
+      return
+    }
     this.setState(
       {
         patientID: this.props.pageStatus.PatientHistoryPage.patientID
@@ -160,13 +163,13 @@ class PatientHistoryPage extends Component {
     };
 
     axios(options)
-      .then(function(response) {
+      .then(function (response) {
         let patientInfo = response.data.result[patientID];
         currentComponent.setState({ patientInfo: patientInfo }, () => {
           currentComponent.editData();
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
         if (error.message === "Request failed with status code 401") {
           currentComponent.props.backToLoginPage()
@@ -316,7 +319,7 @@ class PatientHistoryPage extends Component {
         tableKey: this.state.tableKey + 1
       });
     } else {
-      let new_list = this.state.selectedFilterCategories.filter(function(name) {
+      let new_list = this.state.selectedFilterCategories.filter(function (name) {
         return name !== category;
       });
       this.setState({
@@ -330,9 +333,16 @@ class PatientHistoryPage extends Component {
   //If a category exists in the selectedFilterCategories list, then push it into a variable called selectedCategories
   //Exception for vision and pressure, have both left and right addded to the category.
   getTables() {
-    if (!this.state.loaded) {
-      return null;
+
+    var nullTable =
+      <Col style={styles.titleText}>
+        <div> You Have Not Selected A Patent  </div>
+      </Col>
+
+    if (!this.state.loaded || !this.state.patientInfo) {
+      return [nullTable, null];
     }
+
     let selectedCategories = [];
     for (let i = 0; i < this.state.filterCategories.length; i++) {
       let category = this.state.filterCategories[i];
@@ -348,8 +358,6 @@ class PatientHistoryPage extends Component {
 
     let patientInfo = this.state.patientInfo;
     let tableData = [];
-
-    console.log("Selected Categories", selectedCategories);
 
     for (let date in patientInfo) {
       let data = patientInfo[date];
@@ -491,8 +499,6 @@ class PatientHistoryPage extends Component {
 
   //render is what shows on the webpage
   render() {
-    console.log("Patients History Page", this.state);
-
     let all_filters = this.getFilters();
     let tables = this.getTables();
     let table = null;
@@ -508,6 +514,26 @@ class PatientHistoryPage extends Component {
           <Row style={styles.titleStyle}>
             <Col lg={12} sm={8} style={styles.titleText}>
               <div>Individual Patient History ID: {this.state.patientID}</div>
+            </Col>
+          </Row>
+          <Row style={styles.summaryStyle}>
+            <Col style={styles.summaryText}>
+              <div style={styles.underMainStyle}>
+                <DropdownButton style={styles.buttonContainer} title="TAKE AN ACTION">
+                  <CustomButton
+                    style={styles.buttonUpperBack}
+                    onClick={() => this.backButtonPressed()}
+                  >
+                    BACK TO PATIENTS PAGE
+                    </CustomButton>
+                  <CustomButton
+                    style={styles.buttonUpperImages}
+                    onClick={() => this.imagesButtonPressed()}
+                  >
+                    SEE ALL PATIENTS IMAGES
+                    </CustomButton>
+                </DropdownButton>
+              </div>
             </Col>
           </Row>
           <Row>
@@ -529,20 +555,6 @@ class PatientHistoryPage extends Component {
                 <Row style={styles.underTitleStyle}>{summaryTable}</Row>
                 <Row>
                   <div style={styles.mainDivStyle}>{table}</div>
-                  <div style={styles.underMainStyle}>
-                    <CustomButton
-                      style={styles.buttonUpperBack}
-                      onClick={() => this.backButtonPressed()}
-                    >
-                      BACK TO PATIENTS PAGE
-                    </CustomButton>
-                    <CustomButton
-                      style={styles.buttonUpperImages}
-                      onClick={() => this.imagesButtonPressed()}
-                    >
-                      SEE ALL PATIENTS IMAGES
-                    </CustomButton>
-                  </div>
                 </Row>
               </Grid>
             </Col>
@@ -604,7 +616,8 @@ const styles = {
   },
   underTitleStyle: {
     "max-width": "120vh",
-    overflow: "scroll"
+    overflow: "scroll",
+    "margin-top": "1vh",
   },
   underMainStyle: {
     display: "flex",
@@ -618,15 +631,20 @@ const styles = {
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c",
     "margin-top": "1vh"
+  },
+  buttonContainer: {
+    width: "40vh",
+    color: "black",
+    border: "solid 2px black",
+    "font-weight": "bold",
+    "background-color": "#eef27c",
   },
   buttonUpperImages: {
     width: "40vh",
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c",
     "margin-top": "1vh",
     "margin-bottom": "1vh"
   }

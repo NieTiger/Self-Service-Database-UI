@@ -29,8 +29,6 @@ class TableList extends Component {
       columns: this.props.columns,
       rows: this.props.rows
     };
-    console.log(this.props.columns);
-    console.log("thArray", thArray);
   }
 
   render() {

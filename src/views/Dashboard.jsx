@@ -24,11 +24,21 @@ import PatientHistoryPage from "./PatientHistoryPage.jsx";
 import PatientImagesPage from "./PatientImagesPage.jsx";
 import ShowPatientImagePage from "./ShowPatientImagePage.jsx";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 export const apiBaseURL = "https://tigernie.com";
 
 /*props means properties*/
 /*state used for updating components- e.g. this.state.page on line 41*/
 /* bind is helpful for retaining hte object instance, so it'll remember what "this" is*/
+
+var pageStatus = {
+  "PatientsPage": null,
+  "FilterPage": null,
+  "PatientHistoryPage": null,
+  "PatientImagesPage": null,
+  "ExamsPage": null,
+}
 
 class Dashboard extends Component {
   constructor(props) {
@@ -36,12 +46,37 @@ class Dashboard extends Component {
     this.state = {
       page: "FilterPage",
       additionalInfo: null,
-      pageStatus: {},
+      pageStatus: pageStatus,
       accessToken: this.props.accessToken,
       backToLoginPage: this.props.backToLoginPage
     };
     this.pageSelector = this.pageSelector.bind(this);
     this.changePage = this.changePage.bind(this);
+  }
+
+  componentDidMount() {
+    var tempPage = null;
+    var path = this.props.location.pathname
+    if (path === "/admin/filters") {
+      tempPage = "FilterPage"
+    }
+    else if (path === "/admin/cohort") {
+      tempPage = "PatientsPage"
+    }
+    else if (path === "/admin/history") {
+      tempPage = "PatientHistoryPage"
+    }
+    else if (path === "/admin/imageslist") {
+      tempPage = "PatientImagesPage"
+    }
+    else if (path === "/admin/examinfo") {
+      tempPage = "ExamsPage"
+    }
+    this.setState({
+      page: tempPage,
+      pageStatus: pageStatus
+    })
+    console.log("NEW STATE",this.state)
   }
 
   /* arrow functions (param1, param2, paramN) => expression*/
@@ -114,6 +149,12 @@ class Dashboard extends Component {
   }
 
   changePage(newState) {
+    if (newState.pageStatus) {
+      pageStatus = newState.pageStatus
+    }
+    else if (this.state.pageStatus) {
+      pageStatus = this.state.pageStatus
+    }
     this.setState(newState);
   }
 

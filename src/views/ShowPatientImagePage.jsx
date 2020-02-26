@@ -2,15 +2,18 @@ import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
+import { saveAs } from 'file-saver';
+import image from "../demo/images/samplePicture.jpg"
 
 import { apiBaseURL } from "./Dashboard.jsx";
 
+
+var JSZip = require("jszip");
 const axios = require("axios");
 
 class ShowPatientImagePage extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       imageID: this.props.pageStatus.ShowPatientImagePage.imageID
     };
@@ -25,7 +28,23 @@ class ShowPatientImagePage extends Component {
     this.props.changePage(newState);
   }
 
-  downloadButtonPressed() {}
+  downloadButtonPressed() {
+    var zip = new JSZip();
+    zip.file("Hello.txt", "Hello World\n");
+
+    var imgData = {
+      uri: "../demo/images/samplePicture.jpg"
+    }
+
+    var img = zip.folder("images");
+    img.file("../demo/images/samplePicture.jpg", imgData, { base64: true });
+
+    zip.generateAsync({ type: "blob" })
+      .then(function (content) {
+        // see FileSaver.js
+        saveAs(content, "example.zip");
+      });
+  }
 
   render() {
     return (
@@ -33,7 +52,7 @@ class ShowPatientImagePage extends Component {
         <Grid fluid>
           <Row style={styles.mainDivContainer}>
             <Col lg={6} sm={3} style={styles.mainDivPicture}>
-              Image ID: {this.state.imageID}
+              <img src={require("../demo/images/samplePicture.jpg")} style={styles.image} />
             </Col>
             <Col lg={4} sm={6} style={styles.mainDivButtons}>
               <CustomButton
@@ -66,8 +85,10 @@ const styles = {
   mainDivPicture: {
     width: "80vh",
     height: "96vh",
-    border: "solid 5px black",
-    margin: "2vh"
+    margin: "2vh",
+    display: "flex",
+    "align-items": "center",
+    "justify-content": "center",
   },
   buttonUpperBack: {
     width: "30vh",
@@ -88,5 +109,8 @@ const styles = {
   mainDivButtons: {
     display: "flex",
     "flex-direction": "row"
+  },
+  image: {
+    height: "100%"
   }
 };

@@ -18,10 +18,10 @@
 
 /* 2/4/2020 changed path, name, etc*/
 import Dashboard from "views/Dashboard.jsx";
-// import FilterPage from "views/FilterPage.jsx";
-// import PatientsPage from "views/PatientsPage.jsx";
-// import PatientHistoryPage from "views/PatientHistoryPage.jsx";
-// import PatientImagesPage from "views/PatientImagesPage.jsx";
+import FilterPage from "views/FilterPage.jsx";
+import PatientsPage from "views/PatientsPage.jsx";
+import PatientHistoryPage from "views/PatientHistoryPage.jsx";
+import PatientImagesPage from "views/PatientImagesPage.jsx";
 
 // import UserProfile from "views/UserProfile.jsx";
 // import TableList from "views/TableList.jsx";
@@ -33,36 +33,40 @@ import Dashboard from "views/Dashboard.jsx";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/filters",
     name: "Filters Page",
     icon: "pe-7s-graph",
     component: Dashboard,
     layout: "/admin"
-  }
-  /*commented out for now since links are currently in progress*/
-  /*
+  },
   {
     path: "/cohort",
     name: "Patient Cohort",
     icon: "pe-7s-user",
-    component: PatientsPage,
+    component: Dashboard,
     layout: "/admin"
   },
   {
     path: "/history",
     name: "Patient History",
     icon: "pe-7s-note2",
-    component: PatientHistoryPage,
+    component: Dashboard,
     layout: "/admin"
   },
   {
     path: "/imageslist",
     name: "Patient Images",
     icon: "pe-7s-news-paper",
-    component: PatientImagesPage,
+    component: Dashboard,
+    layout: "/admin"
+  },
+  {
+    path: "/examinfo",
+    name: "Exam Info",
+    icon: "pe-7s-news-paper",
+    component: Dashboard,
     layout: "/admin"
   }
-  */
   /*Commented out the irrelevant tabs*/
   /*path: what shows up in the website address bar*/
   /*name: name that shows up on the sidebar*/

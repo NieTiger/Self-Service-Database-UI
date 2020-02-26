@@ -27,6 +27,8 @@ import routes from "routes.js";
 import image from "assets/img/sidebar-2.jpg"; /*sidebar-2 is the default hot air balloon image*/
 import loginBackgroundImage from "assets/img/nmh.jpg";
 
+
+
 export const apiBaseURL = "https://tigernie.com";
 
 class Admin extends Component {
@@ -50,6 +52,7 @@ class Admin extends Component {
     this.loginButtonPressed = this.loginButtonPressed.bind(this);
     this.backToLoginPage = this.backToLoginPage.bind(this)
   }
+
   handleNotificationClick = position => {
     var color = Math.floor(Math.random() * 4 + 1);
     var level;

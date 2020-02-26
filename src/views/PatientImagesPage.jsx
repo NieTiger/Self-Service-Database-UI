@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, DropdownButton } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
@@ -43,6 +43,9 @@ class PatientImagesPage extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.pageStatus.PatientImagesPage) {
+      return
+    }
     this.setState(
       {
         patientID: this.props.pageStatus.PatientImagesPage.patientID
@@ -66,15 +69,15 @@ class PatientImagesPage extends Component {
       },
     };
     axios(options)
-      .then(function(response) {
-        console.log("PATIENT INFO GATHERED",response.data)
+      .then(function (response) {
+        console.log("PATIENT INFO GATHERED", response.data)
         let patientInfo = response.data.result[patientID];
         currentComponent.setState({
           patientInfo: patientInfo,
           loaded: true
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error)
         if (error.message === "Request failed with status code 401") {
           currentComponent.props.backToLoginPage()
@@ -119,8 +122,15 @@ class PatientImagesPage extends Component {
 
   //gets the table of information for the right side of the website
   getTable() {
-    if (!this.state.loaded) {
-      return null;
+
+    var nullTable =
+      <Col style={styles.titleText}>
+        <div> No Images Satisfies This Criteria </div>
+      </Col>
+
+    if (!this.state.loaded || !this.state.patientInfo) {
+      return nullTable;
+
     }
 
     let selectedCategories = [];
@@ -235,7 +245,7 @@ class PatientImagesPage extends Component {
         tableKey: this.state.tableKey + 1
       });
     } else {
-      let new_list = this.state.selectedFilterCategories.filter(function(name) {
+      let new_list = this.state.selectedFilterCategories.filter(function (name) {
         return name !== category;
       });
       this.setState({
@@ -352,6 +362,21 @@ class PatientImagesPage extends Component {
               <div>Individual Patient Images ID: {this.state.patientID}</div>
             </Col>
           </Row>
+          <Row style={styles.summaryStyle}>
+            <Col style={styles.summaryText}>
+              <div style={styles.underMainStyle}>
+                <DropdownButton style={styles.buttonContainer} title="TAKE AN ACTION">
+                  <CustomButton
+                    style={styles.buttonUpperBack}
+                    onClick={() => this.backButtonPressed()}
+                  >
+                    BACK TO PATIENTS PAGE
+                    </CustomButton>
+                  {exportButton}
+                </DropdownButton>
+              </div>
+            </Col>
+          </Row>
           <Row>
             <Col sm={3}>
               <Row>
@@ -370,15 +395,6 @@ class PatientImagesPage extends Component {
               <Grid fluid>
                 <Row>
                   <div style={styles.mainDivStyle}>{table}</div>
-                  <div style={styles.underMainStyle}>
-                    <CustomButton
-                      style={styles.buttonUpperBack}
-                      onClick={() => this.backButtonPressed()}
-                    >
-                      BACK TO PATIENTS PAGE
-                    </CustomButton>
-                    {exportButton}
-                  </div>
                 </Row>
               </Grid>
             </Col>
@@ -436,7 +452,8 @@ const styles = {
   mainDivStyle: {
     "max-height": "90vh",
     "max-width": "120vh",
-    overflow: "scroll"
+    overflow: "scroll",
+    "margin-top": "1vh",
   },
   underMainStyle: {
     display: "flex",
@@ -450,15 +467,20 @@ const styles = {
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c",
     "margin-top": "1vh"
+  },
+  buttonContainer: {
+    width: "40vh",
+    color: "black",
+    border: "solid 2px black",
+    "font-weight": "bold",
+    "background-color": "#eef27c",
   },
   buttonUpperExport: {
     width: "40vh",
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c",
     "margin-top": "1vh",
     "margin-bottom": "1vh"
   }

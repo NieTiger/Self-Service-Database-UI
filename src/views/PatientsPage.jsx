@@ -21,12 +21,14 @@
 //Feb. 10, 2020 added show and hide demonstration buttons. Not sure if it is helpful?
 
 import React, { Component } from "react";
-import { Grid, Row, Col, Table } from "react-bootstrap";
+import { Grid, Row, Col, Table, DropdownButton, Pagination } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
 import { apiBaseURL } from "./Dashboard.jsx";
 import { isArray } from "util";
+import { NONAME } from "dns";
+import { whileStatement } from "@babel/types";
 
 const axios = require("axios");
 
@@ -73,7 +75,8 @@ class PatientsPage extends Component {
       displayedMessage: "",
       exportPressed: {
         display: false
-      }
+      },
+      paginationNumber: 1
     };
     this._calculateAge = this._calculateAge.bind(this);
     this.getPatients = this.getPatients.bind(this);
@@ -89,6 +92,8 @@ class PatientsPage extends Component {
     this.exportCategoryPressed = this.exportCategoryPressed.bind(this);
     this.exportImagesPressed = this.exportImagesPressed.bind(this);
     this.getFilterSummary = this.getFilterSummary.bind(this);
+    this.paginationClicked = this.paginationClicked.bind(this);
+    this.getPagination = this.getPagination.bind(this);
   }
 
   componentDidMount() {
@@ -109,6 +114,11 @@ class PatientsPage extends Component {
 
   //sets up the state of filterCategories, also sets up the state of patientIDs (see around line 118)
   getPatients() {
+
+    if (!this.props.pageStatus.PatientsPage) {
+      return
+    }
+
     let data = this.props.pageStatus.PatientsPage; //see submitButtonPressed() for additionalInfo
     let temp_data = {};
     let tempFilterCategories = this.state["filterCategories"];
@@ -199,7 +209,6 @@ class PatientsPage extends Component {
         }
       });
 
-
     this.setState({
       filterCategories: tempFilterCategories,
       selectedFilterCategories: tempFilterCategories
@@ -210,6 +219,7 @@ class PatientsPage extends Component {
   getData() {
     let currentComponent = this;
     let patientIDs = this.state.patientsIDs;
+
     for (var index in patientIDs) {
       var patientID = patientIDs[index];
       let link = apiBaseURL + "/ssd_api/patients?pt_id=" + patientID.toString();
@@ -347,7 +357,7 @@ class PatientsPage extends Component {
         <div> No Patient Satisfies This Criteria </div>
       </Col>
 
-    if (!this.state.loaded) {
+    if (!this.state.loaded || !this.state.patientInfo) {
       return nullTable;
 
     }
@@ -355,7 +365,7 @@ class PatientsPage extends Component {
     let patientInfo = this.state.patientInfo;
     let categoryTitles = [];
     let tableData = [];
-    for (var i = 0; i < this.state.patientsIDs.length; i++) {
+    for (var i = (this.state.paginationNumber - 1) * 5; i < (this.state.paginationNumber) * 5; i++) {
       let patientID = this.state.patientsIDs[i];
       let tempPatientInfo = [];
       for (var j = 0; j < this.state.filterCategories.length; j++) {
@@ -462,14 +472,13 @@ class PatientsPage extends Component {
       tableData.push(tempPatientInfo);
     }
 
-    console.log("tableData", tableData)
-
     if (tableData.length === 0) {
       return (
         nullTable
       )
     }
 
+    this.state.tableKey++;
     return (
       <TableList
         key={this.state.tableKey}
@@ -658,6 +667,36 @@ class PatientsPage extends Component {
     return text;
   }
 
+  paginationClicked(e) {
+    this.setState({
+      paginationNumber: e.target.title
+    })
+  }
+
+  getPagination() {
+    var pagination = []
+    if (!this.state.patientsIDs) {
+      return null
+    }
+    for (var number = 0; number < this.state.patientsIDs.length / 5; number++) {
+      if (number+1 === this.state.paginationNumber) {
+        pagination.push(
+          <Pagination.Item title={number + 1} style={styles.paginationActive} onClick={e => this.paginationClicked(e)}>
+            {number + 1}
+          </Pagination.Item>,
+        );
+      }
+      else {
+      pagination.push(
+        <Pagination.Item title={number + 1} onClick={e => this.paginationClicked(e)}>
+          {number + 1}
+        </Pagination.Item>,
+      );
+      }
+    }
+    return <Pagination style={styles.paginationStyle}>{pagination}</Pagination>
+  }
+
   //render displays what is shown on the webpage
   render() {
     console.log("state", this.state);
@@ -665,6 +704,7 @@ class PatientsPage extends Component {
     var all_filters = this.getFilters();
     var exportButton = this.getExport();
     var table = this.getTable();
+    var pagination = this.getPagination();
     return (
       <div style={styles.container}>
         <Grid fluid>
@@ -673,13 +713,28 @@ class PatientsPage extends Component {
               <div>Your Patient Cohort</div>
             </Col>
           </Row>
-
           <Row style={styles.summaryStyle}>
             <Col style={styles.summaryText}>
               <div>{filterSummary}</div>
+              <div style={styles.underMainStyle}>
+                <DropdownButton style={styles.buttonContainer} title="TAKE AN ACTION">
+                  <CustomButton
+                    style={styles.buttonUpperSubmit}
+                    onClick={() => this.backButtonPressed()}
+                  >
+                    BACK TO FILTERS PAGE
+                    </CustomButton>
+                  <CustomButton
+                    style={styles.buttonUpperReset}
+                    onClick={() => this.examsPagePressed()}
+                  >
+                    GO TO EXAMS PAGE
+                    </CustomButton>
+                  {exportButton}
+                </DropdownButton>
+              </div>
             </Col>
           </Row>
-
           <Row>
             <Col sm={3} style={styles.sideDivStyle}>
               <Row>
@@ -697,24 +752,12 @@ class PatientsPage extends Component {
             <Col sm={9} style={styles.mainDivStyle}>
               <Grid fluid>
                 <Row>
-                  <div style={styles.tableStyle}>{table}</div>
+                  <div style={styles.tableStyle}>
+                    {table}
+                    {pagination}
+                  </div>
                   <div style={styles.displayedMessageStyle}>
                     {this.state.displayedMessage}
-                  </div>
-                  <div style={styles.underMainStyle}>
-                    <CustomButton
-                      style={styles.buttonUpperSubmit}
-                      onClick={() => this.backButtonPressed()}
-                    >
-                      BACK TO FILTERS PAGE
-                    </CustomButton>
-                    <CustomButton
-                      style={styles.buttonUpperReset}
-                      onClick={() => this.examsPagePressed()}
-                    >
-                      GO TO EXAMS PAGE
-                    </CustomButton>
-                    {exportButton}
                   </div>
                 </Row>
               </Grid>
@@ -744,9 +787,10 @@ const styles = {
   },
   summaryText: {
     display: "flex",
-    "align-items": "flex-start",
-    "justify-content": "center",
-    "margin-bottom": "2.1vh"
+    "align-items": "center",
+    "justify-content": "flex-end",
+    "margin-bottom": "2.1vh",
+    "margin-right": "3vh"
   },
   buttonDiv: {
     width: "100%",
@@ -790,26 +834,30 @@ const styles = {
     "font-weight": "bold",
     "text-decoration": "underline"
   },
+  mainDivStyle: {
+    "max-height": "75vh",
+    "max-width": "120vh",
+  },
   underMainStyle: {
     display: "flex",
     "flex-direction": "column",
-    "justify-content": "flex-end",
-    "align-items": "flex-end",
-    "padding-right": "2vh"
+    "justify-content": "center",
+    "align-items": "center",
+    "padding-right": "1vh",
+    "margin-left": "10vh",
   },
   buttonUpperSubmit: {
     width: "40vh",
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c"
+    "margin-top": "1vh"
   },
   buttonUpperReset: {
     width: "40vh",
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c",
     "margin-top": "1vh"
   },
   buttonUpperExport: {
@@ -817,9 +865,15 @@ const styles = {
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c",
     "margin-top": "1vh",
     "margin-bottom": "1vh"
+  },
+  buttonContainer: {
+    width: "40vh",
+    color: "black",
+    border: "solid 2px black",
+    "font-weight": "bold",
+    "background-color": "#eef27c",
   },
   displayedMessageStyle: {
     display: "flex",
@@ -828,5 +882,12 @@ const styles = {
     "font-size": "16px",
     "font-weight": "bold",
     "margin-left": "3%"
+  },
+  paginationStyle: {
+    "margin-left": "2vh",
+    "margin-top": "0vh"
+  },
+  paginationActive: {
+    "color": "yellow",
   }
 };

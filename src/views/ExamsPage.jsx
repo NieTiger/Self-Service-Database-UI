@@ -17,7 +17,7 @@
 */
 
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, DropdownButton } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
@@ -72,6 +72,10 @@ class ExamPage extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.pageStatus.ExamsPage) {
+      return
+    }
+
     this.setState(
       {
         patientsIDs: this.props.pageStatus.ExamsPage.patientsIDs
@@ -192,8 +196,15 @@ class ExamPage extends Component {
   //3. actual exam information
   //returns TableList object with the categories as the columns and table information as the rows
   getTable() {
-    if (!this.state.loaded) {
-      return null;
+
+    var nullTable =
+      <Col style={styles.titleText}>
+        <div> No Exams Satisfies This Criteria </div>
+      </Col>
+
+    if (!this.state.loaded || !this.state.patientInfo) {
+      return nullTable;
+
     }
     let patientInfo = this.state.patientInfo;
     let categoryTitles = [];
@@ -395,6 +406,21 @@ class ExamPage extends Component {
               <div>Your Exams For Patients</div>
             </Col>
           </Row>
+          <Row style={styles.summaryStyle}>
+            <Col style={styles.summaryText}>
+              <div style={styles.underMainStyle}>
+                <DropdownButton style={styles.buttonContainer} title="TAKE AN ACTION">
+                  <CustomButton
+                    style={styles.buttonUpperBack}
+                    onClick={() => this.backButtonPressed()}
+                  >
+                    BACK TO PATIENTS PAGE
+                    </CustomButton>
+                  {exportButton}
+                </DropdownButton>
+              </div>
+            </Col>
+          </Row>
           <Row>
             <Col sm={3}>
               <Row>
@@ -413,15 +439,6 @@ class ExamPage extends Component {
               <Grid fluid>
                 <Row>
                   <div style={styles.mainDivStyle}>{mainTable}</div>
-                  <div style={styles.underMainStyle}>
-                    <CustomButton
-                      style={styles.buttonUpperBack}
-                      onClick={() => this.backButtonPressed()}
-                    >
-                      BACK TO PATIENTS PAGE
-                    </CustomButton>
-                    {exportButton}
-                  </div>
                 </Row>
               </Grid>
             </Col>
@@ -484,14 +501,14 @@ const styles = {
   },
   mainDivStyle: {
     height: "70vh",
-    overflow: "scroll"
+    overflow: "scroll",
+    "margin-top": "1vh"
   },
   buttonUpperBack: {
     width: "40vh",
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c",
     "margin-top": "1vh"
   },
   buttonUpperExport: {
@@ -499,8 +516,14 @@ const styles = {
     color: "black",
     border: "solid 2px black",
     "font-weight": "bold",
-    "background-color": "#eef27c",
     "margin-top": "1vh",
     "margin-bottom": "1vh"
-  }
+  },
+  buttonContainer: {
+    width: "40vh",
+    color: "black",
+    border: "solid 2px black",
+    "font-weight": "bold",
+    "background-color": "#eef27c",
+  },
 };

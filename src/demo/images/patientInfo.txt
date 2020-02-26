@@ -1,0 +1,29 @@
+pt_id=20676&diagnosis='Retinal edema'&image_type='Af'
+pt_id=20676&diagnosis='Myopia (disorder)'&image_type='Ir'
+
+pt_id=66475&diagnosis='Sarcoidosis'&image_type='FA'
+pt_id=66475&diagnosis='Acute sinusitis (disorder)'&image_type='Ir'
+
+pt_id=50765&diagnosis='Retinal edema'&image_type='Af'
+pt_id=50765&diagnosis='Myopia (disorder)'&image_type='Ir'
+
+pt_id=64656&diagnosis='Sarcoidosis'&image_type='FA'
+pt_id=64656&diagnosis='Acute sinusitis (disorder)'&image_type='Ir'
+
+pt_id=59153&diagnosis='Retinal edema'&image_type='Af'
+pt_id=59153&diagnosis='Myopia (disorder)'&image_type='Ir'
+
+pt_id=66166&diagnosis='Sarcoidosis'&image_type='Ir'
+pt_id=66166&diagnosis='Acute sinusitis (disorder)'&image_type='FA'
+
+pt_id=36440&diagnosis='Retinal edema'&image_type='Af'
+pt_id=36440&diagnosis='Myopia (disorder)'&image_type='Ir'
+
+pt_id=64153&diagnosis='Sarcoidosis'&image_type='FA'
+pt_id=64153&diagnosis='Acute sinusitis (disorder)'&image_type='Ir'
+
+pt_id=53754&diagnosis='Retinal edema'&image_type='Af'
+pt_id=53754&diagnosis='Myopia (disorder)'&image_type='FA'
+
+pt_id=66172&diagnosis='Sarcoidosis'&image_type='Ir'
+pt_id=66172&diagnosis='Acute sinusitis (disorder)'&image_type='FA'
