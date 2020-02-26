@@ -17,7 +17,7 @@
 */
 
 import React, { Component } from "react";
-import { Grid, Row, Col, DropdownButton } from "react-bootstrap";
+import { Grid, Row, Col, DropdownButton, Pagination } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
@@ -58,7 +58,8 @@ class ExamPage extends Component {
       tableKey: 1,
       exportPressed: {
         display: false
-      }
+      },
+      paginationNumber: 1
     };
     this.getData = this.getData.bind(this);
     this.editData = this.editData.bind(this);
@@ -69,6 +70,8 @@ class ExamPage extends Component {
     this.getExport = this.getExport.bind(this);
     this.exportCategoryPressed = this.exportCategoryPressed.bind(this);
     this.exportImagesPressed = this.exportImagesPressed.bind(this);
+    this.paginationClicked = this.paginationClicked.bind(this);
+    this.getPagination = this.getPagination.bind(this);
   }
 
   componentDidMount() {
@@ -282,20 +285,22 @@ class ExamPage extends Component {
               //tempPatientInfo.push(examInfo[frontendToBackend[category]])
             }
           }
-          var str102 = "this is tempPatientInfo"; //error checking
         }
         tableData.push(tempPatientInfo);
-        var str103 = "this is tableData"; //error checking
       }
     }
 
-    var str10 = "this is tableData";
-    var str20 = "this is this.state.filterCategories";
+    var tempTableData = []
+    for (var i = (this.state.paginationNumber - 1) * 5; i < Math.min((this.state.paginationNumber) * 5,tableData.length); i++) {
+      tempTableData.push(tableData[i])
+    }
+    this.state.tableKey++;
+
     return (
       <TableList
         key={this.state.tableKey}
         columns={categoryTitles}
-        rows={tableData}
+        rows={tempTableData}
       ></TableList>
     );
   }
@@ -393,10 +398,41 @@ class ExamPage extends Component {
     );
   }
 
+  paginationClicked(e) {
+    this.setState({
+      paginationNumber: e.target.title
+    })
+  }
+
+  getPagination() {
+    var pagination = []
+    if (!this.state.patientInfo) {
+      return null
+    }
+    for (var number = 0; number < Object.keys(this.state.patientInfo).length / 5; number++) {
+      if (number+1 === this.state.paginationNumber) {
+        pagination.push(
+          <Pagination.Item title={number + 1} style={styles.paginationActive} onClick={e => this.paginationClicked(e)}>
+            {number + 1}
+          </Pagination.Item>,
+        );
+      }
+      else {
+      pagination.push(
+        <Pagination.Item title={number + 1} onClick={e => this.paginationClicked(e)}>
+          {number + 1}
+        </Pagination.Item>,
+      );
+      }
+    }
+    return <Pagination style={styles.paginationStyle}>{pagination}</Pagination>
+  }
+
   render() {
     var all_filters = this.getFilters();
     var exportButton = this.getExport();
     var mainTable = this.getTable();
+    var pagination = this.getPagination();
     console.log("ExamsPage", this.state);
     return (
       <div>
@@ -438,7 +474,10 @@ class ExamPage extends Component {
             <Col sm={9}>
               <Grid fluid>
                 <Row>
-                  <div style={styles.mainDivStyle}>{mainTable}</div>
+                  <div style={styles.mainDivStyle}>
+                  {mainTable}
+                  {pagination}
+                  </div>
                 </Row>
               </Grid>
             </Col>
@@ -500,8 +539,6 @@ const styles = {
     "padding-right": "2vh"
   },
   mainDivStyle: {
-    height: "70vh",
-    overflow: "scroll",
     "margin-top": "1vh"
   },
   buttonUpperBack: {
@@ -526,4 +563,11 @@ const styles = {
     "font-weight": "bold",
     "background-color": "#eef27c",
   },
+  paginationStyle: {
+    "margin-left": "2vh",
+    "margin-top": "0vh"
+  },
+  paginationActive: {
+    "color": "yellow",
+  }
 };

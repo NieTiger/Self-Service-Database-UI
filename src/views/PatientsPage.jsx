@@ -380,7 +380,7 @@ class PatientsPage extends Component {
           //If the patient ID number is pressed, jump to the PatientHistoryPage with the given patientID
           if (category === "Patient ID") {
             value["type"] = "button";
-            value["text"] = patientID;
+            value["text"] = "PT ID: " + patientID + " History";
             var tempPageStatus = {}
             Object.assign(tempPageStatus, this.props.pageStatus)
             tempPageStatus["PatientHistoryPage"] = {

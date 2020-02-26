@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Row, Col, DropdownButton } from "react-bootstrap";
+import { Grid, Row, Col, DropdownButton, Pagination } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
@@ -123,7 +123,8 @@ class PatientHistoryPage extends Component {
       tableKey: 1,
       exportPressed: {
         display: false
-      }
+      },
+      paginationNumber: 1
     };
     this.getData = this.getData.bind(this);
     this.editData = this.editData.bind(this);
@@ -133,6 +134,8 @@ class PatientHistoryPage extends Component {
     this.getSummaryTable = this.getSummaryTable.bind(this);
     this.backButtonPressed = this.backButtonPressed.bind(this);
     this.imagesButtonPressed = this.imagesButtonPressed.bind(this);
+    this.paginationClicked = this.paginationClicked.bind(this);
+    this.getPagination = this.getPagination.bind(this);
   }
 
   componentDidMount() {
@@ -408,11 +411,19 @@ class PatientHistoryPage extends Component {
       }
     }
     tableData.sort((a, b) => compareDates(b[0].text, a[0].text));
+
+    var tempTableData = []
+    for (var i = (this.state.paginationNumber - 1) * 4; i < Math.min((this.state.paginationNumber) * 4,tableData.length); i++) {
+      tempTableData.push(tableData[i])
+    }
+
+    this.state.tableKey++;
+
     return [
       <TableList
         key={this.state.tableKey}
         columns={selectedCategories}
-        rows={tableData}
+        rows={tempTableData}
       ></TableList>,
       this.getSummaryTable(tableData[0])
     ];
@@ -497,17 +508,47 @@ class PatientHistoryPage extends Component {
     this.props.changePage(newState);
   }
 
+  paginationClicked(e) {
+    this.setState({
+      paginationNumber: e.target.title
+    })
+  }
+
+  getPagination() {
+    var pagination = []
+    if (!this.state.patientInfo) {
+      return null
+    }
+    for (var number = 0; number < Object.keys(this.state.patientInfo).length / 4; number++) {
+      if (number+1 === this.state.paginationNumber) {
+        pagination.push(
+          <Pagination.Item title={number + 1} style={styles.paginationActive} onClick={e => this.paginationClicked(e)}>
+            {number + 1}
+          </Pagination.Item>,
+        );
+      }
+      else {
+      pagination.push(
+        <Pagination.Item title={number + 1} onClick={e => this.paginationClicked(e)}>
+          {number + 1}
+        </Pagination.Item>,
+      );
+      }
+    }
+    return <Pagination style={styles.paginationStyle}>{pagination}</Pagination>
+  }
+
   //render is what shows on the webpage
   render() {
     let all_filters = this.getFilters();
     let tables = this.getTables();
     let table = null;
     let summaryTable = null;
+    var pagination = this.getPagination();
     if (tables) {
       table = tables[0];
       summaryTable = tables[1];
     }
-
     return (
       <div>
         <Grid fluid>
@@ -554,7 +595,10 @@ class PatientHistoryPage extends Component {
               <Grid fluid>
                 <Row style={styles.underTitleStyle}>{summaryTable}</Row>
                 <Row>
-                  <div style={styles.mainDivStyle}>{table}</div>
+                  <div style={styles.mainDivStyle}>
+                  {table}
+                  {pagination}
+                  </div>
                 </Row>
               </Grid>
             </Col>
@@ -610,9 +654,8 @@ const styles = {
     border: "solid 2px black"
   },
   mainDivStyle: {
-    "max-height": "90vh",
     "max-width": "120vh",
-    overflow: "scroll"
+    "overflow": "scroll",
   },
   underTitleStyle: {
     "max-width": "120vh",
@@ -647,5 +690,12 @@ const styles = {
     "font-weight": "bold",
     "margin-top": "1vh",
     "margin-bottom": "1vh"
+  },
+  paginationStyle: {
+    "margin-left": "2vh",
+    "margin-top": "0vh"
+  },
+  paginationActive: {
+    "color": "yellow",
   }
 };

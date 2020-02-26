@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Row, Col, DropdownButton } from "react-bootstrap";
+import { Grid, Row, Col, DropdownButton, Pagination } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 
@@ -29,7 +29,8 @@ class PatientImagesPage extends Component {
       exportPressed: {
         display: false
       },
-      tableKey: 0
+      tableKey: 0,
+      paginationNumber: 1
     };
     this.getData = this.getData.bind(this);
     this.getFilters = this.getFilters.bind(this);
@@ -40,6 +41,8 @@ class PatientImagesPage extends Component {
     this.exportCategoryPressed = this.exportCategoryPressed.bind(this);
     this.backButtonPressed = this.backButtonPressed.bind(this);
     this.categoryFilterPressed = this.categoryFilterPressed.bind(this);
+    this.paginationClicked = this.paginationClicked.bind(this);
+    this.getPagination = this.getPagination.bind(this);
   }
 
   componentDidMount() {
@@ -222,11 +225,19 @@ class PatientImagesPage extends Component {
         tableData.push(tempImageData[j]);
       }
     }
+
+    var tempTableData = []
+    for (var i = (this.state.paginationNumber - 1) * 5; i < Math.min((this.state.paginationNumber) * 5,tableData.length); i++) {
+      tempTableData.push(tableData[i])
+    }
+
+    this.state.tableKey++;
+
     return (
       <TableList
         key={this.state.tableKey}
         columns={selectedCategories}
-        rows={tableData}
+        rows={tempTableData}
       ></TableList>
     );
   }
@@ -349,10 +360,41 @@ class PatientImagesPage extends Component {
     this.props.changePage(newState);
   }
 
+  paginationClicked(e) {
+    this.setState({
+      paginationNumber: e.target.title
+    })
+  }
+
+  getPagination() {
+    var pagination = []
+    if (!this.state.patientInfo) {
+      return null
+    }
+    for (var number = 0; number < Object.keys(this.state.patientInfo).length / 5; number++) {
+      if (number+1 === this.state.paginationNumber) {
+        pagination.push(
+          <Pagination.Item title={number + 1} style={styles.paginationActive} onClick={e => this.paginationClicked(e)}>
+            {number + 1}
+          </Pagination.Item>,
+        );
+      }
+      else {
+      pagination.push(
+        <Pagination.Item title={number + 1} onClick={e => this.paginationClicked(e)}>
+          {number + 1}
+        </Pagination.Item>,
+      );
+      }
+    }
+    return <Pagination style={styles.paginationStyle}>{pagination}</Pagination>
+  }
+
   render() {
     let all_filters = this.getFilters();
     let table = this.getTable();
     let exportButton = this.getExport();
+    var pagination = this.getPagination();
     console.log("Patients Images Page", this.state);
     return (
       <div>
@@ -394,7 +436,10 @@ class PatientImagesPage extends Component {
             <Col sm={9}>
               <Grid fluid>
                 <Row>
-                  <div style={styles.mainDivStyle}>{table}</div>
+                  <div style={styles.mainDivStyle}>
+                  {table}
+                  {pagination}
+                  </div>
                 </Row>
               </Grid>
             </Col>
@@ -450,9 +495,7 @@ const styles = {
     border: "solid 2px black"
   },
   mainDivStyle: {
-    "max-height": "90vh",
     "max-width": "120vh",
-    overflow: "scroll",
     "margin-top": "1vh",
   },
   underMainStyle: {
@@ -483,5 +526,12 @@ const styles = {
     "font-weight": "bold",
     "margin-top": "1vh",
     "margin-bottom": "1vh"
+  },
+  paginationStyle: {
+    "margin-left": "2vh",
+    "margin-top": "0vh"
+  },
+  paginationActive: {
+    "color": "yellow",
   }
 };

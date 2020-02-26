@@ -112,7 +112,6 @@ export default TableList;
 
 const styles = {
   button: {
-    width: "8em",
     margin: "1vh",
     "background-color": "#d4d5d7",
     color: "black",
