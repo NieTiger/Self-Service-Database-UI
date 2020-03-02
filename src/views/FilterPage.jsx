@@ -19,11 +19,9 @@
 /*Feb. 4, 2020: fixed some warnings relating to varaible declaration*/
 
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import { Grid, Row, Col, InputGroup } from "react-bootstrap";
 
-//import { Card } from "components/Card/Card.jsx";
 import CustomButton from "components/CustomButton/CustomButton";
-//import { FormInputs } from "components/FormInputs/FormInputs.jsx";
 
 import { apiBaseURL } from "./Dashboard.jsx";
 
@@ -36,10 +34,12 @@ const filter_categories = [
   "Image Procedure Type",
   "Labs",
   "Medication Generic Name",
-  "Medication Therapuetic Name",
+  "Medication Therapeutic Name",
   "Vision",
   "Pressure"
 ];
+
+const axios = require("axios");
 
 /*variable definitions
 filter_categories: An array of custombuttons containing e.g. eye diagnosis, age, ethnicity, etc. 
@@ -54,14 +54,12 @@ class FilterPage extends Component {
     super(props);
     this.state = {
       filter_categories: [],
-      filter_subcategories: {},
       filter_subcategories_div: {},
       selected_categories: [],
       selected_values: {},
       checkbox_values: {}
     };
     this.getFilterCategories = this.getFilterCategories.bind(this);
-    this.getFilterSubCategories = this.getFilterSubCategories.bind(this);
     this.createFilterSubcategoryDivs = this.createFilterSubcategoryDivs.bind(
       this
     );
@@ -72,6 +70,8 @@ class FilterPage extends Component {
     this.resetButtonPressed = this.resetButtonPressed.bind(this);
     this.submitButtonPressed = this.submitButtonPressed.bind(this);
     this.isSubcategoryChecked = this.isSubcategoryChecked.bind(this);
+    this.textFieldChanged = this.textFieldChanged.bind(this);
+    this.getElasticSearch = this.getElasticSearch.bind(this);
   }
 
   componentDidMount() {
@@ -79,7 +79,7 @@ class FilterPage extends Component {
     this.setState({
       filter_categories: filter_categories
     });
-    this.getFilterSubCategories();
+    //this.getFilterSubCategories();
     if (this.props.pageStatus.FilterPage) {
       var tempSelectedCategories = [];
       for (var key in this.props.pageStatus.FilterPage) {
@@ -155,239 +155,6 @@ class FilterPage extends Component {
     return temp_filter_categories;
   }
 
-  //function populates the subcategories of all filter categories by making the appropriate calls to the API
-  getFilterSubCategories() {
-    let currentComponent = this;
-    const axios = require("axios");
-
-    //get eye diagnosis subcategories from database
-    var link = apiBaseURL + "/ssd_api/get_distinct?special=eye_diagnosis";
-    var autToken = "Basic " + btoa(this.props.accessToken + ":something")
-
-    const options = {
-      url: link,
-      method: 'get',
-      headers: {
-        'Authorization': autToken
-      },
-    };
-
-    axios(options)
-      .then(function (response) {
-        var temp_filter_subcategories =
-          currentComponent.state.filter_subcategories;
-        temp_filter_subcategories["Eye Diagnosis"] =
-          response.data.result.data; /*stores into an array with key "Eye Diagnosis"*/
-        currentComponent.setState({
-          filter_subcategories: temp_filter_subcategories /*updates the state of filter_subcategories each time*/
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-        if (error.message === "Request failed with status code 401") {
-          currentComponent.props.backToLoginPage()
-        }
-      });
-
-    //get systemic diagnosis subcategories from database
-    var link2 = apiBaseURL + "/ssd_api/get_distinct?special=systemic_diagnosis";
-
-    const options2 = {
-      url: link2,
-      method: 'get',
-      headers: {
-        'Authorization': autToken
-      },
-    };
-    axios(options2)
-      .then(function (response) {
-        var temp_filter_subcategories =
-          currentComponent.state.filter_subcategories;
-        temp_filter_subcategories["Systemic Diagnosis"] =
-          response.data.result.data;
-        currentComponent.setState({
-          filter_subcategories: temp_filter_subcategories
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-        if (error.message === "Request failed with status code 401") {
-          currentComponent.props.backToLoginPage()
-        }
-      });
-
-    //put age subcategories
-    var temp_filter_subcategories = currentComponent.state.filter_subcategories;
-    temp_filter_subcategories["Age"] = ["less", "greater", "equal", "between"];
-    currentComponent.setState({
-      filter_subcategories: temp_filter_subcategories
-    });
-
-    //put ethnicity subcategories
-    temp_filter_subcategories = currentComponent.state.filter_subcategories;
-    temp_filter_subcategories["Ethnicity"] = [
-      "Hispanic or Latino",
-      "Not Hispanic or Latino",
-      "Declined"
-    ];
-    currentComponent.setState({
-      filter_subcategories: temp_filter_subcategories
-    });
-
-    //get image procedure type from database
-    var link3 =
-      apiBaseURL +
-      "/ssd_api/get_distinct?table_name=image_procedure&col_name=image_procedure";
-
-    const options3 = {
-      url: link3,
-      method: 'get',
-      headers: {
-        'Authorization': autToken
-      },
-    };
-    axios(options3)
-      .then(function (response) {
-        var temp_filter_subcategories =
-          currentComponent.state.filter_subcategories;
-        temp_filter_subcategories["Image Procedure Type"] =
-          response.data.result.data;
-        currentComponent.setState({
-          filter_subcategories: temp_filter_subcategories
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-        if (error.message === "Request failed with status code 401") {
-          currentComponent.props.backToLoginPage()
-        }
-      });
-
-    //get lab values from database
-    var link4 =
-      apiBaseURL +
-      "/ssd_api/get_distinct?table_name=lab_value_deid&col_name=name";
-
-    const options4 = {
-      url: link4,
-      method: 'get',
-      headers: {
-        'Authorization': autToken
-      },
-    };
-
-    axios(options4)
-      .then(function (response) {
-        var temp_filter_subcategories =
-          currentComponent.state.filter_subcategories;
-        temp_filter_subcategories["Labs"] = response.data.result.data;
-        currentComponent.setState({
-          filter_subcategories: temp_filter_subcategories
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-        if (error.message === "Request failed with status code 401") {
-          currentComponent.props.backToLoginPage()
-        }
-      });
-
-    //get medication generic name from database
-    var link5 =
-      apiBaseURL +
-      "/ssd_api/get_distinct?table_name=medication_deid&col_name=generic_name";
-
-    const options5 = {
-      url: link5,
-      method: 'get',
-      headers: {
-        'Authorization': autToken
-      },
-    };
-
-    axios(options5)
-      .then(function (response) {
-        var temp_filter_subcategories =
-          currentComponent.state.filter_subcategories;
-        temp_filter_subcategories["Medication Generic Name"] =
-          response.data.result.data;
-        currentComponent.setState({
-          filter_subcategories: temp_filter_subcategories
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-        if (error.message === "Request failed with status code 401") {
-          currentComponent.props.backToLoginPage()
-        }
-      });
-
-    //get medication therapuetic name from database
-    var link6 =
-      apiBaseURL +
-      "/ssd_api/get_distinct?table_name=medication_deid&col_name=therapeutic_class";
-
-    const options6 = {
-      url: link6,
-      method: 'get',
-      headers: {
-        'Authorization': autToken
-      },
-    };
-    axios(options6)
-      .then(function (response) {
-        var temp_filter_subcategories =
-          currentComponent.state.filter_subcategories;
-        temp_filter_subcategories["Medication Therapuetic Name"] =
-          response.data.result.data;
-        currentComponent.setState({
-          filter_subcategories: temp_filter_subcategories
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-        if (error.message === "Request failed with status code 401") {
-          currentComponent.props.backToLoginPage()
-        }
-      });
-
-    //put vision subcategories
-    temp_filter_subcategories = currentComponent.state.filter_subcategories;
-    temp_filter_subcategories["Left Vision"] = [
-      "less",
-      "greater",
-      "equal",
-      "between"
-    ];
-    temp_filter_subcategories["Right Vision"] = [
-      "less",
-      "greater",
-      "equal",
-      "between"
-    ];
-    currentComponent.setState({
-      filter_subcategories: temp_filter_subcategories
-    });
-
-    //put pressure subcategories
-    temp_filter_subcategories = currentComponent.state.filter_subcategories;
-    temp_filter_subcategories["Left Pressure"] = [
-      "less",
-      "greater",
-      "equal",
-      "between"
-    ];
-    temp_filter_subcategories["Right Pressure"] = [
-      "less",
-      "greater",
-      "equal",
-      "between"
-    ];
-    currentComponent.setState({
-      filter_subcategories: temp_filter_subcategories
-    });
-  }
-
   isSubcategoryChecked(key, name) {
     try {
       if (this.state.selected_values[key].indexOf(name) !== -1) {
@@ -404,95 +171,325 @@ class FilterPage extends Component {
     return false;
   }
 
-  createFilterSubcategoryDivs() {
-    var input_categories = [
-      "Age",
-      "Left Vision",
-      "Right Vision",
-      "Left Pressure",
-      "Right Pressure"
-    ];
+  createFilterSubcategoryDivs(changedDiv, keyword) {
     let temp_filter_subcategories_div = {};
-    //goes through every category (e.g Eye Diagnosis) and every subcategory (e.g retenal edema) and creates a subcategory box
-    for (var key in this.state.filter_subcategories) {
-      var temp_subcategories = [];
-      var temp_element;
-      for (var index in this.state.filter_subcategories[key]) {
-        var name = this.state.filter_subcategories[key][index];
-        // if the category is something like eye diagnosis or labs without less, greater, or between, then run this
-        if (input_categories.indexOf(key) === -1) {
-          temp_element = (
-            <div>
-              <input
-                type="checkbox"
-                defaultChecked={this.isSubcategoryChecked(key, name)}
-                title={key + ";" + name}
-                onChange={e => this.subcategoryFilterPressed(e)}
-              />
-              {name}
-            </div>
-          ); // if the category is something like age, vision, pressure, and the item is not "between", then run the elseif part
-        } else if (name !== "between") {
-          temp_element = (
-            <div>
-              <input
-                type="checkbox"
-                defaultChecked={this.isSubcategoryChecked(key, name)}
-                title={key + ";" + name}
-                onChange={e => this.subcategoryFilterPressed(e)}
-                style={styles.main_div_button_checkbox}
-              />
-              {name}
-              <input
-                type="text"
-                defaultChecked={this.isSubcategoryChecked(key, name)}
-                title={key + ";" + name}
-                onChange={e => this.checkBoxChanged(e)}
-                style={styles.main_div_button_text}
-              />
-            </div>
-          ); // If there is "between", then need a checkbox and two textboxes (in contrast to one textbox)
-        } else {
-          temp_element = (
-            <div>
-              <input
-                type="checkbox"
-                defaultChecked={this.isSubcategoryChecked(key, name)}
-                title={key + ";" + name}
-                onChange={e => this.subcategoryFilterPressed(e)}
-                style={styles.main_div_button_checkbox}
-              />
-              {name}
-              <input
-                type="text"
-                title={key + ";" + name + " less"}
-                onChange={e => this.checkBoxChanged(e)}
-                style={styles.main_div_button_text}
-              />
-              and
-              <input
-                type="text"
-                title={key + ";" + name + " greater"}
-                onChange={e => this.checkBoxChanged(e)}
-                style={styles.main_div_button_text}
-              />
-            </div>
-          );
-        }
-        temp_subcategories.push(temp_element);
+    let elasticResult = null
+    if (changedDiv && keyword && keyword.length > 2) {
+      this.getElasticSearch(changedDiv, keyword)
+      elasticResult = this.state.elasticSearch
+      if (elasticResult) {
+        elasticResult = elasticResult.map(name =>
+          <div>
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked(changedDiv, name)}
+              title={changedDiv + ";" + name}
+              onChange={e => this.subcategoryFilterPressed(e)}
+            />
+            {name}
+            <br />
+          </div>
+        )
       }
-      temp_filter_subcategories_div[key] = (
-        <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
-          <div style={styles.mainDivButtonTitle}>{key}</div>{" "}
-          {/*This is the title in each subcategory box (bold, underlined)*/}
-          {temp_subcategories}{" "}
-          {/*This is the actual list of checkbox items (e.g. Prenatal multi..., hydroxychloroquine, etc.) that are being populated in each subcategory box*/}
-        </Col>
-      );
     }
+    for (var index = 0; index < this.state.filter_categories.length; index++) {
+      var name = this.state.filter_categories[index].props.title
+      if (name === "Vision" || name === "Pressure") {
+        temp_filter_subcategories_div["Left " + name] =
+          <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
+            <div style={styles.mainDivButtonTitle}>{"Left " + name}</div>
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked("Left " + name, "less")}
+              title={"Left " + name + ";" + "less"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"less"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked("Left " + name, "less")}
+              title={"Left " + name + ";" + "less"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked("Left " + name, "greater")}
+              title={"Left " + name + ";" + "greater"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"greater"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked("Left " + name, "greater")}
+              title={"Left " + name + ";" + "greater"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked("Left " + name, "equal")}
+              title={"Left " + name + ";" + "equal"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"equal"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked("Left " + name, "equal")}
+              title={"Left " + name + ";" + "equal"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked("Left " + name, "between")}
+              title={"Left " + name + ";" + "between"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {name}
+            <input
+              type="text"
+              title={"Left " + name + ";" + "between less"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            and
+              <input
+              type="text"
+              title={"Left " + name + ";" + "between greater"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+          </Col>
+
+        temp_filter_subcategories_div["Right " + name] =
+          <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
+            <div style={styles.mainDivButtonTitle}>{"Right " + name}</div>
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked("Right " + name, "less")}
+              title={"Right " + name + ";" + "less"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"less"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked("Right " + name, "less")}
+              title={"Right " + name + ";" + "less"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked("Right " + name, "greater")}
+              title={"Right " + name + ";" + "greater"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"greater"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked("Right " + name, "greater")}
+              title={"Right " + name + ";" + "greater"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked("Right " + name, "equal")}
+              title={"Right " + name + ";" + "equal"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"equal"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked("Right " + name, "equal")}
+              title={"Right " + name + ";" + "equal"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked("Right " + name, "between")}
+              title={"Right " + name + ";" + "between"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {name}
+            <input
+              type="text"
+              title={"Right " + name + ";" + "between less"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            and
+          <input
+              type="text"
+              title={"Right " + name + ";" + "between greater"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+          </Col>
+      }
+      else if (name === "Age") {
+        temp_filter_subcategories_div[name] =
+          <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
+            <div style={styles.mainDivButtonTitle}>{name}</div>
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked(name, "less")}
+              title={name + ";" + "less"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"less"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked(name, "less")}
+              title={name + ";" + "less"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked(name, "greater")}
+              title={name + ";" + "greater"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"greater"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked(name, "greater")}
+              title={name + ";" + "greater"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked(name, "equal")}
+              title={name + ";" + "equal"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {"equal"}
+            <input
+              type="text"
+              defaultChecked={this.isSubcategoryChecked(name, "equal")}
+              title={name + ";" + "equal"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            <br />
+            <input
+              type="checkbox"
+              defaultChecked={this.isSubcategoryChecked(name, "between")}
+              title={name + ";" + "between"}
+              onChange={e => this.subcategoryFilterPressed(e)}
+              style={styles.main_div_button_checkbox}
+            />
+            {name}
+            <input
+              type="text"
+              title={name + ";" + "between less"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+            and
+              <input
+              type="text"
+              title={name + ";" + "between greater"}
+              onChange={e => this.checkBoxChanged(e)}
+              style={styles.main_div_button_text}
+            />
+          </Col>
+
+      }
+      else {
+        temp_filter_subcategories_div[name] =
+          <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
+            <div style={styles.mainDivButtonTitle}>{name}</div>
+            <input
+              style={styles.inputStyle}
+              defaultValue="Search for keyword"
+              onChange={e => this.textFieldChanged(e)}
+              title={name}
+            />
+            {changedDiv === name ? elasticResult : null}
+          </Col>
+      }
+    }
+
     this.setState({
       filter_subcategories_div: temp_filter_subcategories_div
     });
+  }
+
+  //receives the updated keyword for a certain subcategory div, calls the elastic search API endpoint, and updates the results
+  textFieldChanged(e) {
+    this.createFilterSubcategoryDivs(e.target.title, e.target.value)
+  }
+
+  //fills the div of subcategory with results of elastic search
+  getElasticSearch(category, value) {
+    let currentComponent = this;
+    const axios = require("axios");
+    const frontendToBackend = {
+      "Eye Diagnosis": "eye_diagnosis",
+      "Systemic Diagnosis": "systemic_diagnosis",
+      "Medication Generic Name": "medication_generic_name",
+      "Medication Therapeutic Name": "medication_therapeutic_class",
+      "Image Procedure Type": "image_procedure",
+      "Labs": "lab"
+    }
+    var link = "https://selfservice:selfservice@elastic.tigernie.com/" + frontendToBackend[category] + "/_search?";
+    const options = {
+      url: link,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: {
+        "query": {
+          "multi_match": {
+            "query": value,
+            "type": "bool_prefix",
+            "fields": [
+              "name",
+              "name._2gram",
+              "name._3gram"
+            ]
+          }
+        }
+      }
+    };
+    axios(options)
+      .then(function (response) {
+        var data = response.data.hits.hits.map(x => x._source.name)
+        currentComponent.setState({
+          "elasticSearch": data
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+        if (error.message === "Request failed with status code 401") {
+          currentComponent.props.backToLoginPage()
+        }
+      });
   }
   //returns an array of selected categories. In the case that it is either vision or pressure, add both left and right to each push.
   getSelectedFilters() {
@@ -582,8 +579,6 @@ class FilterPage extends Component {
     let category = cat_and_sub[0];
     let subcategory = cat_and_sub[1];
 
-    console.log("CHECKBOX CHANGED", value, category, subcategory)
-
     let temp_checkbox = this.state.checkbox_values;
     if (!temp_checkbox[category]) {
       temp_checkbox[category] = {
@@ -609,7 +604,6 @@ class FilterPage extends Component {
     return legend;
   }
   render() {
-    console.log("state", this.state);
     let filter_categories = this.getFilterCategories();
     var chosen_filters = this.getSelectedFilters();
     return (
@@ -717,5 +711,9 @@ const styles = {
     border: "solid 2px black",
     "font-weight": "bold",
     "background-color": "#ec585a"
+  },
+  inputStyle: {
+    width: "100%",
+    color: "lighgray"
   }
 };

@@ -700,7 +700,7 @@ class PatientsPage extends Component {
 
   //render displays what is shown on the webpage
   render() {
-    console.log("state", this.state);
+
     var filterSummary = this.getFilterSummary();
     var all_filters = this.getFilters();
     var exportButton = this.getExport();

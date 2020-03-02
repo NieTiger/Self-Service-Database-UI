@@ -3,7 +3,6 @@ import { Grid, Row, Col } from "react-bootstrap";
 import CustomButton from "components/CustomButton/CustomButton";
 import TableList from "./TableList.jsx";
 import { saveAs } from 'file-saver';
-import image from "../demo/images/samplePicture.jpg"
 
 import { apiBaseURL } from "./Dashboard.jsx";
 
