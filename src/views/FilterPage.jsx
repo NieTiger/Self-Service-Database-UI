@@ -456,30 +456,15 @@ class FilterPage extends Component {
       "Image Procedure Type": "image_procedure",
       "Labs": "lab"
     }
-    var link = "https://selfservice:selfservice@elastic.tigernie.com/" + frontendToBackend[category] + "/_search?";
+    var link = "https://tigernie.com/ssd_api/es/" + frontendToBackend[category] + "?query=" + value;
     const options = {
       url: link,
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: {
-        "query": {
-          "multi_match": {
-            "query": value,
-            "type": "bool_prefix",
-            "fields": [
-              "name",
-              "name._2gram",
-              "name._3gram"
-            ]
-          }
-        }
-      }
     };
     axios(options)
       .then(function (response) {
-        var data = response.data.hits.hits.map(x => x._source.name)
+        console.log(response)
+        var data = response.data.result.matches
         currentComponent.setState({
           "elasticSearch": data
         })
