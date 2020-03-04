@@ -425,7 +425,7 @@ class FilterPage extends Component {
             <div style={styles.mainDivButtonTitle}>{name}</div>
             <input
               style={styles.inputStyle}
-              defaultValue="Search for keyword"
+              placeholder="Search for keyword"
               onChange={e => this.textFieldChanged(e)}
               title={name}
             />
