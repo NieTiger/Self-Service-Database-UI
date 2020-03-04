@@ -56,10 +56,6 @@ class TestFilter:
         response = client.post(self.url, json=data)
         assert response.json["result"]["pt_id"] == [66475, 50765, 36440, 64153, 66172]
 
-    def test_filter_labs(self, client):
-        # Test labs : TODO:
-        pass
-
     def test_medication_generic_name(self, client):
         data = {"filters": {"medication_generic_name": ["Ketorolac"]}}
         response = client.post(self.url, json=data)
@@ -71,10 +67,6 @@ class TestFilter:
         response = client.post(self.url, json=data)
         assert response.json["success"]
         assert response.json["result"]["pt_id"] == [59153]
-
-    def test_vision(self, client):
-        # TODO: Test vision
-        pass
 
     def test_pressure(self, client):
         # Test pressure
