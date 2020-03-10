@@ -57,7 +57,8 @@ class FilterPage extends Component {
       filter_subcategories_div: {},
       selected_categories: [],
       selected_values: {},
-      checkbox_values: {}
+      checkbox_values: {},
+      elasticSearch: {}
     };
     this.getFilterCategories = this.getFilterCategories.bind(this);
     this.createFilterSubcategoryDivs = this.createFilterSubcategoryDivs.bind(
@@ -93,6 +94,7 @@ class FilterPage extends Component {
     setTimeout(() => {
       this.createFilterSubcategoryDivs();
     }, 1000);
+
   }
 
   //resets all of the filters and subfilters selected
@@ -172,13 +174,13 @@ class FilterPage extends Component {
   }
 
   createFilterSubcategoryDivs(changedDiv, keyword) {
-    let temp_filter_subcategories_div = {};
-    let elasticResult = null
+    let temp_filter_subcategories_div = this.state.filter_subcategories_div;
+    let tempElasticResult = this.state.elasticSearch
+    let elasticResult = {}
     if (changedDiv && keyword && keyword.length > 2) {
       this.getElasticSearch(changedDiv, keyword)
-      elasticResult = this.state.elasticSearch
-      if (elasticResult) {
-        elasticResult = elasticResult.map(name =>
+      for (var key in tempElasticResult) {
+        elasticResult[key] = tempElasticResult[key].map(name =>
           <div>
             <input
               type="checkbox"
@@ -188,13 +190,13 @@ class FilterPage extends Component {
             />
             {name}
             <br />
-          </div>
-        )
+          </div>)
       }
     }
+
     for (var index = 0; index < this.state.filter_categories.length; index++) {
       var name = this.state.filter_categories[index].props.title
-      if (name === "Vision" || name === "Pressure") {
+      if (name === "Vision" || name === "Pressure" && (!changedDiv || changedDiv === name)) {
         temp_filter_subcategories_div["Left " + name] =
           <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
             <div style={styles.mainDivButtonTitle}>{"Left " + name}</div>
@@ -343,7 +345,7 @@ class FilterPage extends Component {
             />
           </Col>
       }
-      else if (name === "Age") {
+      else if (name === "Age" && (!changedDiv || changedDiv === name)) {
         temp_filter_subcategories_div[name] =
           <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
             <div style={styles.mainDivButtonTitle}>{name}</div>
@@ -402,7 +404,7 @@ class FilterPage extends Component {
               onChange={e => this.subcategoryFilterPressed(e)}
               style={styles.main_div_button_checkbox}
             />
-            {name}
+            {"between"}
             <input
               type="text"
               title={name + ";" + "between less"}
@@ -417,9 +419,8 @@ class FilterPage extends Component {
               style={styles.main_div_button_text}
             />
           </Col>
-
       }
-      else {
+      else if (!changedDiv || changedDiv === name) {
         temp_filter_subcategories_div[name] =
           <Col lg={3} sm={4} style={styles.mainDivCategoryStyle}>
             <div style={styles.mainDivButtonTitle}>{name}</div>
@@ -429,7 +430,7 @@ class FilterPage extends Component {
               onChange={e => this.textFieldChanged(e)}
               title={name}
             />
-            {changedDiv === name ? elasticResult : null}
+            {elasticResult[name]}
           </Col>
       }
     }
@@ -463,14 +464,14 @@ class FilterPage extends Component {
     };
     axios(options)
       .then(function (response) {
-        console.log(response)
         var data = response.data.result.matches
+        var tempElasticSearch = currentComponent.state.elasticSearch
+        tempElasticSearch[category] = data
         currentComponent.setState({
-          "elasticSearch": data
+          "elasticSearch": tempElasticSearch
         })
       })
       .catch(function (error) {
-        console.log(error);
         if (error.message === "Request failed with status code 401") {
           currentComponent.props.backToLoginPage()
         }
